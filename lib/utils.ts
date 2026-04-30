@@ -7,9 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateMeetLink(): string {
-  const chars = 'abcdefghijklmnopqrstuvwxyz'
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
   const seg = (len: number) => Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-  return `https://meet.google.com/${seg(3)}-${seg(4)}-${seg(3)}`
+  // Jitsi Meet: le stanze vengono create automaticamente senza API
+  return `https://meet.jit.si/TutorMatch-${seg(4)}-${seg(4)}-${seg(4)}`
 }
 
 export function formatDate(dateStr: string): string {
@@ -31,6 +32,13 @@ export function getMonthName(month: number): string {
 export function isSlotPast(date: string, endTime: string): boolean {
   const slotEnd = new Date(`${date}T${endTime}`)
   return new Date() > new Date(slotEnd.getTime() + 60 * 1000)
+}
+
+/** Slot non prenotabile: inizia entro 12 ore dal momento attuale */
+export function isSlotTooSoon(date: string, startTime: string): boolean {
+  const slotStart = new Date(`${date}T${startTime}`)
+  const twelveHoursFromNow = new Date(Date.now() + 12 * 60 * 60 * 1000)
+  return slotStart < twelveHoursFromNow
 }
 
 export function getDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {

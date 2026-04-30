@@ -352,10 +352,10 @@ ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE pricing_config ENABLE ROW LEVEL SECURITY;
 
 -- Helper: controlla ruolo utente
-CREATE OR REPLACE FUNCTION get_user_role(user_id UUID)
+CREATE OR REPLACE FUNCTION public.get_user_role(user_id UUID)
 RETURNS TEXT AS $$
-  SELECT role::TEXT FROM profiles WHERE id = user_id;
-$$ LANGUAGE SQL SECURITY DEFINER;
+  SELECT role::TEXT FROM public.profiles WHERE id = user_id;
+$$ LANGUAGE SQL SECURITY DEFINER SET search_path = public;
 
 -- PROFILES policies
 CREATE POLICY "Utenti vedono il proprio profilo" ON profiles FOR SELECT USING (auth.uid() = id);
@@ -369,6 +369,7 @@ CREATE POLICY "Solo admin gestisce materie" ON subjects FOR ALL USING (get_user_
 
 -- TUTOR_PROFILES policies
 CREATE POLICY "Tutti vedono profili tutor attivi" ON tutor_profiles FOR SELECT USING (is_active = TRUE);
+CREATE POLICY "Tutor crea proprio profilo" ON tutor_profiles FOR INSERT WITH CHECK (auth.uid() = id);
 CREATE POLICY "Tutor aggiorna proprio profilo" ON tutor_profiles FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Admin gestisce tutti tutor" ON tutor_profiles FOR ALL USING (get_user_role(auth.uid()) = 'admin');
 

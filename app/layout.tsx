@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import CookieBanner from '@/components/CookieBanner'
 
 export const metadata: Metadata = {
   title: 'TutorMatch – Trova il tuo tutor',
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="it" className="h-full">
       <body className="min-h-full flex flex-col antialiased bg-white text-gray-900">
         {children}
+        <CookieBanner />
       </body>
     </html>
   )

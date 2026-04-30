@@ -23,8 +23,15 @@ export async function updateSession(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  const publicPaths = ['/', '/login', '/registrazione']
-  const isPublicPath = publicPaths.some(p => request.nextUrl.pathname === p || request.nextUrl.pathname.startsWith('/registrazione'))
+  const publicPaths = ['/', '/login', '/registrazione', '/privacy', '/termini', '/cookie', '/faq-tutor']
+  const isPublicPath = publicPaths.some(p =>
+    request.nextUrl.pathname === p ||
+    request.nextUrl.pathname.startsWith('/registrazione') ||
+    request.nextUrl.pathname.startsWith('/privacy') ||
+    request.nextUrl.pathname.startsWith('/termini') ||
+    request.nextUrl.pathname.startsWith('/cookie') ||
+    request.nextUrl.pathname.startsWith('/faq-tutor')
+  )
 
   if (!user && !isPublicPath) {
     return NextResponse.redirect(new URL('/login', request.url))
