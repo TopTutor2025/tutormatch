@@ -31,7 +31,7 @@ export default function AdminPagamentiPage() {
   async function generatePayments() {
     setGenerating(true)
     setGenerateMsg('')
-    const res = await fetch('/api/cron/generate-payments')
+    const res = await fetch('/api/admin/generate-payments', { method: 'POST' })
     const data = await res.json()
     if (data.success) {
       setGenerateMsg('✓ Pagamenti generati con successo!')
