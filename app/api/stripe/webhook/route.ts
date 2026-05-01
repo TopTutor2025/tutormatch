@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       const stripeSubId = (invoice as any).subscription as string
       if (!stripeSubId) break
 
-      const subscription = await stripe.subscriptions.retrieve(stripeSubId)
+      const subscription = await stripe.subscriptions.retrieve(stripeSubId) as any
       const { student_id, sub_type } = subscription.metadata
       if (!student_id) break
 

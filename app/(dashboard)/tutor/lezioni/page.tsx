@@ -62,7 +62,7 @@ export default function TutorLezionePage() {
 
   async function markCompleted(bookingId: string, slotId: string, secondSlotId?: string | null) {
     setMarking(bookingId)
-    const slotUpdates: Promise<any>[] = [
+    const slotUpdates: any[] = [
       supabase.from('calendar_slots').update({ status: 'completato' }).eq('id', slotId),
     ]
     if (secondSlotId) slotUpdates.push(supabase.from('calendar_slots').update({ status: 'completato' }).eq('id', secondSlotId))

@@ -110,7 +110,7 @@ export default function AdminPrenotazioniPage() {
   async function deleteBooking(booking: any) {
     const refund = confirm(`Eliminare la prenotazione di ${booking.student?.first_name}?\n\nRimborsare ${booking.hours_used}h allo studente?`)
     await supabase.from('bookings').update({ status: 'cancellato' }).eq('id', booking.id)
-    const slotUpdates: Promise<any>[] = []
+    const slotUpdates: any[] = []
     if (booking.slot_id) slotUpdates.push(supabase.from('calendar_slots').update({ status: 'disponibile' }).eq('id', booking.slot_id))
     if (booking.second_slot_id) slotUpdates.push(supabase.from('calendar_slots').update({ status: 'disponibile' }).eq('id', booking.second_slot_id))
     if (slotUpdates.length) await Promise.all(slotUpdates)

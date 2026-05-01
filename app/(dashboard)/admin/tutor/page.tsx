@@ -151,7 +151,7 @@ export default function AdminTutorPage() {
     if (!booking) return
     const refund = confirm('Rimborsare le ore allo studente?')
     await supabase.from('bookings').update({ status: 'cancellato' }).eq('id', booking.id)
-    const slotUpdates: Promise<any>[] = [supabase.from('calendar_slots').update({ status: 'disponibile' }).eq('id', slot.id)]
+    const slotUpdates: any[] = [supabase.from('calendar_slots').update({ status: 'disponibile' }).eq('id', slot.id)]
     if (booking.second_slot_id) slotUpdates.push(supabase.from('calendar_slots').update({ status: 'disponibile' }).eq('id', booking.second_slot_id))
     await Promise.all(slotUpdates)
     if (refund) {
