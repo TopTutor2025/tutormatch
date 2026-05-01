@@ -131,8 +131,8 @@ export default function AdminPagamentiPage() {
       </div>
 
       {/* Tabella */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-x-auto">
+        <table className="w-full min-w-[700px] text-sm">
           <thead className="bg-gray-50 border-b border-gray-100">
             <tr>
               {['Tutor', 'Periodo', 'Lezioni', 'Ore', 'Importo', 'Stato', 'Azione'].map(h => (
