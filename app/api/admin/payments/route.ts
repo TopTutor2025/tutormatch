@@ -18,13 +18,37 @@ export async function GET(request: NextRequest) {
   if (profile?.role !== 'admin') return NextResponse.json({ error: 'Accesso negato' }, { status: 403 })
 
   // Usa service role per bypassare RLS e leggere tutti i pagamenti
-  const { data, error } = await supabaseAdmin
+  const { data: payments, error } = await supabaseAdmin
     .from('tutor_payments')
-    .select(`*, tutor:tutor_profiles(*, profile:profiles(*))`)
+    .select('*')
     .order('year', { ascending: false })
     .order('month', { ascending: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!payments?.length) return NextResponse.json({ data: [] })
+
+  // Recupera dati tutor separatamente
+  const tutorIds = [...new Set(payments.map(p => p.tutor_id))]
+
+  const { data: tutorProfiles } = await supabaseAdmin
+    .from('tutor_profiles')
+    .select('*')
+    .in('id', tutorIds)
+
+  const { data: profiles } = await supabaseAdmin
+    .from('profiles')
+    .select('*')
+    .in('id', tutorIds)
+
+  const tpMap = Object.fromEntries((tutorProfiles || []).map(t => [t.id, t]))
+  const profMap = Object.fromEntries((profiles || []).map(p => [p.id, p]))
+
+  const data = payments.map(p => ({
+    ...p,
+    tutor: tpMap[p.tutor_id]
+      ? { ...tpMap[p.tutor_id], profile: profMap[p.tutor_id] || null }
+      : null,
+  }))
 
   return NextResponse.json({ data })
 }
