@@ -10,7 +10,7 @@ export function generateMeetLink(): string {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
   const seg = (len: number) => Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
   // Jitsi Meet: le stanze vengono create automaticamente senza API
-  return `https://meet.jit.si/TutorMatch-${seg(4)}-${seg(4)}-${seg(4)}`
+  return `https://meet.jit.si/Proflive-${seg(4)}-${seg(4)}-${seg(4)}`
 }
 
 export function formatDate(dateStr: string): string {

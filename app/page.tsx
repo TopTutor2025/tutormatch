@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookOpen, Video, MapPin, Star, Shield, Clock, ChevronRight, Sparkles, Users, GraduationCap } from 'lucide-react'
+import { BookOpen, Video, MapPin, Star, Shield, Clock, ChevronRight, Sparkles, Users } from 'lucide-react'
 import LandingReviews from '@/components/LandingReviews'
 import LandingNavbar from '@/components/LandingNavbar'
 
@@ -352,11 +352,11 @@ export default function LandingPage() {
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-white rounded-xl flex items-center justify-center">
-                  <GraduationCap className="w-5 h-5 text-black" />
+                  <MapPin className="w-5 h-5 text-black" />
                 </div>
-                <span className="text-xl font-bold">TutorMatch</span>
+                <span className="text-xl font-bold">Proflive</span>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed">Il marketplace che connette studenti e tutor per lezioni online e in presenza.</p>
+              <p className="text-gray-400 text-sm leading-relaxed">La piattaforma che connette studenti e tutor per lezioni online e in presenza.</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Studenti</h4>
@@ -383,7 +383,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-6 md:pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm">© 2025 TutorMatch. Tutti i diritti riservati.</p>
+            <p className="text-gray-500 text-sm">© 2025 Proflive. Tutti i diritti riservati.</p>
             <p className="text-gray-600 text-xs">Designed with ♥ in Italia</p>
           </div>
         </div>

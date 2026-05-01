@@ -35,7 +35,7 @@ export default function LandingReviews() {
             Recensioni verificate
           </div>
           <h2 className="text-4xl font-extrabold text-black mb-4">Cosa dicono di noi</h2>
-          <p className="text-lg text-gray-500">Studenti e famiglie che hanno trovato il tutor giusto con TutorMatch</p>
+          <p className="text-lg text-gray-500">Studenti e famiglie che hanno trovato il tutor giusto con Proflive</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

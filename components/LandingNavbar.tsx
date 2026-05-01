@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { GraduationCap, Menu, X } from 'lucide-react'
+import { MapPin, Menu, X } from 'lucide-react'
 
 export default function LandingNavbar() {
   const [open, setOpen] = useState(false)
@@ -12,9 +12,9 @@ export default function LandingNavbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 flex-shrink-0">
           <div className="w-8 h-8 bg-black rounded-xl flex items-center justify-center">
-            <GraduationCap className="w-5 h-5 text-white" />
+            <MapPin className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold tracking-tight">TutorMatch</span>
+          <span className="text-xl font-bold tracking-tight">Proflive</span>
         </Link>
 
         {/* Desktop links */}

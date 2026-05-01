@@ -64,7 +64,7 @@ export default function TutorProfiloPage() {
       try {
         const geoRes = await fetch(
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(`${form.address}, ${form.city}, Italia`)}&format=json&limit=1`,
-          { headers: { 'User-Agent': 'TutorMatch/1.0 (tutormatch.it)' } }
+          { headers: { 'User-Agent': 'Proflive/1.0 (tutormatch.it)' } }
         )
         const geoData = await geoRes.json()
         if (geoData.length > 0) {

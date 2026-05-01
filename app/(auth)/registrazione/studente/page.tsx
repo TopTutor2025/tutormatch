@@ -84,7 +84,7 @@ export default function RegisterStudentPage() {
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-black" required />
               <span className="text-sm text-gray-600">
-                Accetto i <a href="#" className="text-black font-medium underline">Termini e Condizioni</a> di TutorMatch *
+                Accetto i <a href="#" className="text-black font-medium underline">Termini e Condizioni</a> di Proflive *
               </span>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, Calendar, BookOpen, CreditCard, MessageSquare, User, LogOut, Menu, ChevronRight } from 'lucide-react'
+import { GraduationCap, MapPin, Calendar, BookOpen, CreditCard, MessageSquare, User, LogOut, Menu, ChevronRight } from 'lucide-react'
 import type { Profile } from '@/types/database'
 
 const navItems = [
@@ -40,9 +40,9 @@ export default function TutorDashboardLayout({ children }: { children: React.Rea
         <div className="p-6 border-b border-gray-100">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-black rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-white" />
+              <MapPin className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg font-bold">TutorMatch</span>
+            <span className="text-lg font-bold">Proflive</span>
           </Link>
           <span className="text-xs bg-black text-white px-2 py-0.5 rounded-full mt-2 inline-block">Tutor</span>
         </div>
@@ -93,7 +93,7 @@ export default function TutorDashboardLayout({ children }: { children: React.Rea
           <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
             <Menu className="w-5 h-5" />
           </button>
-          <span className="font-semibold">TutorMatch · Tutor</span>
+          <span className="font-semibold">Proflive · Tutor</span>
         </header>
         <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-6xl w-full mx-auto">{children}</main>
       </div>

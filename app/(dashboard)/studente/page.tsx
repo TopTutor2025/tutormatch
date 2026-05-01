@@ -87,7 +87,7 @@ export default function StudentDashboardPage() {
             {/* Header fisso */}
             <div className="flex items-center justify-between px-5 sm:px-8 pt-6 sm:pt-8 pb-4 flex-shrink-0">
               <div>
-                <h2 className="text-xl font-bold text-black">Come funziona TutorMatch 📚</h2>
+                <h2 className="text-xl font-bold text-black">Come funziona Proflive 📚</h2>
                 <p className="text-sm text-gray-400 mt-0.5">Guida rapida alla piattaforma</p>
               </div>
               <button onClick={() => { setShowTutorial(false); localStorage.setItem('student_tutorial_done', '1') }}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, FileText } from 'lucide-react'
 
-export const metadata = { title: 'Termini e Condizioni – TutorMatch' }
+export const metadata = { title: 'Termini e Condizioni – Proflive' }
 
 export default function TerminiPage() {
   const lastUpdate = '29 aprile 2026'
@@ -23,7 +23,7 @@ export default function TerminiPage() {
           <p className="text-sm text-gray-400 mt-2">Ultimo aggiornamento: {lastUpdate}</p>
 
           <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-800 leading-relaxed">
-            ⚠️ Leggere attentamente prima di utilizzare la piattaforma. L'utilizzo di TutorMatch implica l'accettazione integrale dei presenti Termini.
+            ⚠️ Leggere attentamente prima di utilizzare la piattaforma. L'utilizzo di Proflive implica l'accettazione integrale dei presenti Termini.
           </div>
 
           <div className="prose prose-gray max-w-none mt-8 text-sm leading-relaxed space-y-8">
@@ -32,7 +32,7 @@ export default function TerminiPage() {
               <h2 className="text-lg font-bold text-gray-900 mb-3">1. Definizioni</h2>
               <div className="space-y-2 text-gray-600">
                 {[
-                  { term: 'Piattaforma', def: 'Il sito web e i servizi offerti da TutorMatch all\'indirizzo tutormatch.it.' },
+                  { term: 'Piattaforma', def: 'Il sito web e i servizi offerti da Proflive all\'indirizzo tutormatch.it.' },
                   { term: 'Utente', def: 'Chiunque si registri e utilizzi la Piattaforma, sia come Studente che come Tutor.' },
                   { term: 'Studente', def: 'L\'Utente che utilizza la Piattaforma per cercare e prenotare lezioni.' },
                   { term: 'Tutor', def: 'L\'Utente che offre servizi di tutoraggio tramite la Piattaforma.' },
@@ -61,7 +61,7 @@ export default function TerminiPage() {
                 {[
                   'Fornire informazioni veritiere, accurate e aggiornate al momento della registrazione.',
                   'Mantenere riservate le credenziali di accesso e non condividerle con terzi.',
-                  'Notificare immediatamente TutorMatch in caso di accesso non autorizzato al proprio account.',
+                  'Notificare immediatamente Proflive in caso di accesso non autorizzato al proprio account.',
                   'Non creare account multipli o falsi profili.',
                   'Non impersonare altre persone o entità.',
                 ].map(item => (
@@ -78,8 +78,8 @@ export default function TerminiPage() {
               <div className="space-y-3 text-gray-600">
                 <p><strong className="text-gray-800">Abbonamento:</strong> Per accedere alle prenotazioni, lo Studente deve sottoscrivere un abbonamento mensile o annuale. L'abbonamento si rinnova automaticamente alla scadenza, salvo disdetta effettuata entro 24 ore prima del rinnovo tramite le impostazioni dell'account.</p>
                 <p><strong className="text-gray-800">Ore lezione:</strong> Le ore lezione sono acquistabili separatamente e non hanno scadenza. Sono suddivise per grado scolastico (Medie, Superiori, Università) e non trasferibili tra categorie.</p>
-                <p><strong className="text-gray-800">Rimborsi:</strong> Le ore lezione vengono rimborsate automaticamente in caso di cancellazione della prenotazione da parte dell'amministratore. Gli abbonamenti non sono rimborsabili salvo vizi della Piattaforma imputabili a TutorMatch.</p>
-                <p><strong className="text-gray-800">Pagamenti:</strong> Tutti i pagamenti sono elaborati tramite Stripe. TutorMatch non conserva dati di carte di credito.</p>
+                <p><strong className="text-gray-800">Rimborsi:</strong> Le ore lezione vengono rimborsate automaticamente in caso di cancellazione della prenotazione da parte dell'amministratore. Gli abbonamenti non sono rimborsabili salvo vizi della Piattaforma imputabili a Proflive.</p>
+                <p><strong className="text-gray-800">Pagamenti:</strong> Tutti i pagamenti sono elaborati tramite Stripe. Proflive non conserva dati di carte di credito.</p>
               </div>
             </section>
 
@@ -89,7 +89,7 @@ export default function TerminiPage() {
                 <p><strong className="text-gray-800">Conferma:</strong> La prenotazione è confermata nel momento in cui lo Studente seleziona uno slot disponibile e completa il form di prenotazione. Le ore vengono scalate immediatamente.</p>
                 <p><strong className="text-gray-800">Lezioni online:</strong> Un link per la videochiamata viene generato automaticamente. È responsabilità delle parti garantire una connessione internet adeguata.</p>
                 <p><strong className="text-gray-800">Lezioni in presenza:</strong> Richiedono 2 slot orari consecutivi (durata 2 ore). L'indirizzo dell'appuntamento viene comunicato allo Studente e al Tutor. Entrambe le parti sono responsabili della puntualità.</p>
-                <p><strong className="text-gray-800">Cancellazione:</strong> Le prenotazioni possono essere cancellate dall'amministratore. TutorMatch si riserva di cancellare prenotazioni in caso di violazione dei presenti Termini.</p>
+                <p><strong className="text-gray-800">Cancellazione:</strong> Le prenotazioni possono essere cancellate dall'amministratore. Proflive si riserva di cancellare prenotazioni in caso di violazione dei presenti Termini.</p>
               </div>
             </section>
 
@@ -115,7 +115,7 @@ export default function TerminiPage() {
             <section>
               <h2 className="text-lg font-bold text-gray-900 mb-3">7. Pagamenti ai Tutor</h2>
               <p className="text-gray-600">
-                I Tutor vengono remunerati mensilmente in base alle lezioni segnate come "Completate". L'importo per lezione è stabilito dall'amministratore nella sezione Prezzi della piattaforma. TutorMatch si riserva di aggiornare le tariffe con preavviso di almeno 30 giorni. Il pagamento avviene tramite bonifico bancario entro il 15 del mese successivo al completamento delle lezioni.
+                I Tutor vengono remunerati mensilmente in base alle lezioni segnate come "Completate". L'importo per lezione è stabilito dall'amministratore nella sezione Prezzi della piattaforma. Proflive si riserva di aggiornare le tariffe con preavviso di almeno 30 giorni. Il pagamento avviene tramite bonifico bancario entro il 15 del mese successivo al completamento delle lezioni.
               </p>
             </section>
 
@@ -142,21 +142,21 @@ export default function TerminiPage() {
             <section>
               <h2 className="text-lg font-bold text-gray-900 mb-3">9. Recensioni</h2>
               <p className="text-gray-600">
-                Le recensioni devono essere veritiere e basate su esperienze reali. TutorMatch si riserva di rimuovere recensioni false, offensive o non pertinenti. I Tutor non possono condizionare o richiedere recensioni positive agli Studenti.
+                Le recensioni devono essere veritiere e basate su esperienze reali. Proflive si riserva di rimuovere recensioni false, offensive o non pertinenti. I Tutor non possono condizionare o richiedere recensioni positive agli Studenti.
               </p>
             </section>
 
             <section>
               <h2 className="text-lg font-bold text-gray-900 mb-3">10. Limitazione di responsabilità</h2>
               <p className="text-gray-600">
-                TutorMatch è una piattaforma di intermediazione. Non è responsabile della qualità delle lezioni erogate dai Tutor, né di eventuali danni derivanti dall'incontro tra Studenti e Tutor in presenza. TutorMatch non garantisce la continuità del servizio e non è responsabile per interruzioni tecniche, perdita di dati o danni indiretti. La responsabilità massima di TutorMatch nei confronti di ciascun Utente è limitata all'importo pagato negli ultimi 3 mesi di utilizzo del servizio.
+                Proflive è una piattaforma di intermediazione. Non è responsabile della qualità delle lezioni erogate dai Tutor, né di eventuali danni derivanti dall'incontro tra Studenti e Tutor in presenza. Proflive non garantisce la continuità del servizio e non è responsabile per interruzioni tecniche, perdita di dati o danni indiretti. La responsabilità massima di Proflive nei confronti di ciascun Utente è limitata all'importo pagato negli ultimi 3 mesi di utilizzo del servizio.
               </p>
             </section>
 
             <section>
               <h2 className="text-lg font-bold text-gray-900 mb-3">11. Sospensione e cancellazione dell'account</h2>
               <p className="text-gray-600">
-                TutorMatch si riserva di sospendere o cancellare account che violano i presenti Termini, senza preavviso in caso di violazioni gravi. L'Utente può richiedere la cancellazione del proprio account in qualsiasi momento scrivendo a{' '}
+                Proflive si riserva di sospendere o cancellare account che violano i presenti Termini, senza preavviso in caso di violazioni gravi. L'Utente può richiedere la cancellazione del proprio account in qualsiasi momento scrivendo a{' '}
                 <a href="mailto:support@tutormatch.it" className="text-blue-600 hover:underline">support@tutormatch.it</a>.
                 I dati verranno trattati secondo la Privacy Policy.
               </p>
@@ -172,7 +172,7 @@ export default function TerminiPage() {
             <section>
               <h2 className="text-lg font-bold text-gray-900 mb-3">13. Modifiche ai Termini</h2>
               <p className="text-gray-600">
-                TutorMatch si riserva di modificare i presenti Termini in qualsiasi momento. Le modifiche saranno comunicate agli Utenti registrati via email con almeno 15 giorni di preavviso. Il proseguimento dell'utilizzo della Piattaforma dopo la comunicazione costituisce accettazione dei nuovi Termini.
+                Proflive si riserva di modificare i presenti Termini in qualsiasi momento. Le modifiche saranno comunicate agli Utenti registrati via email con almeno 15 giorni di preavviso. Il proseguimento dell'utilizzo della Piattaforma dopo la comunicazione costituisce accettazione dei nuovi Termini.
               </p>
             </section>
 

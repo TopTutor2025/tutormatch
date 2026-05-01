@@ -53,7 +53,7 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-black">Dashboard Admin</h1>
-        <p className="text-gray-500 mt-1">Panoramica completa della piattaforma TutorMatch</p>
+        <p className="text-gray-500 mt-1">Panoramica completa della piattaforma Proflive</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

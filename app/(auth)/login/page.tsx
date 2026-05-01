@@ -39,7 +39,7 @@ export default function LoginPage() {
       <div className="bg-white rounded-3xl border border-gray-100 shadow-soft p-6 sm:p-10">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-black mb-2">Bentornato</h1>
-          <p className="text-gray-500 text-sm">Accedi al tuo account TutorMatch</p>
+          <p className="text-gray-500 text-sm">Accedi al tuo account Proflive</p>
         </div>
 
         {error && (

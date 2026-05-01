@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, Cookie } from 'lucide-react'
 
-export const metadata = { title: 'Cookie Policy – TutorMatch' }
+export const metadata = { title: 'Cookie Policy – Proflive' }
 
 export default function CookiePage() {
   const lastUpdate = '29 aprile 2026'
@@ -70,7 +70,7 @@ export default function CookiePage() {
                   <div className="p-4">
                     <p className="text-gray-600 text-xs mb-3">Ci permettono di capire come gli utenti utilizzano la piattaforma, quali pagine vengono visitate più spesso e dove si riscontrano problemi. I dati sono aggregati e anonimi.</p>
                     <div className="bg-blue-50 rounded-xl p-3 text-xs text-blue-700">
-                      ℹ️ Attualmente TutorMatch non utilizza servizi analitici di terze parti (es. Google Analytics). I dati di utilizzo sono raccolti internamente su database Supabase esclusivamente per migliorare il servizio.
+                      ℹ️ Attualmente Proflive non utilizza servizi analitici di terze parti (es. Google Analytics). I dati di utilizzo sono raccolti internamente su database Supabase esclusivamente per migliorare il servizio.
                     </div>
                   </div>
                 </div>
@@ -84,7 +84,7 @@ export default function CookiePage() {
                   </div>
                   <div className="p-4">
                     <p className="text-gray-600 text-xs">
-                      Attualmente TutorMatch non utilizza cookie di marketing o di profilazione di terze parti. Questa categoria è riservata per eventuali future integrazioni, che saranno comunicate con apposito aggiornamento della presente Policy.
+                      Attualmente Proflive non utilizza cookie di marketing o di profilazione di terze parti. Questa categoria è riservata per eventuali future integrazioni, che saranno comunicate con apposito aggiornamento della presente Policy.
                     </p>
                   </div>
                 </div>

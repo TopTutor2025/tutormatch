@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { ArrowLeft, HelpCircle, ChevronDown, ChevronUp, GraduationCap } from 'lucide-react'
+import { ArrowLeft, HelpCircle, ChevronDown, ChevronUp, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { formatCurrency } from '@/lib/utils'
 import type { PricingConfig } from '@/types/database'
@@ -11,7 +11,7 @@ const FAQ_ITEMS = (pricing: PricingConfig | null) => [
     category: 'Registrazione e profilo',
     items: [
       {
-        q: 'Chi può diventare tutor su TutorMatch?',
+        q: 'Chi può diventare tutor su Proflive?',
         a: 'Chiunque abbia competenze solide nelle materie che vuole insegnare: studenti universitari, laureati, insegnanti o professionisti. Non è richiesta un\'abilitazione specifica, ma devi essere in grado di dimostrare la tua preparazione tramite il profilo (titoli di studio, bio, materie insegnate).',
       },
       {
@@ -24,7 +24,7 @@ const FAQ_ITEMS = (pricing: PricingConfig | null) => [
       },
       {
         q: 'Posso fare lezioni sia online che in presenza?',
-        a: 'Sì, puoi scegliere entrambe le modalità. Per le lezioni in presenza devi inserire il tuo indirizzo nel profilo: gli studenti potranno trovarti tramite ricerca geografica. Per l\'online, TutorMatch genera automaticamente un link videochiamata (Jitsi Meet) ad ogni prenotazione.',
+        a: 'Sì, puoi scegliere entrambe le modalità. Per le lezioni in presenza devi inserire il tuo indirizzo nel profilo: gli studenti potranno trovarti tramite ricerca geografica. Per l\'online, Proflive genera automaticamente un link videochiamata (Jitsi Meet) ad ogni prenotazione.',
       },
     ],
   },
@@ -72,7 +72,7 @@ const FAQ_ITEMS = (pricing: PricingConfig | null) => [
       },
       {
         q: 'Ci sono commissioni o costi per i tutor?',
-        a: 'No, la piattaforma è completamente gratuita per i tutor. Non ci sono commissioni sulle lezioni né costi di iscrizione. Il modello di business di TutorMatch si basa sugli abbonamenti degli studenti.',
+        a: 'No, la piattaforma è completamente gratuita per i tutor. Non ci sono commissioni sulle lezioni né costi di iscrizione. Il modello di business di Proflive si basa sugli abbonamenti degli studenti.',
       },
       {
         q: 'Le tariffe possono cambiare?',
@@ -85,19 +85,19 @@ const FAQ_ITEMS = (pricing: PricingConfig | null) => [
     items: [
       {
         q: 'Posso accordarmi con gli studenti al di fuori della piattaforma?',
-        a: 'No. È espressamente vietato richiedere pagamenti diretti agli studenti o fissare lezioni al di fuori di TutorMatch. Questo garantisce la tutela di entrambe le parti e permette a TutorMatch di elaborare correttamente i pagamenti.',
+        a: 'No. È espressamente vietato richiedere pagamenti diretti agli studenti o fissare lezioni al di fuori di Proflive. Questo garantisce la tutela di entrambe le parti e permette a Proflive di elaborare correttamente i pagamenti.',
       },
       {
         q: 'Cosa succede se violo le regole?',
-        a: 'TutorMatch si riserva di sospendere o cancellare l\'account in caso di violazioni dei Termini e Condizioni, senza preavviso per le violazioni gravi (es. pagamenti fuori piattaforma, comportamenti scorretti verso gli studenti).',
+        a: 'Proflive si riserva di sospendere o cancellare l\'account in caso di violazioni dei Termini e Condizioni, senza preavviso per le violazioni gravi (es. pagamenti fuori piattaforma, comportamenti scorretti verso gli studenti).',
       },
       {
         q: 'Come gestisco le recensioni?',
-        a: 'Dopo ogni lezione gli studenti possono lasciare una recensione sul tuo profilo. Le recensioni devono essere autentiche e TutorMatch non permette di richiedere o condizionare le valutazioni. Puoi segnalare recensioni false o offensive all\'amministratore.',
+        a: 'Dopo ogni lezione gli studenti possono lasciare una recensione sul tuo profilo. Le recensioni devono essere autentiche e Proflive non permette di richiedere o condizionare le valutazioni. Puoi segnalare recensioni false o offensive all\'amministratore.',
       },
       {
-        q: 'Come posso cancellare il mio profilo da TutorMatch?',
-        a: 'Per cancellare il tuo account devi inviare una richiesta via email a support@tutormatch.it. Prima di procedere alla cancellazione, TutorMatch elaborerà tutti i pagamenti ancora in sospeso relativi alle lezioni completate. Una volta regolati i compensi residui, il profilo e tutti i dati associati verranno eliminati nel rispetto della Privacy Policy.',
+        q: 'Come posso cancellare il mio profilo da Proflive?',
+        a: 'Per cancellare il tuo account devi inviare una richiesta via email a support@tutormatch.it. Prima di procedere alla cancellazione, Proflive elaborerà tutti i pagamenti ancora in sospeso relativi alle lezioni completate. Una volta regolati i compensi residui, il profilo e tutti i dati associati verranno eliminati nel rispetto della Privacy Policy.',
       },
     ],
   },
@@ -127,9 +127,9 @@ export default function FaqTutorPage() {
         <div className="max-w-3xl mx-auto flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <div className="w-8 h-8 bg-black rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-white" />
+              <MapPin className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg sm:text-xl font-bold tracking-tight">TutorMatch</span>
+            <span className="text-lg sm:text-xl font-bold tracking-tight">Proflive</span>
           </Link>
           <Link href="/registrazione/tutor"
             className="text-xs sm:text-sm font-semibold bg-black text-white px-3 sm:px-4 py-2 rounded-xl hover:bg-gray-800 transition-colors whitespace-nowrap">
@@ -153,7 +153,7 @@ export default function FaqTutorPage() {
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mt-3">Domande frequenti per i Tutor</h1>
           <p className="text-gray-500 mt-2 text-sm leading-relaxed">
-            Tutto quello che devi sapere su come funziona TutorMatch se vuoi insegnare sulla piattaforma.
+            Tutto quello che devi sapere su come funziona Proflive se vuoi insegnare sulla piattaforma.
           </p>
 
           {/* Riepilogo tariffe */}

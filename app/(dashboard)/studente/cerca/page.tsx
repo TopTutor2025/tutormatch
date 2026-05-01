@@ -20,7 +20,7 @@ async function geocodeAddress(address: string): Promise<{ lat: number; lon: numb
   try {
     const res = await fetch(
       `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address + ', Italia')}&format=json&limit=1`,
-      { headers: { 'User-Agent': 'TutorMatch/1.0 (tutormatch.it)' } }
+      { headers: { 'User-Agent': 'Proflive/1.0 (tutormatch.it)' } }
     )
     const data = await res.json()
     if (!data.length) return null

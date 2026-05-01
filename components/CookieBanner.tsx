@@ -39,7 +39,7 @@ export default function CookieBanner() {
             <div className="flex-1 min-w-0">
               <p className="font-bold text-gray-900 text-sm">Usiamo i cookie 🍪</p>
               <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-                TutorMatch utilizza cookie tecnici necessari al funzionamento del sito e, con il tuo consenso, cookie analitici per migliorare l&apos;esperienza.
+                Proflive utilizza cookie tecnici necessari al funzionamento del sito e, con il tuo consenso, cookie analitici per migliorare l&apos;esperienza.
                 Nessun dato viene venduto a terzi. Leggi la nostra{' '}
                 <Link href="/cookie" className="underline hover:text-black transition-colors">Cookie Policy</Link>
                 {' '}e la{' '}

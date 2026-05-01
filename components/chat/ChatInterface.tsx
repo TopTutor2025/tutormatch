@@ -87,7 +87,7 @@ export default function ChatInterface({ userId, userRole }: Props) {
   }
 
   function getConvLabel(conv: any) {
-    if (conv.is_support) return '🛟 Assistenza TutorMatch'
+    if (conv.is_support) return '🛟 Assistenza Proflive'
     const partner = getConvPartner(conv)
     if (!partner) return 'Utente'
     return `${partner.first_name} ${partner.last_name?.[0] || ''}.`
@@ -171,7 +171,7 @@ export default function ChatInterface({ userId, userRole }: Props) {
                     {isSupport && <Headphones className="w-4 h-4 text-blue-600 flex-shrink-0" />}
                     <div className="min-w-0">
                       <p className="font-semibold text-gray-900 truncate">
-                        {isSupport ? 'Assistenza TutorMatch' : partner ? `${partner.first_name} ${partner.last_name?.[0] || ''}.` : 'Chat'}
+                        {isSupport ? 'Assistenza Proflive' : partner ? `${partner.first_name} ${partner.last_name?.[0] || ''}.` : 'Chat'}
                       </p>
                       <p className="text-xs text-gray-400">
                         {isSupport ? 'Il team risponderà il prima possibile' : userRole === 'studente' ? 'Tutor' : 'Studente'}

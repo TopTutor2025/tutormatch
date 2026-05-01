@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, Shield } from 'lucide-react'
 
-export const metadata = { title: 'Privacy Policy – TutorMatch' }
+export const metadata = { title: 'Privacy Policy – Proflive' }
 
 export default function PrivacyPage() {
   const lastUpdate = '29 aprile 2026'
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-lg font-bold text-gray-900 mb-3">1. Titolare del trattamento</h2>
               <p className="text-gray-600">
-                Il titolare del trattamento dei dati personali è <strong>TutorMatch</strong>, raggiungibile all'indirizzo email{' '}
+                Il titolare del trattamento dei dati personali è <strong>Proflive</strong>, raggiungibile all'indirizzo email{' '}
                 <a href="mailto:privacy@tutormatch.it" className="text-blue-600 hover:underline">privacy@tutormatch.it</a>.
               </p>
             </section>

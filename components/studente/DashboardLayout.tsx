@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, Search, Heart, Calendar, CreditCard, Clock, MessageSquare, User, LogOut, Menu, X, ChevronRight } from 'lucide-react'
+import { GraduationCap, MapPin, Search, Heart, Calendar, CreditCard, Clock, MessageSquare, User, LogOut, Menu, X, ChevronRight } from 'lucide-react'
 import type { Profile, StudentProfile } from '@/types/database'
 
 const navItems = [
@@ -62,9 +62,9 @@ export default function StudentDashboardLayout({ children }: Props) {
         <div className="p-6 border-b border-gray-100">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-black rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-white" />
+              <MapPin className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg font-bold">TutorMatch</span>
+            <span className="text-lg font-bold">Proflive</span>
           </Link>
         </div>
 
@@ -119,7 +119,7 @@ export default function StudentDashboardLayout({ children }: Props) {
           <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
             <Menu className="w-5 h-5" />
           </button>
-          <span className="font-semibold">TutorMatch</span>
+          <span className="font-semibold">Proflive</span>
           {sidebarOpen && (
             <button onClick={() => setSidebarOpen(false)} className="ml-auto p-2 rounded-xl hover:bg-gray-100 transition-colors">
               <X className="w-5 h-5" />

@@ -137,7 +137,7 @@ export default function RegisterTutorPage() {
           <div className="inline-flex items-center gap-2 bg-black text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
             Per tutor
           </div>
-          <h1 className="text-2xl font-bold text-black mb-2">Diventa tutor su TutorMatch</h1>
+          <h1 className="text-2xl font-bold text-black mb-2">Diventa tutor su Proflive</h1>
           <p className="text-gray-500 text-sm">Compila il profilo e inizia a ricevere prenotazioni</p>
         </div>
 
@@ -290,7 +290,7 @@ export default function RegisterTutorPage() {
               <label className="flex items-start gap-3 cursor-pointer p-4 bg-gray-50 rounded-2xl border border-gray-200">
                 <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-black" required />
                 <span className="text-sm text-gray-600">
-                  Accetto i <a href="#" className="text-black font-medium underline">Termini e Condizioni</a> di TutorMatch per i tutor *
+                  Accetto i <a href="#" className="text-black font-medium underline">Termini e Condizioni</a> di Proflive per i tutor *
                 </span>
               </label>
 

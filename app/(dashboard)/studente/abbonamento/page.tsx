@@ -70,7 +70,7 @@ export default function AbbonamentoPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-black">Abbonamento</h1>
-        <p className="text-gray-500 mt-1">Gestisci il tuo abbonamento TutorMatch</p>
+        <p className="text-gray-500 mt-1">Gestisci il tuo abbonamento Proflive</p>
       </div>
 
       {/* Banner pagamento completato */}

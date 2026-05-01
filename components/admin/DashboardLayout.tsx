@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, Users, BookOpen, CreditCard, MessageSquare, Settings, Tag, LogOut, Menu, ChevronRight, Shield, Star } from 'lucide-react'
+import { GraduationCap, MapPin, Users, BookOpen, CreditCard, MessageSquare, Settings, Tag, LogOut, Menu, ChevronRight, Shield, Star } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: GraduationCap, exact: true },
@@ -43,10 +43,10 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         <div className="p-6 border-b border-gray-800">
           <Link href="/admin" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-white rounded-xl flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-black" />
+              <MapPin className="w-5 h-5 text-black" />
             </div>
             <div>
-              <span className="text-lg font-bold text-white">TutorMatch</span>
+              <span className="text-lg font-bold text-white">Proflive</span>
               <div className="flex items-center gap-1 mt-0.5">
                 <Shield className="w-3 h-3 text-yellow-400" />
                 <span className="text-xs text-yellow-400 font-semibold">Admin Panel</span>
