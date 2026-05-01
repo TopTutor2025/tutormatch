@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Search, CheckCircle, Clock } from 'lucide-react'
+import { CheckCircle, Clock, RefreshCw } from 'lucide-react'
 import { formatCurrency, getMonthName } from '@/lib/utils'
 import type { TutorPayment } from '@/types/database'
 
@@ -13,6 +13,8 @@ export default function AdminPagamentiPage() {
   const [filterMonth, setFilterMonth] = useState('')
   const [filterYear, setFilterYear] = useState('')
   const [updating, setUpdating] = useState<string | null>(null)
+  const [generating, setGenerating] = useState(false)
+  const [generateMsg, setGenerateMsg] = useState('')
 
   useEffect(() => { loadPayments() }, [])
 
@@ -24,6 +26,21 @@ export default function AdminPagamentiPage() {
       .order('month', { ascending: false })
     setPayments(data || [])
     setLoading(false)
+  }
+
+  async function generatePayments() {
+    setGenerating(true)
+    setGenerateMsg('')
+    const res = await fetch('/api/cron/generate-payments')
+    const data = await res.json()
+    if (data.success) {
+      setGenerateMsg('✓ Pagamenti generati con successo!')
+      await loadPayments()
+    } else {
+      setGenerateMsg(`Errore: ${data.error}`)
+    }
+    setGenerating(false)
+    setTimeout(() => setGenerateMsg(''), 4000)
   }
 
   async function toggleStatus(id: string, current: string) {
@@ -53,9 +70,23 @@ export default function AdminPagamentiPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-black">Pagamenti Tutor</h1>
-        <p className="text-gray-500 mt-1">Gestisci i compensi mensili dei tutor</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-black">Pagamenti Tutor</h1>
+          <p className="text-gray-500 mt-1">Gestisci i compensi mensili dei tutor</p>
+        </div>
+        <div className="flex flex-col items-end gap-2">
+          <button onClick={generatePayments} disabled={generating}
+            className="flex items-center gap-2 bg-black text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 flex-shrink-0">
+            <RefreshCw className={`w-4 h-4 ${generating ? 'animate-spin' : ''}`} />
+            {generating ? 'Generando...' : 'Genera pagamenti mese scorso'}
+          </button>
+          {generateMsg && (
+            <p className={`text-xs font-medium ${generateMsg.startsWith('✓') ? 'text-green-600' : 'text-red-600'}`}>
+              {generateMsg}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
