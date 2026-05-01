@@ -1,12 +1,9 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import { CheckCircle, Clock, RefreshCw } from 'lucide-react'
 import { formatCurrency, getMonthName } from '@/lib/utils'
-import type { TutorPayment } from '@/types/database'
 
 export default function AdminPagamentiPage() {
-  const supabase = createClient()
   const [payments, setPayments] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [filterTutor, setFilterTutor] = useState('')
@@ -19,12 +16,9 @@ export default function AdminPagamentiPage() {
   useEffect(() => { loadPayments() }, [])
 
   async function loadPayments() {
-    const { data } = await supabase
-      .from('tutor_payments')
-      .select(`*, tutor:tutor_profiles(*, profile:profiles(*))`)
-      .order('year', { ascending: false })
-      .order('month', { ascending: false })
-    setPayments(data || [])
+    const res = await fetch('/api/admin/payments')
+    const json = await res.json()
+    setPayments(json.data || [])
     setLoading(false)
   }
 
@@ -46,7 +40,11 @@ export default function AdminPagamentiPage() {
   async function toggleStatus(id: string, current: string) {
     setUpdating(id)
     const newStatus = current === 'in_elaborazione' ? 'pagato' : 'in_elaborazione'
-    await supabase.from('tutor_payments').update({ status: newStatus }).eq('id', id)
+    await fetch('/api/admin/payments', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status: newStatus }),
+    })
     setPayments(prev => prev.map(p => p.id === id ? { ...p, status: newStatus } : p))
     setUpdating(null)
   }
