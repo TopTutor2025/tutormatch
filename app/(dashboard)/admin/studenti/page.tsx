@@ -158,39 +158,41 @@ export default function AdminStudentiPage() {
           const isExpanded = expanded === student.id
           return (
             <div key={student.id} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-              <div className="p-5 flex items-center gap-4">
-                <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center font-bold text-blue-700 text-sm flex-shrink-0">
+              <div className="p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 bg-blue-100 rounded-xl flex items-center justify-center font-bold text-blue-700 text-sm flex-shrink-0">
                   {student.first_name?.[0]}{student.last_name?.[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-gray-900">{student.first_name} {student.last_name}</p>
-                  <p className="text-sm text-gray-500 truncate">{student.email} · {student.phone || 'N/A'}</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-semibold text-gray-900 text-sm sm:text-base">{student.first_name} {student.last_name}</p>
+                    {activeSub ? (
+                      <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                        {activeSub.type === 'mensile' ? 'Mensile' : 'Annuale'}
+                      </span>
+                    ) : (
+                      <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">No abb.</span>
+                    )}
+                  </div>
+                  <p className="text-xs sm:text-sm text-gray-500 truncate mt-0.5">{student.email}</p>
                 </div>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  {activeSub ? (
-                    <span className="text-xs bg-green-100 text-green-700 px-2.5 py-1 rounded-full font-medium">
-                      {activeSub.type === 'mensile' ? 'Mensile' : 'Annuale'}
-                    </span>
-                  ) : (
-                    <span className="text-xs bg-gray-100 text-gray-500 px-2.5 py-1 rounded-full">No abbonamento</span>
-                  )}
+                <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                   <button onClick={() => { setEditModal(student); setEditForm({ first_name: student.first_name, last_name: student.last_name, phone: student.phone || '' }) }}
-                    className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
+                    className="p-1.5 sm:p-2 rounded-xl hover:bg-gray-100 transition-colors">
                     <Edit className="w-4 h-4 text-gray-500" />
                   </button>
                   <button onClick={() => deleteUser(student.id, `${student.first_name} ${student.last_name}`)}
-                    className="p-2 rounded-xl hover:bg-red-50 transition-colors" title="Elimina account">
+                    className="p-1.5 sm:p-2 rounded-xl hover:bg-red-50 transition-colors">
                     <Trash2 className="w-4 h-4 text-red-400" />
                   </button>
                   <button onClick={() => expandStudent(student.id)}
-                    className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
+                    className="p-1.5 sm:p-2 rounded-xl hover:bg-gray-100 transition-colors">
                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
               {isExpanded && (
-                <div className="border-t border-gray-100 p-5 bg-gray-50 space-y-5">
+                <div className="border-t border-gray-100 p-4 sm:p-5 bg-gray-50 space-y-4 sm:space-y-5">
                   {/* Ore lezione */}
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -199,7 +201,7 @@ export default function AdminStudentiPage() {
                         Gestisci ore
                       </Button>
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
                       {[
                         { label: 'Medie', field: 'hour_credits_medie' },
                         { label: 'Superiori', field: 'hour_credits_superiori' },
