@@ -298,8 +298,9 @@ BEGIN
       SUM(b.hours_used),
       SUM(b.hours_used * CASE b.grade
         WHEN 'universita' THEN (SELECT hour_rate_universita FROM pricing_config LIMIT 1)
-        ELSE (SELECT hour_rate_medie FROM pricing_config LIMIT 1)
-      END) * 0.70 -- tutor prende 70%
+        WHEN 'superiori'  THEN (SELECT hour_rate_superiori  FROM pricing_config LIMIT 1)
+        ELSE                   (SELECT hour_rate_medie      FROM pricing_config LIMIT 1)
+      END)
     INTO lesson_count, total_hrs, amount
     FROM bookings b
     JOIN calendar_slots cs ON b.slot_id = cs.id
