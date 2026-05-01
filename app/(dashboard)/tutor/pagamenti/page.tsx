@@ -53,8 +53,8 @@ export default function TutorPagamentiPage() {
           <p className="text-sm text-gray-400 mt-1">I record vengono generati automaticamente ogni mese</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-x-auto">
+          <table className="w-full min-w-[500px] text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
                 {['Periodo', 'Lezioni completate', 'Ore totali', 'Importo', 'Stato'].map(h => (
