@@ -248,30 +248,25 @@ export default function CercaTutorPage() {
     setBooking(true); setBookingError('')
     const meetLink = bookingMode !== 'presenza' ? generateMeetLink() : null
 
-    const { data: newBooking, error } = await supabase.from('bookings').insert({
-      student_id: userId,
-      tutor_id: activeTutor.id,
-      slot_id: selectedSlot.id,
-      second_slot_id: bookingMode === 'presenza' ? (secondSlot?.id || null) : null,
-      subject_id: bookingSubject,
-      grade,
-      mode: bookingMode,
-      topic: bookingForm.topic,
-      address: bookingMode === 'presenza' ? bookingForm.address || null : null,
-      meet_link: meetLink,
-      hours_used: hoursNeeded,
-    }).select('id').single()
+    // Usa la route server-side: inserisce con service role (ottiene sempre l'ID) e invia l'email
+    const bookingRes = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tutor_id: activeTutor.id,
+        slot_id: selectedSlot.id,
+        second_slot_id: bookingMode === 'presenza' ? (secondSlot?.id || null) : null,
+        subject_id: bookingSubject,
+        grade,
+        mode: bookingMode,
+        topic: bookingForm.topic,
+        address: bookingMode === 'presenza' ? bookingForm.address || null : null,
+        meet_link: meetLink,
+        hours_used: hoursNeeded,
+      }),
+    })
 
-    if (error) { setBookingError('Errore durante la prenotazione. Riprova.'); setBooking(false); return }
-
-    // Invia email di conferma (fire & forget)
-    if (newBooking?.id) {
-      fetch('/api/email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'confirm', bookingId: newBooking.id }),
-      }).catch(() => {})
-    }
+    if (!bookingRes.ok) { setBookingError('Errore durante la prenotazione. Riprova.'); setBooking(false); return }
 
     const { data: updatedSp } = await supabase.from('student_profiles').select('*').eq('id', userId).single()
     if (updatedSp) setStudentProfile(updatedSp)
