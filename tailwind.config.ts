@@ -42,11 +42,13 @@ const config: Config = {
         'fade-in': 'fadeIn 0.3s ease-in-out',
         'slide-up': 'slideUp 0.4s ease-out',
         'pulse-soft': 'pulseSoft 2s infinite',
+        'subjects-scroll': 'subjectsScroll 30s linear infinite',
       },
       keyframes: {
         fadeIn: { from: { opacity: '0' }, to: { opacity: '1' } },
         slideUp: { from: { transform: 'translateY(20px)', opacity: '0' }, to: { transform: 'translateY(0)', opacity: '1' } },
         pulseSoft: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0.7' } },
+        subjectsScroll: { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-50%)' } },
       },
     },
   },

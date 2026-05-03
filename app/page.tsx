@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { BookOpen, Video, MapPin, Star, Shield, Clock, ChevronRight, Sparkles, Users } from 'lucide-react'
 import LandingReviews from '@/components/LandingReviews'
 import LandingNavbar from '@/components/LandingNavbar'
+import LandingSubjects from '@/components/LandingSubjects'
 
 export default function LandingPage() {
   return (
@@ -253,6 +254,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* MATERIE */}
+      <LandingSubjects />
 
       {/* PREZZI */}
       <section id="prezzi" className="py-16 md:py-24 px-4 md:px-6 bg-gray-50">
