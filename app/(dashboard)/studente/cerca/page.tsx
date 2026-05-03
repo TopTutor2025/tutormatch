@@ -248,7 +248,7 @@ export default function CercaTutorPage() {
     setBooking(true); setBookingError('')
     const meetLink = bookingMode !== 'presenza' ? generateMeetLink() : null
 
-    const { error } = await supabase.from('bookings').insert({
+    const { data: newBooking, error } = await supabase.from('bookings').insert({
       student_id: userId,
       tutor_id: activeTutor.id,
       slot_id: selectedSlot.id,
@@ -260,9 +260,18 @@ export default function CercaTutorPage() {
       address: bookingMode === 'presenza' ? bookingForm.address || null : null,
       meet_link: meetLink,
       hours_used: hoursNeeded,
-    })
+    }).select('id').single()
 
     if (error) { setBookingError('Errore durante la prenotazione. Riprova.'); setBooking(false); return }
+
+    // Invia email di conferma (fire & forget)
+    if (newBooking?.id) {
+      fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'confirm', bookingId: newBooking.id }),
+      }).catch(() => {})
+    }
 
     const { data: updatedSp } = await supabase.from('student_profiles').select('*').eq('id', userId).single()
     if (updatedSp) setStudentProfile(updatedSp)
