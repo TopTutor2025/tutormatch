@@ -159,6 +159,12 @@ export default function AdminTutorPage() {
       const { data: sp } = await supabase.from('student_profiles').select(field).eq('id', booking.student_id).single()
       if (sp) await supabase.from('student_profiles').update({ [field]: (sp as any)[field] + booking.hours_used }).eq('id', booking.student_id)
     }
+    // Invia email di cancellazione (fire & forget)
+    fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'cancel', bookingId: booking.id, refunded: refund }),
+    }).catch(() => {})
     setSelectedSlot(null)
     await loadSlotsForTutor(expanded!, getWeekDates(weekBase))
   }
