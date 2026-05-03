@@ -1,62 +1,63 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 import { BookOpen } from 'lucide-react'
 
 interface Subject { id: string; name: string }
 
+const COLORS = [
+  'from-pink-300 to-pink-500',
+  'from-blue-300 to-blue-500',
+  'from-purple-300 to-purple-500',
+  'from-green-300 to-green-500',
+  'from-orange-300 to-orange-500',
+  'from-yellow-300 to-yellow-500',
+  'from-red-300 to-red-500',
+  'from-teal-300 to-teal-500',
+]
+
 export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
-  const [paused, setPaused] = useState(false)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const dragStart = useRef<{ x: number; scrollX: number } | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const isDragging = useRef(false)
+  const startX = useRef(0)
+  const scrollLeft = useRef(0)
 
-  // Duplicate for seamless loop
-  const items = [...subjects, ...subjects]
-
-  // Mouse drag handlers
   function onMouseDown(e: React.MouseEvent) {
-    setPaused(true)
-    dragStart.current = { x: e.clientX, scrollX: 0 }
+    isDragging.current = true
+    startX.current = e.pageX - (scrollRef.current?.offsetLeft || 0)
+    scrollLeft.current = scrollRef.current?.scrollLeft || 0
   }
 
   function onMouseMove(e: React.MouseEvent) {
-    if (!dragStart.current || !trackRef.current) return
-    const delta = dragStart.current.x - e.clientX
-    trackRef.current.style.animationDelay = `${delta * 0.05}s`
+    if (!isDragging.current || !scrollRef.current) return
+    e.preventDefault()
+    const x = e.pageX - (scrollRef.current.offsetLeft || 0)
+    const walk = (x - startX.current) * 1.5
+    scrollRef.current.scrollLeft = scrollLeft.current - walk
   }
 
-  function onMouseUp() {
-    dragStart.current = null
-    setPaused(false)
-  }
+  function onMouseUp() { isDragging.current = false }
 
   return (
     <div
-      className="relative overflow-hidden cursor-grab active:cursor-grabbing"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => { setPaused(false); dragStart.current = null }}
+      ref={scrollRef}
+      className="flex gap-3 overflow-x-auto pb-2 cursor-grab active:cursor-grabbing"
+      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
+      onMouseLeave={onMouseUp}
     >
-      {/* Fade laterali */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-
-      <div
-        ref={trackRef}
-        className={`flex gap-2 ticker-track${paused ? ' paused' : ''}`}
-        style={{ width: 'max-content' }}
-      >
-        {items.map((s, i) => (
-          <div
-            key={`${s.id}-${i}`}
-            className="flex items-center gap-1.5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 whitespace-nowrap flex-shrink-0 select-none"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-pink-400 flex-shrink-0" />
-            <span className="text-sm font-medium text-gray-700">{s.name}</span>
+      {subjects.map((s, i) => (
+        <div
+          key={s.id}
+          className="flex-shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-3 select-none w-44"
+        >
+          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${COLORS[i % COLORS.length]} flex items-center justify-center flex-shrink-0`}>
+            <BookOpen className="w-5 h-5 text-white" />
           </div>
-        ))}
-      </div>
+          <span className="text-sm font-semibold text-gray-800 leading-tight">{s.name}</span>
+        </div>
+      ))}
     </div>
   )
 }
