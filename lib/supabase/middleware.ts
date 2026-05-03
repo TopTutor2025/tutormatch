@@ -31,7 +31,9 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/termini') ||
     request.nextUrl.pathname.startsWith('/cookie') ||
     request.nextUrl.pathname.startsWith('/faq-tutor') ||
-    request.nextUrl.pathname.startsWith('/google')
+    request.nextUrl.pathname.startsWith('/google') ||
+    request.nextUrl.pathname === '/sitemap.xml' ||
+    request.nextUrl.pathname === '/robots.txt'
   )
 
   if (!user && !isPublicPath) {
