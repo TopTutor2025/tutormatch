@@ -19,12 +19,12 @@ export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startX = useRef(0)
-  const scrollLeft = useRef(0)
+  const scrollLeftStart = useRef(0)
 
   function onMouseDown(e: React.MouseEvent) {
     isDragging.current = true
     startX.current = e.pageX - (scrollRef.current?.offsetLeft || 0)
-    scrollLeft.current = scrollRef.current?.scrollLeft || 0
+    scrollLeftStart.current = scrollRef.current?.scrollLeft || 0
   }
 
   function onMouseMove(e: React.MouseEvent) {
@@ -32,7 +32,7 @@ export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
     e.preventDefault()
     const x = e.pageX - (scrollRef.current.offsetLeft || 0)
     const walk = (x - startX.current) * 1.5
-    scrollRef.current.scrollLeft = scrollLeft.current - walk
+    scrollRef.current.scrollLeft = scrollLeftStart.current - walk
   }
 
   function onMouseUp() { isDragging.current = false }
@@ -40,8 +40,13 @@ export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
   return (
     <div
       ref={scrollRef}
-      className="flex gap-3 overflow-x-auto pb-2 cursor-grab active:cursor-grabbing"
-      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      className="flex gap-3 overflow-x-auto cursor-grab active:cursor-grabbing"
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        WebkitOverflowScrolling: 'touch',
+        maxWidth: '100%',
+      }}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
@@ -50,12 +55,13 @@ export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
       {subjects.map((s, i) => (
         <div
           key={s.id}
-          className="flex-shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm p-3 md:p-4 flex items-center gap-2 md:gap-3 select-none w-36 md:w-44"
+          className="flex-shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm p-3 flex items-center gap-2 select-none"
+          style={{ width: '140px' }}
         >
-          <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${COLORS[i % COLORS.length]} flex items-center justify-center flex-shrink-0`}>
-            <BookOpen className="w-4 h-4 md:w-5 md:h-5 text-white" />
+          <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${COLORS[i % COLORS.length]} flex items-center justify-center flex-shrink-0`}>
+            <BookOpen className="w-4 h-4 text-white" />
           </div>
-          <span className="text-sm font-semibold text-gray-800 leading-tight">{s.name}</span>
+          <span className="text-xs font-semibold text-gray-800 leading-tight">{s.name}</span>
         </div>
       ))}
     </div>

@@ -13,12 +13,12 @@ export default async function LandingSubjects() {
   if (!subjects || subjects.length === 0) return null
 
   return (
-    <section className="py-12 md:py-24 px-4 md:px-6">
+    <section className="py-12 md:py-24 px-4 md:px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
 
           {/* Left: testo */}
-          <div className="text-center md:text-left">
+          <div className="min-w-0 text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-4 md:mb-6">
               Tutte le materie,<br />un solo posto
             </h2>
@@ -35,8 +35,8 @@ export default async function LandingSubjects() {
           </div>
 
           {/* Right: card scrollabili */}
-          <div>
-            <div className="bg-gradient-to-br from-pink-50 to-white rounded-3xl p-4 md:p-6 border border-pink-100 overflow-hidden">
+          <div className="min-w-0 w-full">
+            <div className="bg-gradient-to-br from-pink-50 to-white rounded-3xl p-4 md:p-6 border border-pink-100 overflow-hidden w-full">
               <SubjectsTicker subjects={subjects} />
             </div>
             <p className="text-xs text-gray-400 text-center mt-2">← scorri per vedere tutte le materie →</p>
