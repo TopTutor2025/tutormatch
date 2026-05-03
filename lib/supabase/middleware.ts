@@ -30,7 +30,8 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/privacy') ||
     request.nextUrl.pathname.startsWith('/termini') ||
     request.nextUrl.pathname.startsWith('/cookie') ||
-    request.nextUrl.pathname.startsWith('/faq-tutor')
+    request.nextUrl.pathname.startsWith('/faq-tutor') ||
+    request.nextUrl.pathname.startsWith('/google')
   )
 
   if (!user && !isPublicPath) {
