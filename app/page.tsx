@@ -280,7 +280,7 @@ export default function LandingPage() {
               <div className="text-4xl font-extrabold text-white mb-1">€99,99<span className="text-lg font-normal text-gray-400">/anno</span></div>
               <p className="text-sm text-gray-400 mb-6">Risparmia €79,89 rispetto al mensile</p>
               <ul className="space-y-3 text-sm text-gray-300">
-                {['Tutto del mensile', 'Priorità nei risultati', 'Supporto dedicato', 'Storico illimitato'].map(f => (
+                {['Tutto del mensile', 'Valutazioni DSA', 'Supporto dedicato', 'Rimborso ore annullate'].map(f => (
                   <li key={f} className="flex items-center gap-2"><span className="text-pink-400">✓</span>{f}</li>
                 ))}
               </ul>
