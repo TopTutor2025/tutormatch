@@ -35,8 +35,11 @@ export default async function LandingSubjects() {
           </div>
 
           {/* Right: card scrollabili */}
-          <div className="bg-gradient-to-br from-pink-50 to-white rounded-3xl p-6 border border-pink-100 overflow-hidden">
-            <SubjectsTicker subjects={subjects} />
+          <div>
+            <div className="bg-gradient-to-br from-pink-50 to-white rounded-3xl p-6 border border-pink-100 overflow-hidden">
+              <SubjectsTicker subjects={subjects} />
+            </div>
+            <p className="text-xs text-gray-400 text-center mt-2">← scorri per vedere tutte le materie →</p>
           </div>
 
         </div>
