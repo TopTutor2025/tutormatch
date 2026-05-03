@@ -7,7 +7,7 @@ export default function LandingNavbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 flex-shrink-0">
