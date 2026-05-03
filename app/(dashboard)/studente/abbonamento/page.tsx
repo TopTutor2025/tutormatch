@@ -144,7 +144,7 @@ export default function AbbonamentoPage() {
             <div className="text-4xl font-extrabold mb-1">{formatCurrency(pricing?.subscription_monthly || 14.99)}</div>
             <p className="text-sm text-gray-400 mb-6">al mese · rinnovo automatico</p>
             <ul className="space-y-2 text-sm text-gray-600 mb-8">
-              {['Accesso completo ai tutor', 'Prenotazioni illimitate (salvo ore)', 'Chat con i tutor', 'Storico lezioni'].map(f => (
+              {['Accesso completo ai tutor', 'Chat con i tutor', 'Ricerca avanzata', 'Storico lezioni'].map(f => (
                 <li key={f} className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />{f}</li>
               ))}
             </ul>
@@ -165,7 +165,7 @@ export default function AbbonamentoPage() {
             <div className="text-4xl font-extrabold mb-1">{formatCurrency(pricing?.subscription_annual || 99.99)}</div>
             <p className="text-sm text-gray-400 mb-6">all'anno · equivale a {formatCurrency((pricing?.subscription_annual || 99.99) / 12)}/mese</p>
             <ul className="space-y-2 text-sm text-gray-300 mb-8">
-              {['Tutto del mensile', 'Accesso 12 mesi', 'Priorità supporto', 'Risparmio garantito'].map(f => (
+              {['Tutto del mensile', 'Valutazioni DSA', 'Supporto dedicato', 'Rimborso ore annullate'].map(f => (
                 <li key={f} className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-pink-400 flex-shrink-0" />{f}</li>
               ))}
             </ul>
