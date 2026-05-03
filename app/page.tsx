@@ -183,7 +183,7 @@ export default function LandingPage() {
             ].map((item) => (
               <div key={item.step} className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm">
                 <div className="flex items-center gap-4 mb-5 md:mb-6">
-                  <span className="text-5xl font-black text-gray-100">{item.step}</span>
+                  <span className="text-5xl font-black text-pink-300">{item.step}</span>
                   <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center">
                     <item.icon className="w-6 h-6 text-white" />
                   </div>
