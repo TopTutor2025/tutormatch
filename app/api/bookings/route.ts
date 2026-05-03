@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    // Invia email di conferma in modo asincrono (non blocca la risposta)
+    // Invia email di conferma (awaited: Vercel termina il processo dopo la risposta)
     if (booking?.id) {
-      sendConfirmEmail(booking.id).catch(e => console.error('sendConfirmEmail error:', e))
+      await sendConfirmEmail(booking.id)
     }
 
     return NextResponse.json({ id: booking?.id })
