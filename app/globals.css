@@ -27,3 +27,16 @@ body {
 ::-webkit-scrollbar-track { background: #f8f8f8; }
 ::-webkit-scrollbar-thumb { background: #f9c4d2; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #e8a0b8; }
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  animation: tickerScroll 30s linear infinite;
+}
+
+.ticker-track.paused {
+  animation-play-state: paused;
+}
