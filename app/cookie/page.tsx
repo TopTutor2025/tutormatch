@@ -151,7 +151,7 @@ export default function CookiePage() {
               <h2 className="text-lg font-bold text-gray-900 mb-3">6. Contatti</h2>
               <p className="text-gray-600">
                 Per qualsiasi domanda relativa all'utilizzo dei cookie, scrivi a{' '}
-                <a href="mailto:privacy@tutormatch.it" className="text-blue-600 hover:underline">privacy@tutormatch.it</a>.
+                <a href="mailto:astramentis.ltd.ad@gmail.com" className="text-blue-600 hover:underline">astramentis.ltd.ad@gmail.com</a>.
               </p>
             </section>
 

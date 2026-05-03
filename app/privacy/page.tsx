@@ -29,7 +29,7 @@ export default function PrivacyPage() {
               <h2 className="text-lg font-bold text-gray-900 mb-3">1. Titolare del trattamento</h2>
               <p className="text-gray-600">
                 Il titolare del trattamento dei dati personali è <strong>Proflive</strong>, raggiungibile all'indirizzo email{' '}
-                <a href="mailto:privacy@tutormatch.it" className="text-blue-600 hover:underline">privacy@tutormatch.it</a>.
+                <a href="mailto:astramentis.ltd.ad@gmail.com" className="text-blue-600 hover:underline">astramentis.ltd.ad@gmail.com</a>.
               </p>
             </section>
 
@@ -110,7 +110,7 @@ export default function PrivacyPage() {
               </div>
               <p className="text-gray-600 mt-3">
                 Per esercitare i tuoi diritti scrivi a{' '}
-                <a href="mailto:privacy@tutormatch.it" className="text-blue-600 hover:underline">privacy@tutormatch.it</a>.
+                <a href="mailto:astramentis.ltd.ad@gmail.com" className="text-blue-600 hover:underline">astramentis.ltd.ad@gmail.com</a>.
                 Risponderemo entro 30 giorni.
               </p>
             </section>

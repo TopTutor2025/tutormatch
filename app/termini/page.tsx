@@ -157,7 +157,7 @@ export default function TerminiPage() {
               <h2 className="text-lg font-bold text-gray-900 mb-3">11. Sospensione e cancellazione dell'account</h2>
               <p className="text-gray-600">
                 Proflive si riserva di sospendere o cancellare account che violano i presenti Termini, senza preavviso in caso di violazioni gravi. L'Utente può richiedere la cancellazione del proprio account in qualsiasi momento scrivendo a{' '}
-                <a href="mailto:support@tutormatch.it" className="text-blue-600 hover:underline">support@tutormatch.it</a>.
+                <a href="mailto:astramentis.ltd.ad@gmail.com" className="text-blue-600 hover:underline">astramentis.ltd.ad@gmail.com</a>.
                 I dati verranno trattati secondo la Privacy Policy.
               </p>
             </section>
