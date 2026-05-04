@@ -23,6 +23,8 @@ export async function POST(request: NextRequest) {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
+
+      // Acquisto ore
       if (session.mode === 'payment' && session.metadata?.type === 'hours') {
         const { student_id, grade, hours, price_per_hour } = session.metadata
         const hoursNum = parseInt(hours)
@@ -42,6 +44,38 @@ export async function POST(request: NextRequest) {
           price_per_hour: pricePerHour,
           total_price: pricePerHour * hoursNum,
         })
+      }
+
+      // Nuovo abbonamento — fallback per quando invoice.paid non è configurato nel webhook
+      if (session.mode === 'subscription' && session.subscription) {
+        const stripeSubId = session.subscription as string
+        const subscription = await stripe.subscriptions.retrieve(stripeSubId) as any
+        const { student_id, sub_type } = subscription.metadata
+        if (student_id) {
+          const { data: existing } = await supabaseAdmin
+            .from('subscriptions').select('id').eq('stripe_subscription_id', stripeSubId).maybeSingle()
+
+          if (!existing) {
+            const invoice = await stripe.invoices.retrieve(subscription.latest_invoice as string) as any
+            const price = (invoice.amount_paid || 0) / 100
+            const periodStart = new Date(subscription.current_period_start * 1000)
+            const periodEnd = new Date(subscription.current_period_end * 1000)
+            const priceId = subscription.items.data[0]?.price.id
+
+            await supabaseAdmin.from('subscriptions').insert({
+              student_id,
+              type: sub_type || 'mensile',
+              status: 'attivo',
+              price,
+              starts_at: periodStart.toISOString(),
+              expires_at: periodEnd.toISOString(),
+              stripe_subscription_id: stripeSubId,
+              stripe_price_id: priceId,
+              auto_renew: true,
+              cancel_at_period_end: false,
+            })
+          }
+        }
       }
       break
     }
