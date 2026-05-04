@@ -4,7 +4,7 @@ import { ArrowLeft, FileText } from 'lucide-react'
 export const metadata = { title: 'Termini e Condizioni – Proflive' }
 
 export default function TerminiPage() {
-  const lastUpdate = '29 aprile 2026'
+  const lastUpdate = '4 maggio 2026'
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 py-8 sm:py-12">
@@ -75,10 +75,55 @@ export default function TerminiPage() {
 
             <section>
               <h2 className="text-lg font-bold text-gray-900 mb-3">4. Abbonamenti e pagamenti (Studenti)</h2>
-              <div className="space-y-3 text-gray-600">
-                <p><strong className="text-gray-800">Abbonamento:</strong> Per accedere alle prenotazioni, lo Studente deve sottoscrivere un abbonamento mensile o annuale. L'abbonamento si rinnova automaticamente alla scadenza, salvo disdetta effettuata entro 24 ore prima del rinnovo tramite le impostazioni dell'account.</p>
+              <div className="space-y-4 text-gray-600">
+                <p>Per accedere alle prenotazioni, lo Studente deve sottoscrivere un abbonamento mensile o annuale. L'abbonamento si rinnova automaticamente alla scadenza, salvo disdetta effettuata prima del rinnovo tramite le impostazioni dell'account.</p>
+
+                {/* Comparison table */}
+                <div className="grid sm:grid-cols-2 gap-4 my-4">
+                  {/* Mensile */}
+                  <div className="border border-gray-200 rounded-2xl p-5 space-y-3">
+                    <h3 className="font-bold text-gray-900 text-base">Abbonamento Mensile</h3>
+                    <ul className="space-y-2 text-sm">
+                      {[
+                        'Accesso completo ai tutor',
+                        'Chat con i tutor',
+                        'Ricerca avanzata',
+                        'Storico lezioni',
+                      ].map(f => (
+                        <li key={f} className="flex items-start gap-2">
+                          <span className="text-green-500 flex-shrink-0 mt-0.5">✓</span>
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-xs text-red-700 leading-relaxed">
+                      <strong>⚠️ Ore non rimborsabili:</strong> Con l'abbonamento mensile, le ore prenotate non possono essere annullate né rimborsate, indipendentemente dalla motivazione e dall'anticipo della richiesta.
+                    </div>
+                  </div>
+
+                  {/* Annuale */}
+                  <div className="border-2 border-black rounded-2xl p-5 space-y-3">
+                    <h3 className="font-bold text-gray-900 text-base">Abbonamento Annuale</h3>
+                    <ul className="space-y-2 text-sm">
+                      {[
+                        'Tutto del mensile',
+                        'Valutazioni DSA',
+                        'Supporto dedicato',
+                        'Rimborso ore annullate',
+                      ].map(f => (
+                        <li key={f} className="flex items-start gap-2">
+                          <span className="text-green-500 flex-shrink-0 mt-0.5">✓</span>
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="bg-green-50 border border-green-200 rounded-xl p-3 text-xs text-green-800 leading-relaxed">
+                      <strong>✓ Rimborso ore disponibile:</strong> Con l'abbonamento annuale è possibile richiedere il rimborso delle ore prenotate, a condizione che: (1) la richiesta venga inviata all'assistenza tramite la chat della piattaforma, e (2) la richiesta pervenga almeno 24 ore prima dell'orario di inizio della lezione prenotata. Richieste tardive non potranno essere accettate.
+                    </div>
+                  </div>
+                </div>
+
                 <p><strong className="text-gray-800">Ore lezione:</strong> Le ore lezione sono acquistabili separatamente e non hanno scadenza. Sono suddivise per grado scolastico (Medie, Superiori, Università) e non trasferibili tra categorie.</p>
-                <p><strong className="text-gray-800">Rimborsi:</strong> Le ore lezione vengono rimborsate automaticamente in caso di cancellazione della prenotazione da parte dell'amministratore. Gli abbonamenti non sono rimborsabili salvo vizi della Piattaforma imputabili a Proflive.</p>
                 <p><strong className="text-gray-800">Pagamenti:</strong> Tutti i pagamenti sono elaborati tramite Stripe. Proflive non conserva dati di carte di credito.</p>
               </div>
             </section>
