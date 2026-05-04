@@ -33,7 +33,7 @@ export default function AdminTutorPage() {
   const [loading, setLoading] = useState(true)
   const [slotsLoading, setSlotsLoading] = useState(false)
   const [editModal, setEditModal] = useState<any>(null)
-  const [editForm, setEditForm] = useState({ first_name: '', last_name: '', phone: '', bio: '', is_active: true })
+  const [editForm, setEditForm] = useState({ first_name: '', last_name: '', phone: '', bio: '', is_active: true, email: '', fiscal_code: '', iban: '' })
   const [weekBase, setWeekBase] = useState(new Date())
   const [selectedSlot, setSelectedSlot] = useState<any | null>(null)
 
@@ -193,8 +193,8 @@ export default function AdminTutorPage() {
 
   async function saveEdit() {
     if (!editModal) return
-    await supabase.from('profiles').update({ first_name: editForm.first_name, last_name: editForm.last_name, phone: editForm.phone }).eq('id', editModal.id)
-    await supabase.from('tutor_profiles').update({ bio: editForm.bio, is_active: editForm.is_active }).eq('id', editModal.id)
+    await supabase.from('profiles').update({ first_name: editForm.first_name, last_name: editForm.last_name, phone: editForm.phone, email: editForm.email }).eq('id', editModal.id)
+    await supabase.from('tutor_profiles').update({ bio: editForm.bio, is_active: editForm.is_active, fiscal_code: editForm.fiscal_code, iban: editForm.iban }).eq('id', editModal.id)
     setEditModal(null)
     loadTutors()
   }
@@ -241,7 +241,7 @@ export default function AdminTutorPage() {
                   <p className="text-xs sm:text-sm text-gray-500 truncate mt-0.5">{tutor.email}</p>
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-                  <button onClick={() => { setEditModal(tutor); setEditForm({ first_name: tutor.first_name, last_name: tutor.last_name, phone: tutor.phone || '', bio: tutor.tutor_profile?.bio || '', is_active: isActive }) }}
+                  <button onClick={() => { setEditModal(tutor); setEditForm({ first_name: tutor.first_name, last_name: tutor.last_name, phone: tutor.phone || '', bio: tutor.tutor_profile?.bio || '', is_active: isActive, email: tutor.email || '', fiscal_code: tutor.tutor_profile?.fiscal_code || '', iban: tutor.tutor_profile?.iban || '' }) }}
                     className="p-1.5 sm:p-2 rounded-xl hover:bg-gray-100 transition-colors">
                     <Edit className="w-4 h-4 text-gray-500" />
                   </button>
@@ -433,21 +433,12 @@ export default function AdminTutorPage() {
                 <span className="text-sm font-medium">Tutor attivo (visibile agli studenti)</span>
               </label>
 
-              {/* Dati sola lettura */}
+              {/* Dati fiscali e bancari */}
               <div className="border-t border-gray-100 pt-4 space-y-3">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Dati fiscali e bancari</p>
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs font-medium text-gray-500">Email</span>
-                  <div className="bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 text-sm text-gray-800 break-all">{editModal?.email || '—'}</div>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs font-medium text-gray-500">Codice Fiscale</span>
-                  <div className="bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 text-sm text-gray-800 font-mono tracking-wider">{editModal?.tutor_profile?.fiscal_code || '—'}</div>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs font-medium text-gray-500">IBAN</span>
-                  <div className="bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 text-sm text-gray-800 font-mono tracking-wider break-all">{editModal?.tutor_profile?.iban || '—'}</div>
-                </div>
+                <Input label="Email" value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} />
+                <Input label="Codice Fiscale" value={editForm.fiscal_code} onChange={e => setEditForm(f => ({ ...f, fiscal_code: e.target.value }))} />
+                <Input label="IBAN" value={editForm.iban} onChange={e => setEditForm(f => ({ ...f, iban: e.target.value }))} />
               </div>
             </div>
             <div className="flex gap-3 mt-6">
