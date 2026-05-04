@@ -28,8 +28,12 @@ async function handleSubscriptionUpsert(stripeSubId: string, amountPaid: number)
     return
   }
 
-  const periodStart = new Date(subscription.current_period_start * 1000)
-  const periodEnd = new Date(subscription.current_period_end * 1000)
+  const periodStartTs = subscription.current_period_start
+  const periodEndTs = subscription.current_period_end
+  const periodStart = periodStartTs ? new Date(periodStartTs * 1000) : new Date()
+  const periodEnd = periodEndTs
+    ? new Date(periodEndTs * 1000)
+    : new Date(Date.now() + (sub_type === 'annuale' ? 365 : 30) * 24 * 60 * 60 * 1000)
   const priceId = subscription.items.data[0]?.price.id
 
   if (existing) {
