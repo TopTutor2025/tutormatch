@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { User, Phone, FileText, Upload, Save } from 'lucide-react'
+import { User, Phone, FileText, Upload, Save, CreditCard, Building, CheckCircle } from 'lucide-react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 
@@ -218,6 +218,48 @@ export default function TutorProfiloPage() {
         <Button loading={saving} onClick={save} className="w-full" size="lg">
           <Save className="w-4 h-4" /> {saved ? 'Salvato!' : 'Salva modifiche'}
         </Button>
+      </div>
+
+      {/* Dati fiscali e bancari — sola lettura */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-8 space-y-5">
+        <div>
+          <h2 className="text-base font-bold text-gray-900">Dati fiscali e bancari</h2>
+          <p className="text-sm text-gray-400 mt-1">Questi dati sono stati inseriti al momento della registrazione e non sono modificabili. Per aggiornarli contatta il supporto.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
+              <CreditCard className="w-4 h-4 text-gray-400" /> Codice Fiscale
+            </label>
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-800 font-mono tracking-wider">
+              {tutorProfile?.fiscal_code || '—'}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
+              <Building className="w-4 h-4 text-gray-400" /> IBAN
+            </label>
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm text-gray-800 font-mono tracking-wider break-all">
+              {tutorProfile?.iban || '—'}
+            </div>
+          </div>
+        </div>
+
+        <div className={`flex items-start gap-3 rounded-2xl px-4 py-3 border ${tutorProfile?.iban_confirmed ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}>
+          <CheckCircle className={`w-5 h-5 flex-shrink-0 mt-0.5 ${tutorProfile?.iban_confirmed ? 'text-green-600' : 'text-gray-300'}`} />
+          <div>
+            <p className={`text-sm font-semibold ${tutorProfile?.iban_confirmed ? 'text-green-800' : 'text-gray-500'}`}>
+              Titolarità del conto attestata
+            </p>
+            <p className="text-xs text-gray-500 mt-0.5">
+              {tutorProfile?.iban_confirmed
+                ? 'Hai dichiarato di essere il titolare del conto bancario indicato al momento della registrazione.'
+                : 'Attestazione non presente.'}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )
