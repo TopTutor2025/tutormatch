@@ -34,6 +34,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/google') ||
     request.nextUrl.pathname.startsWith('/password-dimenticata') ||
     request.nextUrl.pathname.startsWith('/reimposta-password') ||
+    request.nextUrl.pathname.startsWith('/api/') ||
     request.nextUrl.pathname === '/sitemap.xml' ||
     request.nextUrl.pathname === '/robots.txt'
   )
