@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Search, Trash2, RotateCcw, Plus, X } from 'lucide-react'
-import { formatDate, formatTime, GRADE_LABELS, generateMeetLink } from '@/lib/utils'
+import { formatDate, formatTime, GRADE_LABELS } from '@/lib/utils'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 
@@ -91,17 +91,14 @@ export default function AdminPrenotazioniPage() {
       return
     }
     setCreating(true)
-    const meet_link = mode === 'online' ? generateMeetLink() : null
-    const { error } = await supabase.from('bookings').insert({
-      student_id, tutor_id, slot_id, subject_id, grade, mode,
-      topic: topic.trim(),
-      address: mode !== 'online' ? address : null,
-      meet_link,
-      status: 'confermato',
-      hours_used: 1,
+    const res = await fetch('/api/admin/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ student_id, tutor_id, slot_id, subject_id, grade, mode, topic, address, hours_used: 1 }),
     })
-    if (error) {
-      alert(`Errore: ${error.message}`)
+    if (!res.ok) {
+      const { error } = await res.json()
+      alert(`Errore: ${error}`)
     } else {
       setCreateModal(false)
       loadBookings()
