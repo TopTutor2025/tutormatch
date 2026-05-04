@@ -23,7 +23,7 @@ export async function updateSession(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  const publicPaths = ['/', '/login', '/registrazione', '/privacy', '/termini', '/cookie', '/faq-tutor']
+  const publicPaths = ['/', '/login', '/registrazione', '/privacy', '/termini', '/cookie', '/faq-tutor', '/password-dimenticata', '/reimposta-password']
   const isPublicPath = publicPaths.some(p =>
     request.nextUrl.pathname === p ||
     request.nextUrl.pathname.startsWith('/registrazione') ||
@@ -32,6 +32,8 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/cookie') ||
     request.nextUrl.pathname.startsWith('/faq-tutor') ||
     request.nextUrl.pathname.startsWith('/google') ||
+    request.nextUrl.pathname.startsWith('/password-dimenticata') ||
+    request.nextUrl.pathname.startsWith('/reimposta-password') ||
     request.nextUrl.pathname === '/sitemap.xml' ||
     request.nextUrl.pathname === '/robots.txt'
   )
