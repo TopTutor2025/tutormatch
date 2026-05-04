@@ -16,6 +16,9 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    // Scade gli abbonamenti con expires_at passato (safety net, Stripe gestisce via webhook)
+    await supabaseAdmin.rpc('expire_subscriptions')
+
     const { error } = await supabaseAdmin.rpc('generate_monthly_payments')
 
     if (error) {
