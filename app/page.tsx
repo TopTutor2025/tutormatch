@@ -95,7 +95,7 @@ export default function LandingPage() {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4 md:gap-8 mt-10 md:mt-14">
                 {[
-                  { value: '500+', label: 'Tutor verificati' },
+                  { value: '20+', label: 'Tutor verificati' },
                   { value: '20+', label: 'Materie disponibili' },
                   { value: '4.9★', label: 'Rating medio' },
                 ].map((s) => (
