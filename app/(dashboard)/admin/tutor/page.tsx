@@ -259,22 +259,6 @@ export default function AdminTutorPage() {
               {isExpanded && (
                 <div className="border-t border-gray-100 bg-gray-50">
 
-                  {/* Dati sensibili tutor */}
-                  <div className="px-5 pt-4 pb-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="bg-white rounded-2xl border border-gray-100 px-4 py-3">
-                      <p className="text-xs text-gray-400 font-medium mb-1">Email</p>
-                      <p className="text-sm font-semibold text-gray-900 break-all">{tutor.email || '—'}</p>
-                    </div>
-                    <div className="bg-white rounded-2xl border border-gray-100 px-4 py-3">
-                      <p className="text-xs text-gray-400 font-medium mb-1">Codice Fiscale</p>
-                      <p className="text-sm font-semibold text-gray-900 tracking-wider">{tutor.tutor_profile?.fiscal_code || '—'}</p>
-                    </div>
-                    <div className="bg-white rounded-2xl border border-gray-100 px-4 py-3">
-                      <p className="text-xs text-gray-400 font-medium mb-1">IBAN</p>
-                      <p className="text-sm font-semibold text-gray-900 break-all">{tutor.tutor_profile?.iban || '—'}</p>
-                    </div>
-                  </div>
-
                   {/* Legenda + navigazione */}
                   <div className="px-5 pt-4 pb-3 flex flex-wrap items-center gap-3">
                     <div className="flex items-center gap-2">
@@ -448,6 +432,23 @@ export default function AdminTutorPage() {
                 <input type="checkbox" checked={editForm.is_active} onChange={e => setEditForm(f => ({ ...f, is_active: e.target.checked }))} className="accent-black" />
                 <span className="text-sm font-medium">Tutor attivo (visibile agli studenti)</span>
               </label>
+
+              {/* Dati sola lettura */}
+              <div className="border-t border-gray-100 pt-4 space-y-3">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Dati fiscali e bancari</p>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-medium text-gray-500">Email</span>
+                  <div className="bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 text-sm text-gray-800 break-all">{editModal?.email || '—'}</div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-medium text-gray-500">Codice Fiscale</span>
+                  <div className="bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 text-sm text-gray-800 font-mono tracking-wider">{editModal?.tutor_profile?.fiscal_code || '—'}</div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-medium text-gray-500">IBAN</span>
+                  <div className="bg-gray-50 border border-gray-100 rounded-xl px-3 py-2 text-sm text-gray-800 font-mono tracking-wider break-all">{editModal?.tutor_profile?.iban || '—'}</div>
+                </div>
+              </div>
             </div>
             <div className="flex gap-3 mt-6">
               <button onClick={() => setEditModal(null)} className="flex-1 border border-gray-200 text-gray-700 font-medium py-3 rounded-2xl hover:bg-gray-50 transition-colors">Annulla</button>
