@@ -258,6 +258,23 @@ export default function AdminTutorPage() {
               {/* Expanded calendar section */}
               {isExpanded && (
                 <div className="border-t border-gray-100 bg-gray-50">
+
+                  {/* Dati sensibili tutor */}
+                  <div className="px-5 pt-4 pb-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="bg-white rounded-2xl border border-gray-100 px-4 py-3">
+                      <p className="text-xs text-gray-400 font-medium mb-1">Email</p>
+                      <p className="text-sm font-semibold text-gray-900 break-all">{tutor.email || '—'}</p>
+                    </div>
+                    <div className="bg-white rounded-2xl border border-gray-100 px-4 py-3">
+                      <p className="text-xs text-gray-400 font-medium mb-1">Codice Fiscale</p>
+                      <p className="text-sm font-semibold text-gray-900 tracking-wider">{tutor.tutor_profile?.fiscal_code || '—'}</p>
+                    </div>
+                    <div className="bg-white rounded-2xl border border-gray-100 px-4 py-3">
+                      <p className="text-xs text-gray-400 font-medium mb-1">IBAN</p>
+                      <p className="text-sm font-semibold text-gray-900 break-all">{tutor.tutor_profile?.iban || '—'}</p>
+                    </div>
+                  </div>
+
                   {/* Legenda + navigazione */}
                   <div className="px-5 pt-4 pb-3 flex flex-wrap items-center gap-3">
                     <div className="flex items-center gap-2">
