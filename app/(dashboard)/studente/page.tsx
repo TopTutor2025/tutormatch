@@ -132,8 +132,8 @@ export default function StudentDashboardPage() {
                 },
                 {
                   icon: ImagePlus, color: 'bg-teal-50 text-teal-600', step: '7',
-                  title: 'Invia immagini in chat',
-                  desc: 'Nella chat con il tutor puoi allegare foto di pagine del libro o esercizi da svolgere: clicca l\'icona 📎 accanto al campo testo, scegli un\'immagine (max 8MB) e inviala. Il tutor la vedrà e potrà scaricarla. Le immagini vengono eliminate automaticamente dopo 7 giorni per risparmiare spazio.',
+                  title: 'Condividi materiale in chat',
+                  desc: 'Nella chat con il tutor puoi inviare foto di pagine del libro, quaderno, appunti, esercizi o slide: clicca l\'icona 📎 accanto al campo testo, scegli la foto (max 8MB) e inviala. Il tutor la vedrà e potrà scaricarla. Le foto vengono eliminate automaticamente dopo 7 giorni, i messaggi testuali restano sempre.',
                 },
               ].map((step, i) => (
                 <div key={step.title} className={`flex gap-4 p-3 rounded-2xl ${i % 2 === 0 ? 'bg-gray-50' : ''}`}>
@@ -354,8 +354,8 @@ export default function StudentDashboardPage() {
                 a: 'Nella sezione "Le mie lezioni" trovi tutte le lezioni completate. Per ognuna puoi lasciare una valutazione da 1 a 5 stelle con un commento. Le recensioni aiutano gli altri studenti a scegliere il tutor più adatto.',
               },
               {
-                q: 'Posso inviare immagini in chat al tutor?',
-                a: 'Sì! Nella chat con il tutor trovi il pulsante 📎 accanto al campo di testo. Clicca per allegare una foto (max 8MB, solo immagini — no PDF). Il tutor la vedrà direttamente in chat e potrà scaricarla. Le immagini vengono eliminate automaticamente dopo 7 giorni per motivi di spazio, ma i messaggi testuali restano sempre visibili.',
+                q: 'Posso inviare foto del materiale di studio al tutor?',
+                a: 'Sì! Nella chat con il tutor trovi il pulsante 📎 accanto al campo di testo. Puoi inviare foto di pagine del libro, quaderno, appunti, esercizi o slide (max 8MB). Il tutor le vedrà direttamente in chat e potrà scaricarle. Le foto vengono eliminate automaticamente dopo 7 giorni per motivi di spazio, ma i messaggi testuali restano sempre visibili.',
               },
               {
                 q: 'Come posso cancellare il mio account?',

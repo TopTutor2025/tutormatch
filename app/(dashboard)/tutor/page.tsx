@@ -135,8 +135,8 @@ export default function TutorDashboardPage() {
                 },
                 {
                   icon: ImagePlus, color: 'bg-teal-50 text-teal-600', step: '8',
-                  title: 'Ricevi e scarica immagini in chat',
-                  desc: 'Gli studenti possono inviarti foto di pagine del libro o esercizi direttamente in chat. Le immagini appaiono nella conversazione e puoi scaricarle cliccando l\'icona ⬇ che appare passando il mouse sopra. Le immagini vengono eliminate automaticamente dopo 7 giorni.',
+                  title: 'Ricevi materiale di studio in chat',
+                  desc: 'Gli studenti possono inviarti foto di pagine del libro, quaderno, appunti, esercizi o slide direttamente in chat. Le foto appaiono nella conversazione e puoi scaricarle cliccando l\'icona ⬇ che appare passando il cursore sopra. Le foto vengono eliminate automaticamente dopo 7 giorni.',
                 },
               ].map((step, i) => (
                 <div key={step.title} className={`flex gap-4 p-3 rounded-2xl ${i % 2 === 0 ? 'bg-gray-50' : ''}`}>
