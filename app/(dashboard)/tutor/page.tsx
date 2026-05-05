@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { Calendar, BookOpen, CreditCard, Star, ChevronRight, Video, MapPin, X, AlertCircle, HelpCircle, User, CheckCircle } from 'lucide-react'
+import { Calendar, BookOpen, CreditCard, Star, ChevronRight, Video, MapPin, X, AlertCircle, HelpCircle, User, CheckCircle, ImagePlus } from 'lucide-react'
 import { formatDate, formatTime, GRADE_LABELS, MODE_LABELS } from '@/lib/utils'
 import type { Profile, Booking } from '@/types/database'
 
@@ -132,6 +132,11 @@ export default function TutorDashboardPage() {
                   icon: Star, color: 'bg-gray-50 text-gray-600', step: '7',
                   title: 'Ricevi recensioni',
                   desc: 'Dopo ogni lezione completata, lo studente può lasciarti una recensione (1–5 stelle). Le recensioni appaiono sul tuo profilo e aiutano altri studenti a sceglierti. Visualizzale dalla Dashboard.',
+                },
+                {
+                  icon: ImagePlus, color: 'bg-teal-50 text-teal-600', step: '8',
+                  title: 'Ricevi e scarica immagini in chat',
+                  desc: 'Gli studenti possono inviarti foto di pagine del libro o esercizi direttamente in chat. Le immagini appaiono nella conversazione e puoi scaricarle cliccando l\'icona ⬇ che appare passando il mouse sopra. Le immagini vengono eliminate automaticamente dopo 7 giorni.',
                 },
               ].map((step, i) => (
                 <div key={step.title} className={`flex gap-4 p-3 rounded-2xl ${i % 2 === 0 ? 'bg-gray-50' : ''}`}>
