@@ -456,9 +456,8 @@ export default function CercaTutorPage() {
                         </span>
                       )}
                       <button onClick={() => openChat(tutor)}
-                        className="p-2 rounded-xl text-gray-400 hover:bg-blue-50 hover:text-blue-600 transition-all"
-                        title="Scrivi al tutor">
-                        <MessageSquare className="w-4 h-4" />
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all">
+                        <MessageSquare className="w-3.5 h-3.5" /> Chat
                       </button>
                       <button onClick={() => toggleFavorite(tutor.id, tutor.is_favorite)}
                         className={`p-2 rounded-xl transition-all ${tutor.is_favorite ? 'text-pink-500 bg-pink-50' : 'text-gray-400 hover:bg-gray-100'}`}>
