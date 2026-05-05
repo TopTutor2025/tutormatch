@@ -58,11 +58,14 @@ export default function TutorDashboardLayout({ children }: { children: React.Rea
     })
   }, [])
 
+  // Quando ChatInterface segna i messaggi come letti, aggiorna il badge
   useEffect(() => {
-    if (pathname.startsWith('/tutor/chat') && userIdRef.current) {
-      setTimeout(() => loadUnreadCount(userIdRef.current), 800)
+    function onUnreadRefresh() {
+      if (userIdRef.current) loadUnreadCount(userIdRef.current)
     }
-  }, [pathname])
+    window.addEventListener('unread-refresh', onUnreadRefresh)
+    return () => window.removeEventListener('unread-refresh', onUnreadRefresh)
+  }, [])
 
   async function logout() {
     await supabase.auth.signOut()

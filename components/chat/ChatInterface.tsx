@@ -56,6 +56,8 @@ export default function ChatInterface({ userId, userRole, initialConvId }: Props
       .eq('conversation_id', convId).order('created_at', { ascending: true })
     setMessages(data || [])
     await supabase.from('messages').update({ read: true }).eq('conversation_id', convId).neq('sender_id', userId)
+    // Notifica il DashboardLayout di aggiornare il badge non letti
+    window.dispatchEvent(new CustomEvent('unread-refresh'))
   }
 
   function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {

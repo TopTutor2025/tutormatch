@@ -74,12 +74,14 @@ export default function StudentDashboardLayout({ children }: Props) {
     load()
   }, [])
 
-  // Quando l'utente apre la chat, ricarica il contatore (sarà 0)
+  // Quando ChatInterface segna i messaggi come letti, aggiorna il badge
   useEffect(() => {
-    if (pathname.startsWith('/studente/chat') && userIdRef.current) {
-      setTimeout(() => loadUnreadCount(userIdRef.current), 800)
+    function onUnreadRefresh() {
+      if (userIdRef.current) loadUnreadCount(userIdRef.current)
     }
-  }, [pathname])
+    window.addEventListener('unread-refresh', onUnreadRefresh)
+    return () => window.removeEventListener('unread-refresh', onUnreadRefresh)
+  }, [])
 
   async function logout() {
     await supabase.auth.signOut()
