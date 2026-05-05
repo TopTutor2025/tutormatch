@@ -455,10 +455,6 @@ export default function CercaTutorPage() {
                           📍 {tutor.distance.toFixed(1)}km
                         </span>
                       )}
-                      <button onClick={() => openChat(tutor)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all">
-                        <MessageSquare className="w-3.5 h-3.5" /> Chat
-                      </button>
                       <button onClick={() => toggleFavorite(tutor.id, tutor.is_favorite)}
                         className={`p-2 rounded-xl transition-all ${tutor.is_favorite ? 'text-pink-500 bg-pink-50' : 'text-gray-400 hover:bg-gray-100'}`}>
                         <Heart className={`w-4 h-4 ${tutor.is_favorite ? 'fill-current' : ''}`} />
@@ -494,10 +490,16 @@ export default function CercaTutorPage() {
                 </div>
               </div>
 
-              <button onClick={() => expandTutor(tutor)}
-                className="flex items-center gap-2 mt-4 text-sm font-semibold text-black hover:text-gray-700 transition-colors">
-                {expandedTutor === tutor.id ? <><ChevronUp className="w-4 h-4" /> Chiudi calendario</> : <><ChevronDown className="w-4 h-4" /> Vedi disponibilità</>}
-              </button>
+              <div className="flex items-center gap-3 mt-4">
+                <button onClick={() => expandTutor(tutor)}
+                  className="flex items-center gap-2 text-sm font-semibold text-black hover:text-gray-700 transition-colors">
+                  {expandedTutor === tutor.id ? <><ChevronUp className="w-4 h-4" /> Chiudi calendario</> : <><ChevronDown className="w-4 h-4" /> Vedi disponibilità</>}
+                </button>
+                <button onClick={() => openChat(tutor)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all ml-auto">
+                  <MessageSquare className="w-3.5 h-3.5" /> Chat
+                </button>
+              </div>
             </div>
 
             {expandedTutor === tutor.id && (
