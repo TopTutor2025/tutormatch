@@ -422,74 +422,79 @@ export default function CercaTutorPage() {
         ) : filtered.map(tutor => (
           <div key={tutor.id} className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden">
             <div className="p-5">
-              <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
+
+              {/* Riga superiore: avatar + nome/rating + cuore */}
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                   {tutor.profile?.avatar_url ? (
                     <img src={tutor.profile.avatar_url} alt={tutor.profile.first_name} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center text-white font-bold">
+                    <div className="w-full h-full bg-gradient-to-br from-pink-200 to-pink-300 flex items-center justify-center text-white font-bold text-sm">
                       {tutor.profile?.first_name?.[0]}{tutor.profile?.last_name?.[0]}
                     </div>
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h3 className="font-bold text-gray-900">{tutor.profile?.first_name}</h3>
-                      <button
-                        onClick={() => tutor.review_count > 0 && openReviews(tutor)}
-                        className={`flex items-center gap-1 mt-0.5 ${tutor.review_count > 0 ? 'hover:opacity-70 cursor-pointer' : 'cursor-default'}`}>
-                        {[1,2,3,4,5].map(i => (
-                          <Star key={i} className={`w-3.5 h-3.5 ${i <= Math.round(tutor.avg_rating) ? 'text-yellow-400 fill-current' : 'text-gray-200'}`} />
-                        ))}
-                        <span className="text-xs text-gray-500 ml-1">
-                          {tutor.avg_rating > 0 ? tutor.avg_rating.toFixed(1) : 'Nessuna recensione'} {tutor.review_count > 0 ? `(${tutor.review_count})` : ''}
-                        </span>
-                        {tutor.review_count > 0 && <span className="text-xs text-gray-400 ml-0.5">›</span>}
-                      </button>
-                    </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      {tutor.distance !== undefined && (
-                        <span className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded-full font-medium">
-                          📍 {tutor.distance.toFixed(1)}km
-                        </span>
-                      )}
-                      <button onClick={() => toggleFavorite(tutor.id, tutor.is_favorite)}
-                        className={`p-2 rounded-xl transition-all ${tutor.is_favorite ? 'text-pink-500 bg-pink-50' : 'text-gray-400 hover:bg-gray-100'}`}>
-                        <Heart className={`w-4 h-4 ${tutor.is_favorite ? 'fill-current' : ''}`} />
-                      </button>
-                    </div>
-                  </div>
-
-                  <p className="text-sm text-gray-500 mt-2 line-clamp-2">{tutor.bio || 'Nessuna bio disponibile'}</p>
-
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {tutor.subjects.slice(0, 4).map(s => (
-                      <span key={s.id} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">{s.name}</span>
+                  <h3 className="font-bold text-gray-900 truncate">{tutor.profile?.first_name} {tutor.profile?.last_name?.[0]}.</h3>
+                  <button
+                    onClick={() => tutor.review_count > 0 && openReviews(tutor)}
+                    className={`flex items-center gap-1 mt-0.5 ${tutor.review_count > 0 ? 'hover:opacity-70 cursor-pointer' : 'cursor-default'}`}>
+                    {[1,2,3,4,5].map(i => (
+                      <Star key={i} className={`w-3 h-3 ${i <= Math.round(tutor.avg_rating) ? 'text-yellow-400 fill-current' : 'text-gray-200'}`} />
                     ))}
-                    {tutor.subjects.length > 4 && <span className="text-xs text-gray-400">+{tutor.subjects.length - 4} altri</span>}
-                  </div>
-
-                  <div className="flex items-center justify-between gap-2 mt-2">
-                    <div className="flex flex-wrap gap-1.5">
-                      {tutor.grades.map(g => (
-                        <span key={g} className={`text-xs font-medium px-2.5 py-1 rounded-full border ${
-                          g === 'medie' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                          g === 'superiori' ? 'bg-orange-50 text-orange-700 border-orange-200' :
-                          'bg-indigo-50 text-indigo-700 border-indigo-200'
-                        }`}>
-                          {g === 'medie' ? '🎒 Medie' : g === 'superiori' ? '📚 Superiori' : '🎓 Università'}
-                        </span>
-                      ))}
-                    </div>
-                    <span className={`text-xs px-2.5 py-1 rounded-full flex-shrink-0 ${tutor.lesson_mode === 'online' ? 'bg-blue-50 text-blue-700' : tutor.lesson_mode === 'presenza' ? 'bg-green-50 text-green-700' : 'bg-purple-50 text-purple-700'}`}>
-                      {tutor.lesson_mode === 'online' ? '📺 Online' : tutor.lesson_mode === 'presenza' ? '📍 Presenza' : '🔀 Ibrido'}
+                    <span className="text-xs text-gray-500 ml-1">
+                      {tutor.avg_rating > 0 ? tutor.avg_rating.toFixed(1) : 'Nessuna recensione'}{tutor.review_count > 0 ? ` (${tutor.review_count})` : ''}
                     </span>
-                  </div>
+                    {tutor.review_count > 0 && <span className="text-xs text-gray-400 ml-0.5">›</span>}
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  {tutor.distance !== undefined && (
+                    <span className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded-full font-medium">
+                      📍 {tutor.distance.toFixed(1)}km
+                    </span>
+                  )}
+                  <button onClick={() => toggleFavorite(tutor.id, tutor.is_favorite)}
+                    className={`p-2 rounded-xl transition-all ${tutor.is_favorite ? 'text-pink-500 bg-pink-50' : 'text-gray-400 hover:bg-gray-100'}`}>
+                    <Heart className={`w-4 h-4 ${tutor.is_favorite ? 'fill-current' : ''}`} />
+                  </button>
                 </div>
               </div>
 
+              {/* Bio — piena larghezza */}
+              <p className="text-sm text-gray-500 mt-3 line-clamp-2 text-left">{tutor.bio || 'Nessuna bio disponibile'}</p>
+
+              {/* Chips materie */}
+              <div className="flex flex-wrap gap-1.5 mt-3">
+                {tutor.subjects.slice(0, 4).map(s => (
+                  <span key={s.id} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">{s.name}</span>
+                ))}
+                {tutor.subjects.length > 4 && <span className="text-xs text-gray-400 self-center">+{tutor.subjects.length - 4}</span>}
+              </div>
+
+              {/* Chips grado + modalità — tutto in un'unica riga wrappabile */}
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {tutor.grades.map(g => (
+                  <span key={g} className={`text-xs font-medium px-2.5 py-1 rounded-full border ${
+                    g === 'medie' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                    g === 'superiori' ? 'bg-orange-50 text-orange-700 border-orange-200' :
+                    'bg-indigo-50 text-indigo-700 border-indigo-200'
+                  }`}>
+                    {g === 'medie' ? '🎒 Medie' : g === 'superiori' ? '📚 Superiori' : '🎓 Università'}
+                  </span>
+                ))}
+                <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                  tutor.lesson_mode === 'online' ? 'bg-blue-50 text-blue-700' :
+                  tutor.lesson_mode === 'presenza' ? 'bg-green-50 text-green-700' :
+                  'bg-purple-50 text-purple-700'
+                }`}>
+                  {tutor.lesson_mode === 'online' ? '📺 Online' : tutor.lesson_mode === 'presenza' ? '📍 Presenza' : '🔀 Ibrido'}
+                </span>
+              </div>
+
+              {/* Azioni */}
               <div className="flex items-center gap-3 mt-4">
                 <button onClick={() => expandTutor(tutor)}
                   className="flex items-center gap-2 text-sm font-semibold text-black hover:text-gray-700 transition-colors">
