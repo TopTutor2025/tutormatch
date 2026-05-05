@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Send, MessageSquare, Headphones, ArrowLeft } from 'lucide-react'
+import { Send, MessageSquare, Headphones, ArrowLeft, ImagePlus, Download, X, Loader2 } from 'lucide-react'
 import type { Conversation, Message, Profile } from '@/types/database'
 
 interface Props {
@@ -17,7 +17,11 @@ export default function ChatInterface({ userId, userRole }: Props) {
   const [newMessage, setNewMessage] = useState('')
   const [sending, setSending] = useState(false)
   const [mobileView, setMobileView] = useState<'list' | 'chat'>('list')
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [uploadingImage, setUploadingImage] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { loadConversations() }, [])
 
@@ -51,11 +55,55 @@ export default function ChatInterface({ userId, userRole }: Props) {
     await supabase.from('messages').update({ read: true }).eq('conversation_id', convId).neq('sender_id', userId)
   }
 
+  function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) { alert('Puoi caricare solo immagini.'); return }
+    if (file.size > 8 * 1024 * 1024) { alert('Immagine troppo grande. Massimo 8MB.'); return }
+    setImageFile(file)
+    setImagePreview(URL.createObjectURL(file))
+  }
+
+  function removeImage() {
+    setImageFile(null)
+    setImagePreview(null)
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
   async function sendMessage() {
-    if (!newMessage.trim() || !activeConv) return
+    if (!activeConv) return
+    const hasText = newMessage.trim().length > 0
+    const hasImage = !!imageFile
+    if (!hasText && !hasImage) return
+
     setSending(true)
-    await supabase.from('messages').insert({ conversation_id: activeConv, sender_id: userId, content: newMessage.trim() })
+    let image_url: string | null = null
+
+    if (hasImage && imageFile) {
+      setUploadingImage(true)
+      const ext = imageFile.name.split('.').pop()
+      const path = `${activeConv}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('chat-images').upload(path, imageFile, { upsert: false })
+      setUploadingImage(false)
+      if (uploadError) {
+        alert(`Errore caricamento immagine: ${uploadError.message}`)
+        setSending(false)
+        return
+      }
+      const { data: { publicUrl } } = supabase.storage.from('chat-images').getPublicUrl(uploadData.path)
+      image_url = publicUrl
+    }
+
+    await supabase.from('messages').insert({
+      conversation_id: activeConv,
+      sender_id: userId,
+      content: hasText ? newMessage.trim() : null,
+      image_url,
+    })
+
     setNewMessage('')
+    removeImage()
     setSending(false)
   }
 
@@ -97,7 +145,7 @@ export default function ChatInterface({ userId, userRole }: Props) {
     <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden" style={{ height: 'calc(100vh - 200px)', minHeight: '500px' }}>
       <div className="flex h-full">
 
-        {/* Sidebar conversazioni — piena larghezza su mobile quando mobileView=list */}
+        {/* Sidebar conversazioni */}
         <div className={`border-r border-gray-100 flex-col flex-shrink-0 w-full md:w-72
           ${mobileView === 'chat' ? 'hidden md:flex' : 'flex'}`}>
           <div className="p-4 border-b border-gray-100">
@@ -143,9 +191,8 @@ export default function ChatInterface({ userId, userRole }: Props) {
           )}
         </div>
 
-        {/* Area messaggi — piena larghezza su mobile quando mobileView=chat */}
-        <div className={`flex-1 flex-col min-w-0
-          ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
+        {/* Area messaggi */}
+        <div className={`flex-1 flex-col min-w-0 ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}`}>
           {!activeConv ? (
             <div className="flex-1 flex items-center justify-center text-gray-400">
               <div className="text-center">
@@ -162,9 +209,7 @@ export default function ChatInterface({ userId, userRole }: Props) {
                 const isSupport = conv?.is_support
                 return (
                   <div className="p-3 md:p-4 border-b border-gray-100 bg-gray-50 flex items-center gap-2 md:gap-3">
-                    {/* Bottone indietro — solo mobile */}
-                    <button
-                      onClick={() => setMobileView('list')}
+                    <button onClick={() => setMobileView('list')}
                       className="md:hidden p-1.5 rounded-xl hover:bg-gray-200 transition-colors flex-shrink-0">
                       <ArrowLeft className="w-4 h-4 text-gray-600" />
                     </button>
@@ -185,13 +230,56 @@ export default function ChatInterface({ userId, userRole }: Props) {
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.map((msg: any) => {
                   const isOwn = msg.sender_id === userId
+                  const isExpired = msg.image_url === null && !msg.content
+
                   return (
                     <div key={msg.id} className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-[80%] md:max-w-[70%] rounded-2xl px-4 py-3 ${isOwn ? 'bg-black text-white rounded-br-sm' : 'bg-gray-100 text-gray-900 rounded-bl-sm'}`}>
-                        <p className="text-sm leading-relaxed">{msg.content}</p>
-                        <p className="text-xs mt-1 text-gray-400">
-                          {new Date(msg.created_at).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}
-                        </p>
+                      <div className={`max-w-[80%] md:max-w-[70%] rounded-2xl ${isOwn ? 'bg-black text-white rounded-br-sm' : 'bg-gray-100 text-gray-900 rounded-bl-sm'}`}>
+
+                        {/* Immagine */}
+                        {msg.image_url && (
+                          <div className="relative group">
+                            <img
+                              src={msg.image_url}
+                              alt="Immagine condivisa"
+                              className="rounded-2xl max-w-full max-h-64 object-cover cursor-pointer"
+                              onClick={() => window.open(msg.image_url, '_blank')}
+                            />
+                            <a
+                              href={msg.image_url}
+                              download
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={e => e.stopPropagation()}
+                              className="absolute top-2 right-2 bg-black/60 text-white rounded-xl p-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                              title="Scarica immagine"
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                            </a>
+                          </div>
+                        )}
+
+                        {/* Immagine scaduta */}
+                        {isExpired && (
+                          <div className={`px-4 py-3 text-xs italic ${isOwn ? 'text-gray-400' : 'text-gray-400'}`}>
+                            🖼️ Immagine non più disponibile (scaduta dopo 7 giorni)
+                          </div>
+                        )}
+
+                        {/* Testo */}
+                        {msg.content && (
+                          <div className="px-4 py-3">
+                            <p className="text-sm leading-relaxed">{msg.content}</p>
+                          </div>
+                        )}
+
+                        {/* Timestamp */}
+                        <div className={`px-4 pb-2 ${msg.image_url && !msg.content ? 'pt-1' : 'pt-0'}`}>
+                          <p className={`text-xs ${isOwn ? 'text-gray-400' : 'text-gray-400'}`}>
+                            {new Date(msg.created_at).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}
+                          </p>
+                        </div>
+
                       </div>
                     </div>
                   )
@@ -199,9 +287,39 @@ export default function ChatInterface({ userId, userRole }: Props) {
                 <div ref={messagesEndRef} />
               </div>
 
+              {/* Preview immagine selezionata */}
+              {imagePreview && (
+                <div className="px-3 md:px-4 pt-2">
+                  <div className="relative inline-block">
+                    <img src={imagePreview} alt="Anteprima" className="h-20 rounded-xl object-cover border border-gray-200" />
+                    <button onClick={removeImage}
+                      className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Input */}
               <div className="p-3 md:p-4 border-t border-gray-100">
-                <div className="flex gap-2 md:gap-3">
+                <div className="flex gap-2 md:gap-3 items-end">
+                  {/* Bottone immagine */}
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={sending}
+                    className="w-10 h-10 flex items-center justify-center rounded-2xl border border-gray-200 text-gray-400 hover:text-gray-700 hover:border-gray-400 transition-colors flex-shrink-0 disabled:opacity-40"
+                    title="Allega immagine"
+                  >
+                    {uploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageSelect}
+                    className="hidden"
+                  />
+
                   <input
                     type="text"
                     value={newMessage}
@@ -210,11 +328,12 @@ export default function ChatInterface({ userId, userRole }: Props) {
                     placeholder="Scrivi un messaggio..."
                     className="flex-1 border border-gray-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-gray-900 transition-all"
                   />
-                  <button onClick={sendMessage} disabled={!newMessage.trim() || sending}
+                  <button onClick={sendMessage} disabled={(!newMessage.trim() && !imageFile) || sending}
                     className="w-10 h-10 bg-black text-white rounded-2xl flex items-center justify-center hover:bg-gray-800 transition-colors disabled:opacity-40 flex-shrink-0">
-                    <Send className="w-4 h-4" />
+                    {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                   </button>
                 </div>
+                <p className="text-xs text-gray-400 mt-1.5 ml-1">Le immagini vengono eliminate automaticamente dopo 7 giorni</p>
               </div>
             </>
           )}

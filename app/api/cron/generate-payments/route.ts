@@ -16,8 +16,39 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Scade gli abbonamenti con expires_at passato (safety net, Stripe gestisce via webhook)
+    // Scade gli abbonamenti con expires_at passato (safety net)
     await supabaseAdmin.rpc('expire_subscriptions')
+
+    // Pulizia immagini chat più vecchie di 7 giorni
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+    const { data: oldImages } = await supabaseAdmin
+      .from('messages')
+      .select('id, image_url')
+      .not('image_url', 'is', null)
+      .lt('created_at', sevenDaysAgo)
+
+    if (oldImages && oldImages.length > 0) {
+      // Estrai i path dallo storage URL ed elimina i file
+      const paths = oldImages
+        .map(m => {
+          try {
+            const url = new URL(m.image_url)
+            // Il path nello storage è dopo /object/public/chat-images/
+            const parts = url.pathname.split('/chat-images/')
+            return parts[1] || null
+          } catch { return null }
+        })
+        .filter(Boolean) as string[]
+
+      if (paths.length > 0) {
+        await supabaseAdmin.storage.from('chat-images').remove(paths)
+      }
+
+      // Svuota image_url nei messaggi (content rimane se presente)
+      const ids = oldImages.map(m => m.id)
+      await supabaseAdmin.from('messages').update({ image_url: null }).in('id', ids)
+      console.log(`[cron] Eliminate ${paths.length} immagini chat scadute`)
+    }
 
     const { error } = await supabaseAdmin.rpc('generate_monthly_payments')
 
