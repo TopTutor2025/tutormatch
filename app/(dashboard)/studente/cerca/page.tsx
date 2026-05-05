@@ -1,8 +1,9 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Search, MapPin, Star, Heart, X, ChevronDown, ChevronUp } from 'lucide-react'
+import { Search, MapPin, Star, Heart, X, ChevronDown, ChevronUp, MessageSquare } from 'lucide-react'
 import { getDistanceKm, GRADE_LABELS, formatTime, formatDate, generateMeetLink, isSlotPast, isSlotTooSoon } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
 import Button from '@/components/ui/Button'
 import type { Subject, TutorProfile, Profile, Booking, Subscription, StudentProfile, CalendarSlot } from '@/types/database'
 
@@ -32,6 +33,7 @@ async function geocodeAddress(address: string): Promise<{ lat: number; lon: numb
 
 export default function CercaTutorPage() {
   const supabase = createClient()
+  const router = useRouter()
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [tutors, setTutors] = useState<TutorCard[]>([])
   const [filtered, setFiltered] = useState<TutorCard[]>([])
@@ -183,6 +185,18 @@ export default function CercaTutorPage() {
       await supabase.from('favorites').insert({ student_id: userId, tutor_id: tutorId })
     }
     setTutors(prev => prev.map(t => t.id === tutorId ? { ...t, is_favorite: !isFav } : t))
+  }
+
+  async function openChat(tutor: TutorCard) {
+    const { data: existing } = await supabase.from('conversations')
+      .select('id').eq('student_id', userId).eq('tutor_id', tutor.id).maybeSingle()
+    if (existing) {
+      router.push(`/studente/chat?conv=${existing.id}`)
+      return
+    }
+    const { data: newConv } = await supabase.from('conversations')
+      .insert({ student_id: userId, tutor_id: tutor.id }).select('id').single()
+    if (newConv) router.push(`/studente/chat?conv=${newConv.id}`)
   }
 
   async function openReviews(tutor: TutorCard) {
@@ -441,6 +455,11 @@ export default function CercaTutorPage() {
                           📍 {tutor.distance.toFixed(1)}km
                         </span>
                       )}
+                      <button onClick={() => openChat(tutor)}
+                        className="p-2 rounded-xl text-gray-400 hover:bg-blue-50 hover:text-blue-600 transition-all"
+                        title="Scrivi al tutor">
+                        <MessageSquare className="w-4 h-4" />
+                      </button>
                       <button onClick={() => toggleFavorite(tutor.id, tutor.is_favorite)}
                         className={`p-2 rounded-xl transition-all ${tutor.is_favorite ? 'text-pink-500 bg-pink-50' : 'text-gray-400 hover:bg-gray-100'}`}>
                         <Heart className={`w-4 h-4 ${tutor.is_favorite ? 'fill-current' : ''}`} />

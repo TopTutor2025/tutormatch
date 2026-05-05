@@ -7,9 +7,10 @@ import type { Conversation, Message, Profile } from '@/types/database'
 interface Props {
   userId: string
   userRole: 'studente' | 'tutor' | 'admin'
+  initialConvId?: string
 }
 
-export default function ChatInterface({ userId, userRole }: Props) {
+export default function ChatInterface({ userId, userRole, initialConvId }: Props) {
   const supabase = createClient()
   const [conversations, setConversations] = useState<any[]>([])
   const [activeConv, setActiveConv] = useState<string | null>(null)
@@ -45,7 +46,9 @@ export default function ChatInterface({ userId, userRole }: Props) {
     else if (userRole === 'tutor') query = query.eq('tutor_id', userId)
     const { data } = await query.order('created_at', { ascending: false })
     setConversations(data || [])
-    if (data && data.length > 0 && !activeConv) setActiveConv(data[0].id)
+    if (data && data.length > 0 && !activeConv) {
+      setActiveConv(initialConvId && data.some(c => c.id === initialConvId) ? initialConvId : data[0].id)
+    }
   }
 
   async function loadMessages(convId: string) {
