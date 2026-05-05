@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -28,20 +28,58 @@ export default function StudentDashboardLayout({ children }: Props) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
+  const userIdRef = useRef<string>('')
+
+  async function loadUnreadCount(userId: string) {
+    const { data: convs } = await supabase.from('conversations').select('id').eq('student_id', userId)
+    if (!convs?.length) { setUnreadCount(0); return }
+    const convIds = convs.map(c => c.id)
+    const { count } = await supabase.from('messages')
+      .select('id', { count: 'exact', head: true })
+      .in('conversation_id', convIds)
+      .eq('read', false)
+      .neq('sender_id', userId)
+    setUnreadCount(count || 0)
+  }
 
   useEffect(() => {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login'); return }
+      userIdRef.current = user.id
       const [{ data: p }, { data: sp }] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', user.id).single(),
         supabase.from('student_profiles').select('*').eq('id', user.id).single(),
       ])
       setProfile(p)
       setStudentProfile(sp)
+      await loadUnreadCount(user.id)
+
+      // Realtime: aggiorna contatore quando arriva un nuovo messaggio
+      const channel = supabase.channel('studente-unread')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' },
+          payload => {
+            if (payload.new.sender_id !== userIdRef.current) {
+              loadUnreadCount(userIdRef.current)
+            }
+          }
+        )
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages' },
+          () => { loadUnreadCount(userIdRef.current) }
+        )
+        .subscribe()
+      return () => { supabase.removeChannel(channel) }
     }
     load()
   }, [])
+
+  // Quando l'utente apre la chat, ricarica il contatore (sarà 0)
+  useEffect(() => {
+    if (pathname.startsWith('/studente/chat') && userIdRef.current) {
+      setTimeout(() => loadUnreadCount(userIdRef.current), 800)
+    }
+  }, [pathname])
 
   async function logout() {
     await supabase.auth.signOut()
@@ -92,7 +130,12 @@ export default function StudentDashboardLayout({ children }: Props) {
                 className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all ${isActive ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}>
                 <item.icon className="w-4 h-4 flex-shrink-0" />
                 {item.label}
-                {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+                {item.href === '/studente/chat' && unreadCount > 0 && (
+                  <span className="ml-auto bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
+                {isActive && unreadCount === 0 && <ChevronRight className="w-4 h-4 ml-auto" />}
               </Link>
             )
           })}
