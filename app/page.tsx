@@ -279,10 +279,16 @@ export default function LandingPage() {
             </div>
             {/* Abbonamento Annuale */}
             <div className="bg-black rounded-3xl p-8 border border-black shadow-lg relative overflow-hidden">
-              <div className="absolute top-4 right-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">Migliore offerta</div>
+              <div className="absolute top-4 right-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">Risparmia 44%</div>
               <h3 className="text-lg font-bold text-white mb-2">Annuale</h3>
-              <div className="text-4xl font-extrabold text-white mb-1">€99,99<span className="text-lg font-normal text-gray-400">/anno</span></div>
-              <p className="text-sm text-gray-400 mb-6">Risparmia €79,89 rispetto al mensile</p>
+              <div className="text-4xl font-extrabold text-white mb-1">
+                €8,33<span className="text-lg font-normal text-gray-400">/mese</span>
+              </div>
+              <p className="text-gray-400 text-sm mb-1">€99,99 fatturati una volta all'anno</p>
+              <div className="flex items-center gap-2 mb-6">
+                <span className="text-gray-500 line-through text-sm">€14,99/mese</span>
+                <span className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full">risparmi €79,89</span>
+              </div>
               <ul className="space-y-3 text-sm text-gray-300">
                 {['Tutto del mensile', 'Valutazioni DSA', 'Supporto dedicato', 'Rimborso ore annullate'].map(f => (
                   <li key={f} className="flex items-center gap-2"><span className="text-pink-400">✓</span>{f}</li>
