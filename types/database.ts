@@ -171,5 +171,7 @@ export interface PricingConfig {
   hour_rate_medie: number
   hour_rate_superiori: number
   hour_rate_universita: number
+  mensile_enabled: boolean
+  annuale_enabled: boolean
   updated_at: string
 }

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Settings, AlertCircle, Save } from 'lucide-react'
+import { Settings, AlertCircle, Save, ToggleLeft, ToggleRight } from 'lucide-react'
 import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { formatCurrency } from '@/lib/utils'
@@ -14,9 +14,13 @@ export default function AdminPrezziPage() {
     subscription_monthly: '', subscription_annual: '',
     hour_rate_medie: '', hour_rate_superiori: '', hour_rate_universita: ''
   })
+  const [mensileEnabled, setMensileEnabled] = useState(true)
+  const [annualeEnabled, setAnnualeEnabled] = useState(true)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [togglingMensile, setTogglingMensile] = useState(false)
+  const [togglingAnnuale, setTogglingAnnuale] = useState(false)
 
   useEffect(() => {
     supabase.from('pricing_config').select('*').single().then(({ data }) => {
@@ -29,17 +33,36 @@ export default function AdminPrezziPage() {
           hour_rate_superiori: data.hour_rate_superiori.toString(),
           hour_rate_universita: data.hour_rate_universita.toString(),
         })
+        setMensileEnabled(data.mensile_enabled ?? true)
+        setAnnualeEnabled(data.annuale_enabled ?? true)
       }
       setLoading(false)
     })
   }, [])
+
+  async function toggleMensile() {
+    if (!pricing) return
+    setTogglingMensile(true)
+    const newVal = !mensileEnabled
+    await supabase.from('pricing_config').update({ mensile_enabled: newVal }).eq('id', pricing.id)
+    setMensileEnabled(newVal)
+    setTogglingMensile(false)
+  }
+
+  async function toggleAnnuale() {
+    if (!pricing) return
+    setTogglingAnnuale(true)
+    const newVal = !annualeEnabled
+    await supabase.from('pricing_config').update({ annuale_enabled: newVal }).eq('id', pricing.id)
+    setAnnualeEnabled(newVal)
+    setTogglingAnnuale(false)
+  }
 
   async function save() {
     setSaving(true)
     const monthly = parseFloat(form.subscription_monthly)
     const annual = parseFloat(form.subscription_annual)
 
-    // Update local pricing_config
     await supabase.from('pricing_config').update({
       subscription_monthly: monthly,
       subscription_annual: annual,
@@ -48,7 +71,6 @@ export default function AdminPrezziPage() {
       hour_rate_universita: parseFloat(form.hour_rate_universita),
     }).eq('id', pricing!.id)
 
-    // Create new Stripe Prices for subscriptions (non-retroactive)
     const res = await fetch('/api/stripe/admin/update-prices', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -70,7 +92,7 @@ export default function AdminPrezziPage() {
     <div className="space-y-8 max-w-2xl">
       <div>
         <h1 className="text-2xl font-bold text-black">Gestione Prezzi</h1>
-        <p className="text-gray-500 mt-1">Modifica i prezzi della piattaforma</p>
+        <p className="text-gray-500 mt-1">Modifica i prezzi e la disponibilità degli abbonamenti</p>
       </div>
 
       <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-3">
@@ -83,10 +105,55 @@ export default function AdminPrezziPage() {
         </div>
       </div>
 
+      {/* Disponibilità abbonamenti */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-8 space-y-5">
+        <h2 className="font-bold text-gray-900 flex items-center gap-2">
+          <ToggleRight className="w-5 h-5" /> Disponibilità abbonamenti
+        </h2>
+        <p className="text-sm text-gray-500 -mt-2">
+          Attiva o disattiva la vendita di ciascun piano. Quando disattivato, gli studenti vedono un messaggio che li indirizza all'altro piano.
+        </p>
+
+        <div className="space-y-4">
+          {/* Toggle mensile */}
+          <div className={`flex items-center justify-between p-4 rounded-2xl border transition-colors ${mensileEnabled ? 'border-gray-200 bg-gray-50' : 'border-orange-200 bg-orange-50'}`}>
+            <div>
+              <p className="font-semibold text-gray-900 text-sm">Piano Mensile — {formatCurrency(pricing?.subscription_monthly || 14.99)}/mese</p>
+              <p className={`text-xs mt-0.5 ${mensileEnabled ? 'text-green-600' : 'text-orange-600'}`}>
+                {mensileEnabled ? '✓ Visibile e acquistabile dagli studenti' : '✗ Nascosto — gli studenti vengono indirizzati al piano Annuale'}
+              </p>
+            </div>
+            <button
+              onClick={toggleMensile}
+              disabled={togglingMensile}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none disabled:opacity-60 ${mensileEnabled ? 'bg-black' : 'bg-gray-300'}`}>
+              <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${mensileEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
+            </button>
+          </div>
+
+          {/* Toggle annuale */}
+          <div className={`flex items-center justify-between p-4 rounded-2xl border transition-colors ${annualeEnabled ? 'border-gray-200 bg-gray-50' : 'border-orange-200 bg-orange-50'}`}>
+            <div>
+              <p className="font-semibold text-gray-900 text-sm">Piano Annuale — {formatCurrency(pricing?.subscription_annual || 99.99)}/anno</p>
+              <p className={`text-xs mt-0.5 ${annualeEnabled ? 'text-green-600' : 'text-orange-600'}`}>
+                {annualeEnabled ? '✓ Visibile e acquistabile dagli studenti' : '✗ Nascosto — gli studenti vengono indirizzati al piano Mensile'}
+              </p>
+            </div>
+            <button
+              onClick={toggleAnnuale}
+              disabled={togglingAnnuale}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none disabled:opacity-60 ${annualeEnabled ? 'bg-black' : 'bg-gray-300'}`}>
+              <span className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${annualeEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Prezzi */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-8 space-y-8">
         <div>
           <h2 className="font-bold text-gray-900 mb-5 flex items-center gap-2">
-            <Settings className="w-5 h-5" /> Abbonamenti
+            <Settings className="w-5 h-5" /> Prezzi abbonamenti
           </h2>
           <div className="grid grid-cols-2 gap-4">
             <div>

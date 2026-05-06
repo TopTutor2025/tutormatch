@@ -148,14 +148,23 @@ export default function AbbonamentoPage() {
                 <li key={f} className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />{f}</li>
               ))}
             </ul>
-            <Button className="w-full" size="lg" loading={redirecting === 'mensile'} onClick={() => goToCheckout('mensile')}>
-              Abbonati · {formatCurrency(pricing?.subscription_monthly || 14.99)}/mese
-            </Button>
+            {pricing?.mensile_enabled !== false ? (
+              <Button className="w-full" size="lg" loading={redirecting === 'mensile'} onClick={() => goToCheckout('mensile')}>
+                Abbonati · {formatCurrency(pricing?.subscription_monthly || 14.99)}/mese
+              </Button>
+            ) : (
+              <div className="w-full rounded-2xl border-2 border-dashed border-gray-200 p-4 text-center space-y-1.5">
+                <p className="text-sm font-semibold text-gray-500">🔒 Non disponibile al momento</p>
+                <p className="text-xs text-gray-400">
+                  Scopri il <span className="font-semibold text-black">piano Annuale</span> — risparmi il 44% rispetto al mensile
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Annuale */}
           <div className="bg-black rounded-3xl p-8 text-white relative overflow-hidden">
-            <div className="absolute top-4 right-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">Risparmia</div>
+            <div className="absolute top-4 right-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">Risparmia 44%</div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
                 <CreditCard className="w-5 h-5 text-white" />
@@ -169,11 +178,20 @@ export default function AbbonamentoPage() {
                 <li key={f} className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-pink-400 flex-shrink-0" />{f}</li>
               ))}
             </ul>
-            <button onClick={() => goToCheckout('annuale')} disabled={!!redirecting}
-              className="w-full bg-white text-black font-bold py-3.5 rounded-2xl hover:bg-gray-100 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
-              {redirecting === 'annuale' && <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />}
-              Abbonati · {formatCurrency(pricing?.subscription_annual || 99.99)}/anno
-            </button>
+            {pricing?.annuale_enabled !== false ? (
+              <button onClick={() => goToCheckout('annuale')} disabled={!!redirecting}
+                className="w-full bg-white text-black font-bold py-3.5 rounded-2xl hover:bg-gray-100 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                {redirecting === 'annuale' && <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />}
+                Abbonati · {formatCurrency(pricing?.subscription_annual || 99.99)}/anno
+              </button>
+            ) : (
+              <div className="w-full rounded-2xl border-2 border-dashed border-white/20 p-4 text-center space-y-1.5">
+                <p className="text-sm font-semibold text-white/70">🔒 Non disponibile al momento</p>
+                <p className="text-xs text-white/50">
+                  Scopri il <span className="font-semibold text-white">piano Mensile</span> — inizia subito senza impegno a lungo termine
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}
