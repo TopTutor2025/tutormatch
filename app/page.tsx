@@ -301,15 +301,15 @@ export default function LandingPage() {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between items-center bg-gray-50 rounded-2xl px-4 py-3">
                   <span className="text-sm font-medium">Medie</span>
-                  <span className="font-bold">€10,00/h</span>
+                  <span className="font-bold">€12,50/h</span>
                 </div>
                 <div className="flex justify-between items-center bg-gray-50 rounded-2xl px-4 py-3">
                   <span className="text-sm font-medium">Superiori</span>
-                  <span className="font-bold">€10,00/h</span>
+                  <span className="font-bold">€12,50/h</span>
                 </div>
                 <div className="flex justify-between items-center bg-pink-50 rounded-2xl px-4 py-3 border border-pink-100">
                   <span className="text-sm font-medium">Università</span>
-                  <span className="font-bold text-pink-700">€12,50/h</span>
+                  <span className="font-bold text-pink-700">€15,00/h</span>
                 </div>
               </div>
               <p className="text-xs text-gray-400">Acquistabili singolarmente, valide con abbonamento attivo</p>
