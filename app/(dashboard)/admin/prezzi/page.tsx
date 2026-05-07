@@ -71,14 +71,19 @@ export default function AdminPrezziPage() {
       hour_rate_universita: parseFloat(form.hour_rate_universita),
     }).eq('id', pricing!.id)
 
-    const res = await fetch('/api/stripe/admin/update-prices', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subscription_monthly: monthly, subscription_annual: annual }),
-    })
-    if (!res.ok) {
-      const { error } = await res.json()
-      alert(`Prezzi salvati in DB ma errore Stripe: ${error}`)
+    // Chiama Stripe solo se sono cambiati i prezzi degli abbonamenti
+    const monthlyChanged = monthly !== pricing?.subscription_monthly
+    const annualChanged = annual !== pricing?.subscription_annual
+    if (monthlyChanged || annualChanged) {
+      const res = await fetch('/api/stripe/admin/update-prices', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscription_monthly: monthly, subscription_annual: annual }),
+      })
+      if (!res.ok) {
+        const { error } = await res.json()
+        alert(`Prezzi salvati in DB ma errore Stripe: ${error}`)
+      }
     }
 
     setSaving(false)
