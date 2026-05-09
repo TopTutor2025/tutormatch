@@ -20,7 +20,11 @@ function getWeekDates(baseDate: Date): Date[] {
 }
 
 function dateKey(d: Date): string {
-  return d.toISOString().split('T')[0]
+  // Usa la data locale (non UTC) per evitare sfasamenti di fuso orario
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
 }
 
 export default function CalendarioTutorPage() {

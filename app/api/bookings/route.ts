@@ -36,6 +36,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    // Aggiorna lo slot (e l'eventuale secondo slot presenza) a "prenotato"
+    await supabaseAdmin.from('calendar_slots').update({ status: 'prenotato' }).eq('id', slot_id)
+    if (second_slot_id) {
+      await supabaseAdmin.from('calendar_slots').update({ status: 'prenotato' }).eq('id', second_slot_id)
+    }
+
     // Invia email di conferma (awaited: Vercel termina il processo dopo la risposta)
     if (booking?.id) {
       await sendConfirmEmail(booking.id)
