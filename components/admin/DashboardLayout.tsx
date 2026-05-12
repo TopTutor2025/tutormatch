@@ -14,6 +14,7 @@ const navItems = [
   { href: '/admin/materie', label: 'Materie', icon: Tag },
   { href: '/admin/prezzi', label: 'Prezzi', icon: Settings },
   { href: '/admin/recensioni', label: 'Recensioni homepage', icon: Star },
+  { href: '/admin/recensioni-tutor', label: 'Recensioni tutor', icon: Star },
   { href: '/admin/chat', label: 'Chat supporto', icon: MessageSquare },
 ]
 
