@@ -739,7 +739,7 @@ export default function CercaTutorPage() {
                       ))}
                     </div>
                     <span className="text-xs text-gray-400">
-                      {r.student?.first_name || 'Studente'} · {new Date(r.created_at).toLocaleDateString('it-IT', { month: 'short', year: 'numeric' })}
+                      {r.author_name || r.student?.first_name || 'Studente'} · {new Date(r.created_at).toLocaleDateString('it-IT', { month: 'short', year: 'numeric' })}
                     </span>
                   </div>
                   {r.comment ? <p className="text-sm text-gray-700 leading-relaxed">{r.comment}</p> : <p className="text-sm text-gray-400 italic">Nessun commento</p>}
