@@ -88,14 +88,13 @@ export default function AdminRecensioniTutorPage() {
   async function addReview() {
     if (!selectedTutor) return
     if (!form.author_name.trim()) { setFormError('Inserisci un nome per la recensione.'); return }
-    if (!form.comment.trim()) { setFormError('Scrivi un commento.'); return }
     setSaving(true); setFormError('')
     const { error } = await supabase.from('reviews').insert({
       tutor_id: selectedTutor.id,
       student_id: null,
       author_name: form.author_name.trim(),
       rating: form.rating,
-      comment: form.comment.trim(),
+      comment: form.comment.trim() || null,
     })
     if (error) { setFormError(error.message); setSaving(false); return }
     setForm(EMPTY_FORM)
