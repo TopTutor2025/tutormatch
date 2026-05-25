@@ -20,6 +20,7 @@ export default function AdminStudentiPage() {
   const [subForm, setSubForm] = useState({ type: 'mensile' })
   const [pricing, setPricing] = useState<any>(null)
   const [studentBookingsMap, setStudentBookingsMap] = useState<Record<string, any[]>>({})
+  const [studentPurchasesMap, setStudentPurchasesMap] = useState<Record<string, any[]>>({})
 
   useEffect(() => {
     loadStudents()
@@ -53,8 +54,18 @@ export default function AdminStudentiPage() {
   async function expandStudent(studentId: string) {
     if (expanded === studentId) { setExpanded(null); return }
     setExpanded(studentId)
-    if (studentBookingsMap[studentId] !== undefined) return
-    const { data: bks } = await supabase.from('bookings').select('*').eq('student_id', studentId).order('created_at', { ascending: false })
+    if (studentBookingsMap[studentId] === undefined) {
+      loadStudentDetails(studentId)
+    }
+  }
+
+  async function loadStudentDetails(studentId: string) {
+    // Carica prenotazioni e acquisti ore in parallelo
+    const [{ data: bks }, { data: purchases }] = await Promise.all([
+      supabase.from('bookings').select('*').eq('student_id', studentId).order('created_at', { ascending: false }),
+      supabase.from('hour_purchases').select('*').eq('student_id', studentId).order('created_at', { ascending: false }),
+    ])
+    setStudentPurchasesMap(m => ({ ...m, [studentId]: purchases || [] }))
     if (!bks?.length) { setStudentBookingsMap(m => ({ ...m, [studentId]: [] })); return }
     const tutorIds = [...new Set(bks.map((b: any) => b.tutor_id))]
     const slotIds = [...new Set([...bks.map((b: any) => b.slot_id), ...bks.map((b: any) => b.second_slot_id).filter(Boolean)])]
@@ -89,8 +100,26 @@ export default function AdminStudentiPage() {
     const current = sp?.[field] || 0
     const newVal = hoursForm.action === 'add' ? current + hoursForm.hours : Math.max(0, current - hoursForm.hours)
     await supabase.from('student_profiles').update({ [field]: newVal }).eq('id', hoursModal.id)
+    // Registra l'acquisto manuale admin nello storico
+    if (hoursForm.action === 'add' && pricing) {
+      const pricePerHour = hoursForm.grade === 'medie' ? pricing.hour_rate_medie : hoursForm.grade === 'superiori' ? pricing.hour_rate_superiori : pricing.hour_rate_universita
+      await supabase.from('hour_purchases').insert({
+        student_id: hoursModal.id,
+        grade: hoursForm.grade,
+        hours: hoursForm.hours,
+        price_per_hour: pricePerHour,
+        total_price: pricePerHour * hoursForm.hours,
+      })
+    }
+    const studentId = hoursModal.id
     setHoursModal(null)
-    loadStudents()
+    await loadStudents()
+    // Ricarica dettagli se lo studente era espanso
+    if (expanded === studentId) {
+      setStudentBookingsMap(m => { const n = { ...m }; delete n[studentId]; return n })
+      setStudentPurchasesMap(m => { const n = { ...m }; delete n[studentId]; return n })
+      loadStudentDetails(studentId)
+    }
   }
 
   async function toggleSubscription(studentId: string, subId: string, currentStatus: string) {
@@ -213,6 +242,35 @@ export default function AdminStudentiPage() {
                         </div>
                       ))}
                     </div>
+
+                    {/* Storico acquisti ore */}
+                    {(() => {
+                      const purchases = studentPurchasesMap[student.id]
+                      if (!purchases) return null
+                      if (purchases.length === 0) return (
+                        <p className="text-xs text-gray-400 mt-2">Nessun acquisto ore registrato</p>
+                      )
+                      const GRADE_IT: Record<string, string> = { medie: 'Medie', superiori: 'Superiori', universita: 'Università' }
+                      return (
+                        <div className="mt-3">
+                          <p className="text-xs font-semibold text-gray-500 mb-2">Storico acquisti ({purchases.length})</p>
+                          <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                            {purchases.map((p: any) => (
+                              <div key={p.id} className="flex items-center justify-between bg-white rounded-xl px-3 py-2 border border-gray-200 text-xs">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-semibold text-gray-800">{p.hours}h</span>
+                                  <span className="text-gray-500">{GRADE_IT[p.grade] || p.grade}</span>
+                                </div>
+                                <div className="flex items-center gap-3 text-gray-400">
+                                  <span>{formatCurrency(p.total_price)}</span>
+                                  <span>{formatDate(p.created_at)}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })()}
                   </div>
 
                   {/* Abbonamenti */}
