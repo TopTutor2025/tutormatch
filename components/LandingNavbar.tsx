@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { MapPin, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 export default function LandingNavbar() {
   const [open, setOpen] = useState(false)
@@ -20,11 +20,12 @@ export default function LandingNavbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${scrolled || open ? 'bg-white/90 backdrop-blur-md' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-          <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${dark ? 'bg-white' : 'bg-black'}`}>
-            <MapPin className={`w-5 h-5 ${dark ? 'text-black' : 'text-white'}`} />
-          </div>
-          <span className={`text-xl font-bold tracking-tight ${dark ? 'text-white' : 'text-black'}`}>Proflive</span>
+        <Link href="/" className="flex items-center flex-shrink-0">
+          <span className="text-2xl font-extrabold tracking-tight">
+            <span className={dark ? 'text-white' : 'text-black'}>prof</span>
+            <span className="text-pink-500">live</span>
+            <span className={dark ? 'text-white' : 'text-black'}>.app</span>
+          </span>
         </Link>
 
         {/* Desktop links */}
