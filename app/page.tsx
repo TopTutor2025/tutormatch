@@ -43,10 +43,10 @@ export default function LandingPage() {
                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Sofia Martinelli" className="w-11 h-11 rounded-xl object-cover flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="font-bold text-gray-900 text-sm">Sofia Martinelli</p>
+                        <p className="font-bold text-gray-900 text-sm truncate flex-1 min-w-0">Sofia Martinelli</p>
                         <span className="text-xs bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Online</span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">Matematica · Fisica · Chimica</p>
+                      <p className="text-xs text-gray-500 mt-0.5 truncate">Matematica · Fisica · Chimica</p>
                       <div className="flex items-center gap-0.5 mt-1">
                         {[1,2,3,4,5].map(i => <span key={i} className="text-yellow-400 text-xs">★</span>)}
                         <span className="text-xs text-gray-400 ml-1">5.0 (48)</span>
@@ -58,10 +58,10 @@ export default function LandingPage() {
                     <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Luca Ferrara" className="w-11 h-11 rounded-xl object-cover flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="font-bold text-gray-900 text-sm">Luca Ferrara</p>
+                        <p className="font-bold text-gray-900 text-sm truncate flex-1 min-w-0">Luca Ferrara</p>
                         <span className="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Presenza</span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">Italiano · Latino · Storia</p>
+                      <p className="text-xs text-gray-500 mt-0.5 truncate">Italiano · Latino · Storia</p>
                       <div className="flex items-center gap-0.5 mt-1">
                         {[1,2,3,4,5].map(i => <span key={i} className={`text-xs ${i <= 4 ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>)}
                         <span className="text-xs text-gray-400 ml-1">4.8 (31)</span>
@@ -110,11 +110,11 @@ export default function LandingPage() {
                 <div className="bg-white rounded-2xl shadow-lg p-5 flex items-center gap-4">
                   <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Sofia Martinelli" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <p className="font-bold text-gray-900">Sofia Martinelli</p>
-                      <span className="text-xs bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-full">Online</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="font-bold text-gray-900 truncate flex-1 min-w-0">Sofia Martinelli</p>
+                      <span className="text-xs bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Online</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-0.5">Matematica · Fisica · Chimica</p>
+                    <p className="text-sm text-gray-500 mt-0.5 truncate">Matematica · Fisica · Chimica</p>
                     <div className="flex items-center gap-1 mt-1">
                       {[1,2,3,4,5].map(i => <span key={i} className="text-yellow-400 text-xs">★</span>)}
                       <span className="text-xs text-gray-400 ml-1">5.0 (48 recensioni)</span>
@@ -126,11 +126,11 @@ export default function LandingPage() {
                 <div className="bg-white rounded-2xl shadow-md p-5 flex items-center gap-4 ml-4">
                   <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Luca Ferrara" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <p className="font-bold text-gray-900">Luca Ferrara</p>
-                      <span className="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full">Presenza</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="font-bold text-gray-900 truncate flex-1 min-w-0">Luca Ferrara</p>
+                      <span className="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Presenza</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-0.5">Italiano · Latino · Storia</p>
+                    <p className="text-sm text-gray-500 mt-0.5 truncate">Italiano · Latino · Storia</p>
                     <div className="flex items-center gap-1 mt-1">
                       {[1,2,3,4,5].map(i => <span key={i} className={`text-xs ${i <= 4 ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>)}
                       <span className="text-xs text-gray-400 ml-1">4.8 (31 recensioni)</span>
@@ -249,11 +249,11 @@ export default function LandingPage() {
                 <div className="bg-white rounded-2xl shadow-lg p-5 flex items-center gap-4">
                   <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Giulia Romano" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <p className="font-bold text-gray-900">Giulia Romano</p>
-                      <span className="text-xs bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-full">Online</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="font-bold text-gray-900 truncate flex-1 min-w-0">Giulia Romano</p>
+                      <span className="text-xs bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Online</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-0.5">Inglese · Spagnolo · Francese</p>
+                    <p className="text-sm text-gray-500 mt-0.5 truncate">Inglese · Spagnolo · Francese</p>
                     <div className="flex items-center gap-1 mt-1">
                       {[1,2,3,4,5].map(i => <span key={i} className="text-yellow-400 text-xs">★</span>)}
                       <span className="text-xs text-gray-400 ml-1">4.9 (52 recensioni)</span>
@@ -265,11 +265,11 @@ export default function LandingPage() {
                 <div className="bg-white rounded-2xl shadow-md p-5 flex items-center gap-4 ml-4">
                   <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Davide Esposito" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <p className="font-bold text-gray-900">Davide Esposito</p>
-                      <span className="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full">Presenza</span>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="font-bold text-gray-900 truncate flex-1 min-w-0">Davide Esposito</p>
+                      <span className="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Presenza</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-0.5">Storia · Filosofia · Latino</p>
+                    <p className="text-sm text-gray-500 mt-0.5 truncate">Storia · Filosofia · Latino</p>
                     <div className="flex items-center gap-1 mt-1">
                       {[1,2,3,4,5].map(i => <span key={i} className={`text-xs ${i <= 4 ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>)}
                       <span className="text-xs text-gray-400 ml-1">4.7 (28 recensioni)</span>
@@ -389,9 +389,9 @@ export default function LandingPage() {
                   Pacchetto unico da 15 ore valide per <strong className="text-white">ogni grado</strong> e utilizzabili <strong className="text-white">senza abbonamento attivo</strong>.
                 </p>
               </div>
-              <div className="text-center sm:text-right flex-shrink-0 sm:pl-6 sm:border-l border-white/10">
+              <div className="flex items-baseline gap-2 sm:flex-col sm:items-end sm:gap-0 flex-shrink-0 w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-white/10 pt-5 sm:pt-0 sm:pl-6">
                 <div className="text-4xl font-extrabold text-white">€300</div>
-                <p className="text-sm text-gray-400 mt-0.5">15 ore · 20€/ora</p>
+                <p className="text-sm text-gray-400 sm:mt-0.5">15 ore · 20€/ora</p>
               </div>
             </div>
           </div>
