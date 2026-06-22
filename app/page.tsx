@@ -350,7 +350,8 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto mt-6 md:mt-8">
             {/* Mensile */}
             <div className="rounded-3xl p-8 bg-white/[0.04] border border-white/10">
-              <h3 className="text-lg font-bold text-white mb-2">Mensile</h3>
+              <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-emerald-400/15 text-emerald-300 px-3 py-1 rounded-full">Abbonamento</span>
+              <h3 className="text-lg font-bold text-white mt-4 mb-2">Mensile</h3>
               <div className="text-4xl font-extrabold text-white mb-1">€14,99<span className="text-lg font-normal text-gray-500">/mese</span></div>
               <p className="text-sm text-gray-400 mb-6">Accesso alla piattaforma per un mese</p>
               <ul className="space-y-3 text-sm text-gray-300">
@@ -362,7 +363,8 @@ export default function LandingPage() {
             {/* Annuale — evidenziato */}
             <div className="relative rounded-3xl p-8 bg-white/[0.06] border border-emerald-400/40 shadow-[0_0_45px_rgba(16,185,129,0.18)] overflow-hidden">
               <div className="absolute top-4 right-4 bg-gradient-to-r from-emerald-400 to-teal-400 text-black text-xs font-bold px-3 py-1 rounded-full">Risparmia 44%</div>
-              <h3 className="text-lg font-bold text-white mb-2">Annuale</h3>
+              <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-emerald-400/15 text-emerald-300 px-3 py-1 rounded-full">Abbonamento</span>
+              <h3 className="text-lg font-bold text-white mt-4 mb-2">Annuale</h3>
               <div className="text-4xl font-extrabold text-white mb-1">€8,33<span className="text-lg font-normal text-gray-500">/mese</span></div>
               <p className="text-gray-400 text-sm mb-1">€99,99 fatturati una volta all'anno</p>
               <div className="flex items-center gap-2 mb-6">
