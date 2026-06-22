@@ -46,6 +46,12 @@ body {
   box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15) !important;
 }
 
+@keyframes chipLineIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.chip-line-anim { animation: chipLineIn 400ms ease-out; }
+
 @keyframes tickerScroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
