@@ -11,14 +11,7 @@ export default function LandingPage() {
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-[#060a08] pt-28 pb-16 px-4 md:pt-32 md:pb-24 md:px-6">
-        {/* Sfondo: griglia a costellazione + bagliori */}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(16,185,129,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.07) 1px, transparent 1px)',
-            backgroundSize: '44px 44px',
-            WebkitMaskImage: 'radial-gradient(ellipse at center, black 35%, transparent 80%)',
-            maskImage: 'radial-gradient(ellipse at center, black 35%, transparent 80%)',
-          }} />
+        {/* Sfondo: bagliori */}
         <div className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full bg-emerald-500/15 blur-[120px] pointer-events-none" />
         <div className="absolute top-1/3 right-0 w-[420px] h-[420px] rounded-full bg-teal-500/10 blur-[120px] pointer-events-none" />
 
