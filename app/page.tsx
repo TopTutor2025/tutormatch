@@ -261,17 +261,8 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                {/* Booking confirmation chip */}
-                <div className="bg-black text-white rounded-2xl p-4 flex items-center gap-3 shadow-xl mx-2">
-                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Video className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold">Lezione confermata!</p>
-                    <p className="text-xs text-white/60">Link videochiamata pronto · Domani 15:00</p>
-                  </div>
-                  <div className="ml-auto w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                </div>
+                {/* Booking confirmation chip animato */}
+                <BookingTicker />
 
                 {/* Floating badge */}
                 <div className="absolute -top-3 right-0 sm:-right-3 bg-white border border-gray-100 shadow-lg rounded-2xl px-4 py-2.5 flex items-center gap-2">
