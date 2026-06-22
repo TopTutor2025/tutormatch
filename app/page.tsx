@@ -3,6 +3,7 @@ import { BookOpen, Video, MapPin, Star, Shield, Clock, ChevronRight, Sparkles, U
 import LandingReviews from '@/components/LandingReviews'
 import LandingNavbar from '@/components/LandingNavbar'
 import LandingSubjects from '@/components/LandingSubjects'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function LandingPage() {
   return (
@@ -533,7 +534,10 @@ export default function LandingPage() {
           </div>
           <div className="border-t border-white/10 pt-6 md:pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-gray-500 text-sm">© 2026 proflive.app · Tutti i diritti riservati.</p>
-            <p className="text-gray-600 text-xs">Designed with ♥ in Italia</p>
+            <div className="flex items-center gap-4">
+              <LanguageSwitcher dropUp />
+              <p className="text-gray-600 text-xs">Designed with ♥ in Italia</p>
+            </div>
           </div>
         </div>
       </footer>

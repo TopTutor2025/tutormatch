@@ -12,7 +12,7 @@ const LANGS: Lang[] = [
   { code: 'es', label: 'Español', flag: 'es' },
 ]
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ dropUp = false }: { dropUp?: boolean }) {
   const [open, setOpen] = useState(false)
   const [current, setCurrent] = useState('it')
   const ref = useRef<HTMLDivElement>(null)
@@ -41,7 +41,7 @@ export default function LanguageSwitcher() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-44 bg-black/90 backdrop-blur-md border border-white/10 rounded-2xl p-1.5 shadow-2xl z-50">
+        <div className={`absolute right-0 w-44 bg-black/90 backdrop-blur-md border border-white/10 rounded-2xl p-1.5 shadow-2xl z-50 ${dropUp ? 'bottom-full mb-2' : 'mt-2'}`}>
           {others.map(l => (
             <button
               key={l.code}

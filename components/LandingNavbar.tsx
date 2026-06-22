@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
-import LanguageSwitcher from './LanguageSwitcher'
 
 export default function LandingNavbar() {
   const [open, setOpen] = useState(false)
@@ -38,7 +37,6 @@ export default function LandingNavbar() {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <LanguageSwitcher />
           <Link href="/login" className="text-sm font-medium transition-colors px-4 py-2 text-gray-200 hover:text-white">
             Accedi
           </Link>
@@ -48,9 +46,8 @@ export default function LandingNavbar() {
         </div>
 
         {/* Mobile: CTA ridotto + hamburger */}
-        <div className="flex md:hidden items-center gap-1">
-          <LanguageSwitcher />
-          <Link href="/login" className="text-sm font-medium px-2 py-2 text-gray-200">
+        <div className="flex md:hidden items-center gap-2">
+          <Link href="/login" className="text-sm font-medium px-3 py-2 text-gray-200">
             Accedi
           </Link>
           <button
