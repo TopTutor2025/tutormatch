@@ -241,32 +241,58 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-transparent rounded-3xl blur-xl" />
-              <div className="relative rounded-3xl p-6 md:p-8 bg-white/[0.04] border border-white/10">
-                <div className="space-y-4">
-                  {/* Simulated tutor cards */}
-                  {[
-                    { name: 'Marco R.', subject: 'Matematica', grade: 'Superiori', rating: 5, reviews: 34, mode: 'Online' },
-                    { name: 'Giulia T.', subject: 'Inglese', grade: 'Università', rating: 5, reviews: 67, mode: 'Online e Presenza' },
-                    { name: 'Andrea B.', subject: 'Fisica', grade: 'Superiori', rating: 4, reviews: 21, mode: 'Online' },
-                  ].map((tutor) => (
-                    <div key={tutor.name} className="bg-white/[0.05] rounded-2xl p-5 border border-white/10">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-black font-bold text-sm">
-                          {tutor.name[0]}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-sm text-white">{tutor.name}</p>
-                          <p className="text-xs text-gray-400">{tutor.subject} · {tutor.grade}</p>
-                        </div>
-                        <div className="ml-auto flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5 text-yellow-400 fill-current" />
-                          <span className="text-xs font-medium text-gray-300">{tutor.rating} ({tutor.reviews})</span>
-                        </div>
-                      </div>
-                      <span className="text-xs bg-white/10 text-gray-300 px-2.5 py-1 rounded-full">{tutor.mode}</span>
+              {/* Background blob (stile hero) */}
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/25 via-teal-500/10 to-transparent rounded-3xl rotate-2 scale-105 blur-xl" />
+
+              <div className="relative p-6 space-y-4">
+                {/* Main tutor card */}
+                <div className="bg-white rounded-2xl shadow-lg p-5 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-300 to-teal-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">S</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="font-bold text-gray-900">Sofia Martinelli</p>
+                      <span className="text-xs bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-full">Online</span>
                     </div>
-                  ))}
+                    <p className="text-sm text-gray-500 mt-0.5">Matematica · Fisica · Chimica</p>
+                    <div className="flex items-center gap-1 mt-1">
+                      {[1,2,3,4,5].map(i => <span key={i} className="text-yellow-400 text-xs">★</span>)}
+                      <span className="text-xs text-gray-400 ml-1">5.0 (48 recensioni)</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Second tutor card */}
+                <div className="bg-white rounded-2xl shadow-md p-5 flex items-center gap-4 ml-4">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">L</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="font-bold text-gray-900">Luca Ferrara</p>
+                      <span className="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full">Presenza</span>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-0.5">Italiano · Latino · Storia</p>
+                    <div className="flex items-center gap-1 mt-1">
+                      {[1,2,3,4,5].map(i => <span key={i} className={`text-xs ${i <= 4 ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>)}
+                      <span className="text-xs text-gray-400 ml-1">4.8 (31 recensioni)</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Booking confirmation chip */}
+                <div className="bg-black text-white rounded-2xl p-4 flex items-center gap-3 shadow-xl mx-2">
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Video className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold">Lezione confermata!</p>
+                    <p className="text-xs text-white/60">Link videochiamata pronto · Domani 15:00</p>
+                  </div>
+                  <div className="ml-auto w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                </div>
+
+                {/* Floating badge */}
+                <div className="absolute -top-3 -right-3 bg-white border border-gray-100 shadow-lg rounded-2xl px-4 py-2.5 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-green-500" />
+                  <span className="text-xs font-bold text-gray-800">Tutor verificati</span>
                 </div>
               </div>
             </div>
