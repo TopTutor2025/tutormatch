@@ -73,7 +73,7 @@ export default function LandingReviews() {
         <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
             Cosa Dicono i{' '}
-            <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">Nostri Clienti</span>
+            <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">Nostri Studenti</span>
           </h2>
           <div className="inline-flex items-center gap-3">
             <div className="flex gap-1">
