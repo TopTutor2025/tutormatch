@@ -5,6 +5,9 @@ import { ChevronLeft, ChevronRight, Megaphone, Users, UserCheck, TrendingUp, Sav
 import Button from '@/components/ui/Button'
 
 type DayRow = { date: string; posts: number; contacts: number }
+type MonthAgg = { month: number; posts: number; contacts: number; clients: number }
+
+const MONTH_LABELS = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic']
 
 function ymd(d: Date): string {
   const y = d.getFullYear()
@@ -20,19 +23,29 @@ function pct(num: number, den: number): string {
 
 export default function AdminMarketingPage() {
   const supabase = createClient()
+  const [view, setView] = useState<'month' | 'year'>('month')
   const [monthBase, setMonthBase] = useState(() => {
     const d = new Date()
     return new Date(d.getFullYear(), d.getMonth(), 1)
   })
+  const [yearBase, setYearBase] = useState(() => new Date().getFullYear())
+
+  // Vista mese
   const [rows, setRows] = useState<DayRow[]>([])
   const [clientsCount, setClientsCount] = useState(0)
+  // Vista anno
+  const [monthsAgg, setMonthsAgg] = useState<MonthAgg[]>([])
+
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [dirty, setDirty] = useState(false)
 
-  useEffect(() => { load() }, [monthBase])
+  useEffect(() => {
+    if (view === 'month') loadMonth()
+    else loadYear()
+  }, [view, monthBase, yearBase])
 
-  async function load() {
+  async function loadMonth() {
     setLoading(true)
     const year = monthBase.getFullYear()
     const month = monthBase.getMonth()
@@ -59,6 +72,30 @@ export default function AdminMarketingPage() {
     setLoading(false)
   }
 
+  async function loadYear() {
+    setLoading(true)
+    const start = new Date(yearBase, 0, 1)
+    const end = new Date(yearBase + 1, 0, 1)
+
+    const [{ data: tracking }, { data: students }] = await Promise.all([
+      supabase.from('ad_tracking').select('*').gte('date', ymd(start)).lt('date', ymd(end)),
+      supabase.from('profiles').select('created_at').eq('role', 'studente')
+        .gte('created_at', start.toISOString()).lt('created_at', end.toISOString()),
+    ])
+
+    const agg: MonthAgg[] = MONTH_LABELS.map((_, i) => ({ month: i, posts: 0, contacts: 0, clients: 0 }))
+    ;(tracking || []).forEach(t => {
+      const m = parseInt(t.date.slice(5, 7)) - 1
+      if (agg[m]) { agg[m].posts += t.posts; agg[m].contacts += t.contacts }
+    })
+    ;(students || []).forEach(s => {
+      const m = new Date(s.created_at).getMonth()
+      if (agg[m]) agg[m].clients += 1
+    })
+    setMonthsAgg(agg)
+    setLoading(false)
+  }
+
   function updateRow(date: string, field: 'posts' | 'contacts', value: number) {
     setRows(prev => prev.map(r => r.date === date ? { ...r, [field]: Math.max(0, value) } : r))
     setDirty(true)
@@ -72,22 +109,36 @@ export default function AdminMarketingPage() {
     if (toUpsert.length) await supabase.from('ad_tracking').upsert(toUpsert, { onConflict: 'date' })
     if (toDelete.length) await supabase.from('ad_tracking').delete().in('date', toDelete)
     setSaving(false)
-    await load()
+    await loadMonth()
   }
 
   function changeMonth(delta: number) {
     setMonthBase(prev => new Date(prev.getFullYear(), prev.getMonth() + delta, 1))
   }
+  function changeYear(delta: number) {
+    setYearBase(prev => prev + delta)
+  }
 
-  const totalPosts = rows.reduce((a, r) => a + r.posts, 0)
-  const totalContacts = rows.reduce((a, r) => a + r.contacts, 0)
-  const maxVal = Math.max(1, ...rows.map(r => Math.max(r.posts, r.contacts)))
+  // Totali (variano in base alla vista)
+  const totalPosts = view === 'month'
+    ? rows.reduce((a, r) => a + r.posts, 0)
+    : monthsAgg.reduce((a, m) => a + m.posts, 0)
+  const totalContacts = view === 'month'
+    ? rows.reduce((a, r) => a + r.contacts, 0)
+    : monthsAgg.reduce((a, m) => a + m.contacts, 0)
+  const totalClients = view === 'month'
+    ? clientsCount
+    : monthsAgg.reduce((a, m) => a + m.clients, 0)
 
+  const maxValMonth = Math.max(1, ...rows.map(r => Math.max(r.posts, r.contacts)))
+  const maxValYear = Math.max(1, ...monthsAgg.map(m => Math.max(m.posts, m.contacts, m.clients)))
+
+  const now = new Date()
   const monthLabel = monthBase.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' })
-  const isCurrentMonth = (() => {
-    const now = new Date()
-    return now.getFullYear() === monthBase.getFullYear() && now.getMonth() === monthBase.getMonth()
-  })()
+  const isCurrentMonth = now.getFullYear() === monthBase.getFullYear() && now.getMonth() === monthBase.getMonth()
+  const isCurrentYear = yearBase >= now.getFullYear()
+
+  const periodSub = view === 'month' ? 'questo mese' : 'questo anno'
 
   return (
     <div className="space-y-6">
@@ -96,16 +147,30 @@ export default function AdminMarketingPage() {
           <h1 className="text-2xl font-bold text-black">Tracciamento pubblicità</h1>
           <p className="text-gray-500 mt-1">Post fatti, contatti ricevuti e clienti chiusi per ogni campagna</p>
         </div>
-        {/* Navigazione mese */}
-        <div className="flex items-center gap-2 bg-white rounded-2xl border border-gray-100 shadow-soft p-1.5">
-          <button onClick={() => changeMonth(-1)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <span className="font-semibold text-sm capitalize min-w-[130px] text-center">{monthLabel}</span>
-          <button onClick={() => changeMonth(1)} disabled={isCurrentMonth}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-            <ChevronRight className="w-5 h-5" />
-          </button>
+        <div className="flex items-center gap-2">
+          {/* Toggle vista */}
+          <div className="flex items-center bg-white rounded-2xl border border-gray-100 shadow-soft p-1.5">
+            {(['month', 'year'] as const).map(v => (
+              <button key={v} onClick={() => setView(v)}
+                className={`px-4 py-1.5 rounded-xl text-sm font-medium transition-all ${view === v ? 'bg-black text-white' : 'text-gray-500 hover:text-black'}`}>
+                {v === 'month' ? 'Mese' : 'Anno'}
+              </button>
+            ))}
+          </div>
+          {/* Navigazione periodo */}
+          <div className="flex items-center gap-2 bg-white rounded-2xl border border-gray-100 shadow-soft p-1.5">
+            <button onClick={() => view === 'month' ? changeMonth(-1) : changeYear(-1)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <span className="font-semibold text-sm capitalize min-w-[110px] text-center">
+              {view === 'month' ? monthLabel : yearBase}
+            </span>
+            <button onClick={() => view === 'month' ? changeMonth(1) : changeYear(1)}
+              disabled={view === 'month' ? isCurrentMonth : isCurrentYear}
+              className="p-2 rounded-xl hover:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -116,10 +181,10 @@ export default function AdminMarketingPage() {
           {/* Stat cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: 'Post fatti', value: totalPosts, sub: 'questo mese', icon: Megaphone, color: 'bg-blue-50 text-blue-700' },
-              { label: 'Contatti ricevuti', value: totalContacts, sub: 'questo mese', icon: Users, color: 'bg-purple-50 text-purple-700' },
-              { label: 'Clienti chiusi', value: clientsCount, sub: 'iscrizioni studenti', icon: UserCheck, color: 'bg-pink-50 text-pink-700' },
-              { label: 'Conversione totale', value: pct(clientsCount, totalPosts), sub: 'clienti / post', icon: TrendingUp, color: 'bg-green-50 text-green-700' },
+              { label: 'Post fatti', value: totalPosts, sub: periodSub, icon: Megaphone, color: 'bg-blue-50 text-blue-700' },
+              { label: 'Contatti ricevuti', value: totalContacts, sub: periodSub, icon: Users, color: 'bg-purple-50 text-purple-700' },
+              { label: 'Clienti chiusi', value: totalClients, sub: 'iscrizioni studenti', icon: UserCheck, color: 'bg-pink-50 text-pink-700' },
+              { label: 'Conversione totale', value: pct(totalClients, totalPosts), sub: 'clienti / post', icon: TrendingUp, color: 'bg-green-50 text-green-700' },
             ].map(card => (
               <div key={card.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-soft">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${card.color}`}>
@@ -134,12 +199,12 @@ export default function AdminMarketingPage() {
 
           {/* Funnel / tassi */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-5">
-            <p className="font-semibold text-sm mb-4">Funnel di conversione (mese)</p>
+            <p className="font-semibold text-sm mb-4">Funnel di conversione ({view === 'month' ? 'mese' : 'anno'})</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
                 { label: 'Contatti per post', value: pct(totalContacts, totalPosts), detail: `${totalContacts} contatti / ${totalPosts} post` },
-                { label: 'Conversione contatti', value: pct(clientsCount, totalContacts), detail: `${clientsCount} clienti / ${totalContacts} contatti` },
-                { label: 'Conversione totale', value: pct(clientsCount, totalPosts), detail: `${clientsCount} clienti / ${totalPosts} post` },
+                { label: 'Conversione contatti', value: pct(totalClients, totalContacts), detail: `${totalClients} clienti / ${totalContacts} contatti` },
+                { label: 'Conversione totale', value: pct(totalClients, totalPosts), detail: `${totalClients} clienti / ${totalPosts} post` },
               ].map(t => (
                 <div key={t.label} className="bg-gray-50 rounded-xl p-4 text-center">
                   <p className="text-2xl font-extrabold text-black">{t.value}</p>
@@ -150,41 +215,67 @@ export default function AdminMarketingPage() {
             </div>
           </div>
 
-          {/* Grafico giornaliero */}
+          {/* Grafico */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-5">
             <div className="flex items-center justify-between mb-4">
-              <p className="font-semibold text-sm">Andamento giornaliero</p>
-              <div className="flex items-center gap-4 text-xs">
+              <p className="font-semibold text-sm">{view === 'month' ? 'Andamento giornaliero' : 'Andamento mensile'}</p>
+              <div className="flex items-center gap-4 text-xs flex-wrap">
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-blue-500" /> Post</span>
                 <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-purple-500" /> Contatti</span>
+                {view === 'year' && <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-pink-500" /> Clienti</span>}
               </div>
             </div>
-            {totalPosts === 0 && totalContacts === 0 ? (
-              <p className="text-sm text-gray-400 text-center py-10">Nessun dato per questo mese. Inserisci i dati qui sotto.</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <div className="flex items-end gap-1.5 h-44 min-w-max pb-1">
-                  {rows.map(r => {
-                    const day = parseInt(r.date.slice(8, 10))
-                    return (
-                      <div key={r.date} className="flex flex-col items-center gap-1 flex-shrink-0">
-                        <div className="flex items-end gap-0.5 h-36">
-                          <div title={`${r.posts} post`} style={{ height: `${(r.posts / maxVal) * 100}%` }}
-                            className="w-2.5 bg-blue-500 rounded-t min-h-[2px]" />
-                          <div title={`${r.contacts} contatti`} style={{ height: `${(r.contacts / maxVal) * 100}%` }}
-                            className="w-2.5 bg-purple-500 rounded-t min-h-[2px]" />
+
+            {view === 'month' ? (
+              totalPosts === 0 && totalContacts === 0 ? (
+                <p className="text-sm text-gray-400 text-center py-10">Nessun dato per questo mese. Inserisci i dati qui sotto.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <div className="flex items-end gap-1.5 h-44 min-w-max pb-1">
+                    {rows.map(r => {
+                      const day = parseInt(r.date.slice(8, 10))
+                      return (
+                        <div key={r.date} className="flex flex-col items-center gap-1 flex-shrink-0">
+                          <div className="flex items-end gap-0.5 h-36">
+                            <div title={`${r.posts} post`} style={{ height: `${(r.posts / maxValMonth) * 100}%` }}
+                              className="w-2.5 bg-blue-500 rounded-t min-h-[2px]" />
+                            <div title={`${r.contacts} contatti`} style={{ height: `${(r.contacts / maxValMonth) * 100}%` }}
+                              className="w-2.5 bg-purple-500 rounded-t min-h-[2px]" />
+                          </div>
+                          <span className="text-[9px] text-gray-400">{day}</span>
                         </div>
-                        <span className="text-[9px] text-gray-400">{day}</span>
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                  </div>
                 </div>
-              </div>
+              )
+            ) : (
+              totalPosts === 0 && totalContacts === 0 && totalClients === 0 ? (
+                <p className="text-sm text-gray-400 text-center py-10">Nessun dato per questo anno.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <div className="flex items-end justify-between gap-2 h-52 min-w-[560px] pb-1">
+                    {monthsAgg.map(m => (
+                      <div key={m.month} className="flex flex-col items-center gap-1 flex-1">
+                        <div className="flex items-end justify-center gap-1 h-40 w-full">
+                          <div title={`${m.posts} post`} style={{ height: `${(m.posts / maxValYear) * 100}%` }}
+                            className="w-3 bg-blue-500 rounded-t min-h-[2px]" />
+                          <div title={`${m.contacts} contatti`} style={{ height: `${(m.contacts / maxValYear) * 100}%` }}
+                            className="w-3 bg-purple-500 rounded-t min-h-[2px]" />
+                          <div title={`${m.clients} clienti`} style={{ height: `${(m.clients / maxValYear) * 100}%` }}
+                            className="w-3 bg-pink-500 rounded-t min-h-[2px]" />
+                        </div>
+                        <span className="text-[10px] text-gray-400">{MONTH_LABELS[m.month]}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
             )}
           </div>
 
-          {/* Inserimento dati di oggi (solo mese corrente) */}
-          {isCurrentMonth ? (() => {
+          {/* Inserimento dati di oggi (solo vista mese, mese corrente) */}
+          {view === 'month' && (isCurrentMonth ? (() => {
             const todayStr = ymd(new Date())
             const today = rows.find(r => r.date === todayStr)
             if (!today) return null
@@ -219,7 +310,7 @@ export default function AdminMarketingPage() {
             )
           })() : (
             <p className="text-sm text-gray-400 text-center py-4">L'inserimento dati è disponibile solo per la giornata corrente. Torna al mese attuale per inserire i dati di oggi.</p>
-          )}
+          ))}
         </>
       )}
     </div>
