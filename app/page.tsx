@@ -29,9 +29,9 @@ export default function LandingPage() {
                 <br />
                 <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">perfetto per te</span>
               </h1>
-              <p className="text-base md:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl mx-auto lg:mx-0">
-                <span className="text-emerald-400 font-bold">20+ tutor verificati</span>
-                <span className="text-gray-400"> | Online e in presenza | Medie, Superiori e Università</span>
+              <p className="text-base md:text-xl text-gray-400 leading-relaxed mb-6 md:mb-10 max-w-xl mx-auto lg:mx-0">
+                Trova il tutor giusto in pochi minuti e fai decollare i tuoi voti.{' '}
+                <span className="text-emerald-400 font-semibold">La prima lezione di prova è a soli 15€</span>, online e senza abbonamento.
               </p>
 
               {/* Visual — mobile only, shown inline after description */}
