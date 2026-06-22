@@ -22,6 +22,13 @@ export async function POST(request: NextRequest) {
     const { student_id, tutor_id, slot_id, subject_id, grade, mode, topic, address, hours_used } = await request.json()
 
     const meet_link = mode === 'online' ? generateMeetLink() : null
+    const hoursNeeded = hours_used ?? 1
+
+    // Priorità ore spot: se lo studente ha abbastanza ore spot le usa, altrimenti quelle del grado
+    const gradeField = grade === 'medie' ? 'hour_credits_medie' : grade === 'superiori' ? 'hour_credits_superiori' : 'hour_credits_universita'
+    const { data: sp } = await supabaseAdmin
+      .from('student_profiles').select(`hour_credits_spot, ${gradeField}`).eq('id', student_id).single()
+    const useSpot = !!sp && ((sp as any).hour_credits_spot || 0) >= hoursNeeded
 
     const { error } = await supabaseAdmin.from('bookings').insert({
       student_id, tutor_id, slot_id, subject_id, grade, mode,
@@ -29,7 +36,8 @@ export async function POST(request: NextRequest) {
       address: mode !== 'online' ? address : null,
       meet_link,
       status: 'confermato',
-      hours_used: hours_used ?? 1,
+      hours_used: hoursNeeded,
+      used_spot: useSpot,
     })
 
     if (error) {
