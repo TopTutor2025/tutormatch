@@ -74,8 +74,8 @@ const FAQ_ITEMS = [
         a: 'No, la piattaforma è completamente gratuita per i tutor. Non ci sono commissioni sulle lezioni né costi di iscrizione. Il modello di business di proflive.app si basa sugli abbonamenti degli studenti.',
       },
       {
-        q: 'Le tariffe possono cambiare?',
-        a: 'Sì, l\'amministratore può aggiornare le tariffe per grado scolastico. In caso di variazione riceverai una comunicazione con almeno 30 giorni di preavviso, come previsto dai Termini e Condizioni.',
+        q: 'I compensi possono cambiare?',
+        a: 'I compensi per i tutor sono fissi per grado scolastico (Medie e Superiori 10€/ora, Università 12,50€/ora) e non dipendono dal prezzo pagato dallo studente. proflive.app può rivederli in futuro: in tal caso riceverai una comunicazione con almeno 30 giorni di preavviso, come previsto dai Termini e Condizioni.',
       },
     ],
   },

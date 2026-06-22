@@ -164,7 +164,7 @@ export default function TerminiPage() {
             <section>
               <h2 className="text-lg font-bold text-white mb-3">7. Pagamenti ai Tutor</h2>
               <p className="text-gray-300">
-                I Tutor vengono remunerati mensilmente in base alle lezioni segnate come "Completate". L'importo per lezione è stabilito dall'amministratore nella sezione Prezzi della piattaforma. proflive.app si riserva di aggiornare le tariffe con preavviso di almeno 30 giorni. Il pagamento avviene tramite bonifico bancario entro il 15 del mese successivo al completamento delle lezioni.
+                I Tutor vengono remunerati mensilmente in base alle lezioni segnate come "Completate". Il compenso è <strong className="text-gray-200">fisso per grado scolastico</strong> e indipendente dal prezzo pagato dallo Studente: Scuola Media 10€/ora, Scuola Superiore 10€/ora, Università 12,50€/ora. Per le lezioni in presenza (2 ore) il compenso è il doppio della tariffa oraria corrispondente. proflive.app <strong className="text-gray-200">non applica alcuna commissione</strong> sui compensi dei Tutor e si riserva di aggiornare le tariffe con preavviso di almeno 30 giorni. Il pagamento avviene tramite bonifico bancario entro il 15 del mese successivo al completamento delle lezioni.
               </p>
             </section>
 
