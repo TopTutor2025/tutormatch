@@ -10,33 +10,40 @@ export default function LandingPage() {
       <LandingNavbar />
 
       {/* HERO */}
-      <section className="pt-28 pb-16 px-4 md:pt-32 md:pb-24 md:px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative overflow-hidden bg-[#060a08] pt-28 pb-16 px-4 md:pt-32 md:pb-24 md:px-6">
+        {/* Sfondo: griglia a costellazione + bagliori */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(16,185,129,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.07) 1px, transparent 1px)',
+            backgroundSize: '44px 44px',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 35%, transparent 80%)',
+            maskImage: 'radial-gradient(ellipse at center, black 35%, transparent 80%)',
+          }} />
+        <div className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full bg-emerald-500/15 blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/3 right-0 w-[420px] h-[420px] rounded-full bg-teal-500/10 blur-[120px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
             {/* Left: text */}
             <div className="flex-1 min-w-0 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-pink-50 border border-pink-200 text-pink-700 text-xs font-semibold px-4 py-2 rounded-full mb-6 md:mb-8">
+              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6 md:mb-8 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 shadow-[0_0_25px_rgba(168,85,247,0.55)]">
                 <Sparkles className="w-3.5 h-3.5" />
                 Il marketplace dei tutor più completo d&apos;Italia
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-black leading-[1.05] mb-6 md:mb-8">
-                Trova il tutor
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 md:mb-8">
+                <span className="text-white">Trova il tutor</span>
                 <br />
-                <span className="relative">
-                  <span className="relative z-10">perfetto</span>
-                  <span className="absolute bottom-1 md:bottom-2 left-0 right-0 h-3 md:h-4 bg-pink-200/60 -rotate-1 rounded" />
-                </span>
-                {" "}per te
+                <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">perfetto per te</span>
               </h1>
-              <p className="text-base md:text-xl text-gray-500 leading-relaxed mb-6 md:mb-10 max-w-xl mx-auto lg:mx-0">
-                Lezioni personalizzate online e in presenza. Studenti delle medie, superiori e università.
-                Prenota in pochi clic il tutor che fa per te.
+              <p className="text-base md:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl mx-auto lg:mx-0">
+                <span className="text-emerald-400 font-bold">20+ tutor verificati</span>
+                <span className="text-gray-400"> | Online e in presenza | Medie, Superiori e Università</span>
               </p>
 
               {/* Visual — mobile only, shown inline after description */}
               <div className="block lg:hidden mb-8 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-pink-50 to-white rounded-3xl -rotate-1 scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-transparent rounded-3xl -rotate-1 scale-105 blur-xl" />
                 <div className="relative p-4 space-y-3">
                   {/* Card 1 */}
                   <div className="bg-white rounded-2xl shadow-lg p-4 flex items-center gap-3">
@@ -83,34 +90,27 @@ export default function LandingPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
-                <Link href="/registrazione/studente" className="inline-flex items-center justify-center gap-2 bg-black text-white font-bold text-base px-8 py-4 rounded-2xl hover:bg-gray-800 transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                <Link href="/registrazione/studente" className="inline-flex items-center justify-center gap-2 text-black font-bold text-base px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:shadow-[0_0_45px_rgba(16,185,129,0.75)] hover:-translate-y-0.5 transition-all">
                   Trova un tutor
                   <ChevronRight className="w-5 h-5" />
                 </Link>
-                <Link href="/registrazione/tutor" className="inline-flex items-center justify-center gap-2 border-2 border-black text-black font-bold text-base px-8 py-4 rounded-2xl hover:bg-gray-50 transition-all">
+                <Link href="/registrazione/tutor" className="inline-flex items-center justify-center gap-2 border border-white/20 text-white font-bold text-base px-8 py-4 rounded-2xl hover:bg-white/10 transition-all">
                   Diventa tutor
                 </Link>
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 md:gap-8 mt-10 md:mt-14">
-                {[
-                  { value: '20+', label: 'Tutor verificati' },
-                  { value: '20+', label: 'Materie disponibili' },
-                  { value: '4.9★', label: 'Rating medio' },
-                ].map((s) => (
-                  <div key={s.label} className="text-center lg:text-left">
-                    <div className="text-2xl md:text-3xl font-extrabold text-black">{s.value}</div>
-                    <div className="text-xs md:text-sm text-gray-500 mt-1">{s.label}</div>
-                  </div>
-                ))}
+              {/* Trust row */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8 md:mt-10 text-sm text-gray-400 justify-center lg:justify-start">
+                <span className="inline-flex items-center gap-2"><Shield className="w-4 h-4 text-emerald-400" /> Tutor verificati</span>
+                <span className="inline-flex items-center gap-2"><Star className="w-4 h-4 text-emerald-400" /> Recensioni reali</span>
+                <span className="inline-flex items-center gap-2"><Clock className="w-4 h-4 text-emerald-400" /> Lezione di prova a 15€</span>
               </div>
             </div>
 
             {/* Right: visual — hidden on small screens */}
             <div className="hidden lg:block flex-shrink-0 w-[480px] relative">
               {/* Background blob */}
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-pink-50 to-white rounded-3xl -rotate-2 scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/25 via-teal-500/10 to-transparent rounded-3xl -rotate-2 scale-105 blur-xl" />
 
               <div className="relative p-6 space-y-4">
                 {/* Main tutor card */}
