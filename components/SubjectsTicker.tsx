@@ -8,36 +8,36 @@ import {
 
 interface Subject { id: string; name: string }
 
-type Style = { icon: LucideIcon; grad: string }
+type Style = { icon: LucideIcon; tint: string; color: string }
 
 const SUBJECT_STYLE: Record<string, Style> = {
-  matematica: { icon: Calculator, grad: 'from-blue-400 to-indigo-500' },
-  fisica: { icon: Atom, grad: 'from-cyan-400 to-blue-500' },
-  chimica: { icon: FlaskConical, grad: 'from-emerald-400 to-teal-500' },
-  biologia: { icon: Dna, grad: 'from-green-400 to-emerald-500' },
-  scienze: { icon: Microscope, grad: 'from-lime-400 to-green-500' },
-  italiano: { icon: BookOpen, grad: 'from-rose-400 to-pink-500' },
-  latino: { icon: ScrollText, grad: 'from-amber-400 to-orange-500' },
-  greco: { icon: Landmark, grad: 'from-orange-400 to-amber-500' },
-  storia: { icon: Hourglass, grad: 'from-yellow-400 to-amber-500' },
-  geografia: { icon: Globe, grad: 'from-teal-400 to-cyan-500' },
-  inglese: { icon: Languages, grad: 'from-red-400 to-rose-500' },
-  francese: { icon: Languages, grad: 'from-blue-400 to-indigo-500' },
-  spagnolo: { icon: Languages, grad: 'from-amber-400 to-red-500' },
-  tedesco: { icon: Languages, grad: 'from-yellow-400 to-yellow-600' },
-  informatica: { icon: Code, grad: 'from-violet-400 to-purple-500' },
-  filosofia: { icon: Brain, grad: 'from-fuchsia-400 to-purple-500' },
-  arte: { icon: Palette, grad: 'from-pink-400 to-fuchsia-500' },
-  musica: { icon: Music, grad: 'from-purple-400 to-pink-500' },
-  economia: { icon: TrendingUp, grad: 'from-emerald-400 to-green-500' },
-  diritto: { icon: Scale, grad: 'from-slate-400 to-gray-500' },
+  matematica: { icon: Calculator, tint: 'bg-blue-500/10 border-blue-500/20', color: 'text-blue-400' },
+  fisica: { icon: Atom, tint: 'bg-cyan-500/10 border-cyan-500/20', color: 'text-cyan-400' },
+  chimica: { icon: FlaskConical, tint: 'bg-emerald-500/10 border-emerald-500/20', color: 'text-emerald-400' },
+  biologia: { icon: Dna, tint: 'bg-green-500/10 border-green-500/20', color: 'text-green-400' },
+  scienze: { icon: Microscope, tint: 'bg-lime-500/10 border-lime-500/20', color: 'text-lime-400' },
+  italiano: { icon: BookOpen, tint: 'bg-rose-500/10 border-rose-500/20', color: 'text-rose-400' },
+  latino: { icon: ScrollText, tint: 'bg-amber-500/10 border-amber-500/20', color: 'text-amber-400' },
+  greco: { icon: Landmark, tint: 'bg-orange-500/10 border-orange-500/20', color: 'text-orange-400' },
+  storia: { icon: Hourglass, tint: 'bg-yellow-500/10 border-yellow-500/20', color: 'text-yellow-400' },
+  geografia: { icon: Globe, tint: 'bg-teal-500/10 border-teal-500/20', color: 'text-teal-400' },
+  inglese: { icon: Languages, tint: 'bg-red-500/10 border-red-500/20', color: 'text-red-400' },
+  francese: { icon: Languages, tint: 'bg-indigo-500/10 border-indigo-500/20', color: 'text-indigo-400' },
+  spagnolo: { icon: Languages, tint: 'bg-amber-500/10 border-amber-500/20', color: 'text-amber-400' },
+  tedesco: { icon: Languages, tint: 'bg-yellow-500/10 border-yellow-500/20', color: 'text-yellow-400' },
+  informatica: { icon: Code, tint: 'bg-violet-500/10 border-violet-500/20', color: 'text-violet-400' },
+  filosofia: { icon: Brain, tint: 'bg-fuchsia-500/10 border-fuchsia-500/20', color: 'text-fuchsia-400' },
+  arte: { icon: Palette, tint: 'bg-pink-500/10 border-pink-500/20', color: 'text-pink-400' },
+  musica: { icon: Music, tint: 'bg-purple-500/10 border-purple-500/20', color: 'text-purple-400' },
+  economia: { icon: TrendingUp, tint: 'bg-emerald-500/10 border-emerald-500/20', color: 'text-emerald-400' },
+  diritto: { icon: Scale, tint: 'bg-slate-500/10 border-slate-500/20', color: 'text-slate-300' },
 }
 
 const FALLBACKS: Style[] = [
-  { icon: BookOpen, grad: 'from-emerald-400 to-teal-500' },
-  { icon: Brain, grad: 'from-fuchsia-400 to-purple-500' },
-  { icon: Globe, grad: 'from-cyan-400 to-blue-500' },
-  { icon: ScrollText, grad: 'from-amber-400 to-orange-500' },
+  { icon: BookOpen, tint: 'bg-emerald-500/10 border-emerald-500/20', color: 'text-emerald-400' },
+  { icon: Brain, tint: 'bg-fuchsia-500/10 border-fuchsia-500/20', color: 'text-fuchsia-400' },
+  { icon: Globe, tint: 'bg-cyan-500/10 border-cyan-500/20', color: 'text-cyan-400' },
+  { icon: ScrollText, tint: 'bg-amber-500/10 border-amber-500/20', color: 'text-amber-400' },
 ]
 
 function styleFor(name: string, i: number): Style {
@@ -70,7 +70,7 @@ export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
   return (
     <div
       ref={scrollRef}
-      className="flex gap-3 overflow-x-auto cursor-grab active:cursor-grabbing py-1"
+      className="flex gap-4 overflow-x-auto cursor-grab active:cursor-grabbing py-1"
       style={{
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
@@ -83,17 +83,13 @@ export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
       onMouseLeave={onMouseUp}
     >
       {subjects.map((s, i) => {
-        const { icon: Icon, grad } = styleFor(s.name, i)
+        const { icon: Icon, tint, color } = styleFor(s.name, i)
         return (
-          <div
-            key={s.id}
-            className="group flex-shrink-0 bg-white/[0.05] rounded-2xl border border-white/10 p-4 flex flex-col items-center justify-center gap-2.5 select-none hover:border-emerald-400/40 hover:bg-white/[0.08] hover:-translate-y-1 transition-all duration-300"
-            style={{ width: '128px', height: '128px' }}
-          >
-            <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-              <Icon className="w-6 h-6 text-white" strokeWidth={2} />
+          <div key={s.id} className="flex-shrink-0 flex flex-col items-center gap-2.5 select-none">
+            <div className={`w-32 h-32 md:w-36 md:h-36 rounded-3xl border flex items-center justify-center ${tint} hover:-translate-y-1 hover:brightness-125 transition-all duration-300`}>
+              <Icon className={`w-12 h-12 md:w-14 md:h-14 ${color}`} strokeWidth={1.6} />
             </div>
-            <span className="text-xs font-semibold text-gray-100 text-center leading-tight">{s.name}</span>
+            <span className="text-sm font-medium text-gray-300 text-center w-32 md:w-36 truncate">{s.name}</span>
           </div>
         )
       })}
