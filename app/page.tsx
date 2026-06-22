@@ -40,7 +40,7 @@ export default function LandingPage() {
                 <div className="relative p-4 space-y-3">
                   {/* Card 1 */}
                   <div className="bg-white rounded-2xl shadow-lg p-4 flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-pink-300 to-pink-500 flex items-center justify-center text-white text-base font-bold flex-shrink-0">S</div>
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Sofia Martinelli" className="w-11 h-11 rounded-xl object-cover flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <p className="font-bold text-gray-900 text-sm">Sofia Martinelli</p>
@@ -55,7 +55,7 @@ export default function LandingPage() {
                   </div>
                   {/* Card 2 */}
                   <div className="bg-white rounded-2xl shadow-md p-4 flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center text-white text-base font-bold flex-shrink-0">L</div>
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Luca Ferrara" className="w-11 h-11 rounded-xl object-cover flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <p className="font-bold text-gray-900 text-sm">Luca Ferrara</p>
@@ -108,7 +108,7 @@ export default function LandingPage() {
               <div className="relative p-6 space-y-4">
                 {/* Main tutor card */}
                 <div className="bg-white rounded-2xl shadow-lg p-5 flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-300 to-pink-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">S</div>
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Sofia Martinelli" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className="font-bold text-gray-900">Sofia Martinelli</p>
@@ -124,7 +124,7 @@ export default function LandingPage() {
 
                 {/* Second tutor card */}
                 <div className="bg-white rounded-2xl shadow-md p-5 flex items-center gap-4 ml-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">L</div>
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Luca Ferrara" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className="font-bold text-gray-900">Luca Ferrara</p>
