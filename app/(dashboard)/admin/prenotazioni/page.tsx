@@ -114,8 +114,10 @@ export default function AdminPrenotazioniPage() {
     if (booking.second_slot_id) slotUpdates.push(supabase.from('calendar_slots').update({ status: 'disponibile' }).eq('id', booking.second_slot_id))
     if (slotUpdates.length) await Promise.all(slotUpdates)
     if (refund) {
-      // Se la prenotazione aveva usato ore spot, rimborsa sul contatore spot
-      const field = booking.used_spot
+      // Rimborsa sul contatore corretto in base a come era stata pagata la lezione
+      const field = booking.used_trial
+        ? 'hour_credits_trial'
+        : booking.used_spot
         ? 'hour_credits_spot'
         : booking.grade === 'medie' ? 'hour_credits_medie' : booking.grade === 'superiori' ? 'hour_credits_superiori' : 'hour_credits_universita'
       const { data: sp } = await supabase.from('student_profiles').select(field).eq('id', booking.student_id).single()

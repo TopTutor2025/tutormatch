@@ -232,7 +232,7 @@ export default function AdminStudentiPage() {
                         Gestisci ore
                       </Button>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3">
                       {[
                         { label: 'Medie', field: 'hour_credits_medie' },
                         { label: 'Superiori', field: 'hour_credits_superiori' },
@@ -246,6 +246,10 @@ export default function AdminStudentiPage() {
                       <div className="bg-pink-50 rounded-xl p-3 text-center border border-pink-200">
                         <p className="text-xl font-bold text-pink-600">{sp?.hour_credits_spot || 0}h</p>
                         <p className="text-xs text-pink-500">Spot</p>
+                      </div>
+                      <div className="bg-emerald-50 rounded-xl p-3 text-center border border-emerald-200">
+                        <p className="text-xl font-bold text-emerald-600">{sp?.hour_credits_trial || 0}h</p>
+                        <p className="text-xs text-emerald-600">Prova</p>
                       </div>
                     </div>
 
@@ -262,10 +266,12 @@ export default function AdminStudentiPage() {
                           <p className="text-xs font-semibold text-gray-500 mb-2">Storico acquisti ({purchases.length})</p>
                           <div className="space-y-1.5 max-h-48 overflow-y-auto">
                             {purchases.map((p: any) => (
-                              <div key={p.id} className={`flex items-center justify-between rounded-xl px-3 py-2 border text-xs ${p.is_spot ? 'bg-pink-50 border-pink-200' : 'bg-white border-gray-200'}`}>
+                              <div key={p.id} className={`flex items-center justify-between rounded-xl px-3 py-2 border text-xs ${p.is_trial ? 'bg-emerald-50 border-emerald-200' : p.is_spot ? 'bg-pink-50 border-pink-200' : 'bg-white border-gray-200'}`}>
                                 <div className="flex items-center gap-2">
                                   <span className="font-semibold text-gray-800">{p.hours}h</span>
-                                  {p.is_spot
+                                  {p.is_trial
+                                    ? <span className="text-emerald-600 font-semibold">Prova</span>
+                                    : p.is_spot
                                     ? <span className="text-pink-600 font-semibold">Spot</span>
                                     : <span className="text-gray-500">{GRADE_IT[p.grade] || p.grade}</span>}
                                 </div>

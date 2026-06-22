@@ -254,19 +254,24 @@ export default function CercaTutorPage() {
 
     if (!studentProfile) { setBookingError('Profilo non disponibile. Riprova.'); return }
 
+    // La lezione di prova vale solo online (1 ora)
+    const trialAvailable = bookingMode === 'online' && (studentProfile.hour_credits_trial || 0) >= 1
     const spotAvailable = (studentProfile.hour_credits_spot || 0) >= hoursNeeded
     const subActive = !!subscription && new Date(subscription.expires_at) >= new Date()
     const gradeAvailable = (studentProfile[hoursField as keyof StudentProfile] as number) >= hoursNeeded
 
-    // Priorità: usa prima le ore del pacchetto spot (bypassano l'abbonamento)
+    // Priorità: lezione di prova -> ore spot -> ore del grado (prova e spot bypassano l'abbonamento)
+    let useTrial = false
     let useSpot = false
-    if (spotAvailable) {
+    if (trialAvailable) {
+      useTrial = true
+    } else if (spotAvailable) {
       useSpot = true
     } else if (subActive && gradeAvailable) {
-      useSpot = false
+      // ore del grado
     } else {
       if (!subActive && !spotAvailable) {
-        setBookingError('Per prenotare ti serve un abbonamento attivo con ore del grado, oppure ore del pacchetto spot.'); return
+        setBookingError('Per prenotare ti serve un abbonamento attivo con ore del grado, la lezione di prova oppure ore del pacchetto spot.'); return
       }
       if (subActive && !gradeAvailable) {
         setBookingError(`Ore insufficienti per "${GRADE_LABELS[grade]}". Servono ${hoursNeeded}h: acquista ore o usa il pacchetto spot.`); return
@@ -293,6 +298,7 @@ export default function CercaTutorPage() {
         meet_link: meetLink,
         hours_used: hoursNeeded,
         used_spot: useSpot,
+        used_trial: useTrial,
       }),
     })
 

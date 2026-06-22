@@ -47,6 +47,8 @@ export interface StudentProfile {
   hour_credits_superiori: number
   hour_credits_universita: number
   hour_credits_spot: number
+  hour_credits_trial: number
+  trial_purchased: boolean
   terms_accepted: boolean
   created_at: string
   updated_at: string
@@ -78,6 +80,7 @@ export interface HourPurchase {
   price_per_hour: number
   total_price: number
   is_spot: boolean
+  is_trial: boolean
   created_at: string
 }
 
@@ -106,6 +109,7 @@ export interface Booking {
   meet_link?: string
   hours_used: number
   used_spot: boolean
+  used_trial: boolean
   created_at: string
   updated_at: string
   slot?: CalendarSlot

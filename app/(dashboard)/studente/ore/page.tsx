@@ -71,6 +71,18 @@ export default function OrePage() {
     window.location.href = url
   }
 
+  async function buyTrial() {
+    setRedirecting(true)
+    const res = await fetch('/api/stripe/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'trial' }),
+    })
+    const { url, error } = await res.json()
+    if (error) { alert(error); setRedirecting(false); return }
+    window.location.href = url
+  }
+
   if (loading) return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" /></div>
 
   return (
@@ -183,6 +195,44 @@ export default function OrePage() {
         </div>
       </div>
 
+      {/* Lezione di prova */}
+      <div className="bg-gradient-to-br from-emerald-50 to-white rounded-2xl border-2 border-emerald-200 p-6">
+        <div className="flex flex-col md:flex-row md:items-center gap-6 justify-between">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-bold uppercase tracking-wide bg-emerald-500 text-white px-2 py-0.5 rounded-full">Lezione di prova</span>
+            </div>
+            <h2 className="text-lg font-bold text-gray-900">Prova il servizio con 1 lezione a 15€</h2>
+            <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+              Una lezione di prova <strong>online da 1 ora</strong>, valida per <strong>qualsiasi grado</strong> e prenotabile <strong>senza abbonamento</strong>. Disponibile <strong>una sola volta per account</strong>.
+            </p>
+          </div>
+          <div className="bg-white rounded-2xl border border-emerald-200 p-5 text-center md:w-56 flex-shrink-0">
+            {studentProfile?.trial_purchased ? (
+              (studentProfile?.hour_credits_trial || 0) > 0 ? (
+                <>
+                  <p className="text-base font-bold text-emerald-600">Prova disponibile</p>
+                  <p className="text-xs text-gray-500 mt-1">Prenotala da “Cerca tutor” scegliendo uno slot online</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-base font-bold text-gray-400">Già utilizzata</p>
+                  <p className="text-xs text-gray-400 mt-1">Hai già usato la tua lezione di prova</p>
+                </>
+              )
+            ) : (
+              <>
+                <p className="text-3xl font-extrabold text-emerald-600">{formatCurrency(15)}</p>
+                <p className="text-xs text-gray-500 mt-0.5">1 lezione online</p>
+                <Button className="w-full mt-4" size="lg" loading={redirecting} onClick={buyTrial}>
+                  <Plus className="w-4 h-4" /> Prova ora
+                </Button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Pacchetto Spot */}
       <div className="bg-gradient-to-br from-pink-50 to-white rounded-2xl border-2 border-pink-200 p-6">
         <div className="flex flex-col md:flex-row md:items-center gap-6 justify-between">
@@ -220,10 +270,12 @@ export default function OrePage() {
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   {purchases.map(p => (
-                    <tr key={p.id} className={`transition-colors ${p.is_spot ? 'bg-pink-50 hover:bg-pink-100' : 'hover:bg-gray-50'}`}>
+                    <tr key={p.id} className={`transition-colors ${p.is_trial ? 'bg-emerald-50 hover:bg-emerald-100' : p.is_spot ? 'bg-pink-50 hover:bg-pink-100' : 'hover:bg-gray-50'}`}>
                       <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{formatDate(p.created_at)}</td>
                       <td className="px-4 py-3 font-medium whitespace-nowrap">
-                        {p.is_spot
+                        {p.is_trial
+                          ? <span className="inline-flex items-center gap-1 text-emerald-600 font-semibold">Prova</span>
+                          : p.is_spot
                           ? <span className="inline-flex items-center gap-1 text-pink-600 font-semibold">Spot</span>
                           : (p.grade ? GRADE_LABELS[p.grade] : '—')}
                       </td>

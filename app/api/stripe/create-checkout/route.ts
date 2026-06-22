@@ -20,6 +20,8 @@ export async function POST(request: NextRequest) {
   // Pacchetto spot: valori fissi (15 ore a 20€/h = 300€)
   const SPOT_HOURS = 15
   const SPOT_RATE = 20
+  // Lezione di prova: 1 lezione online a 15€, una sola per account
+  const TRIAL_PRICE = 15
 
   // Get or create Stripe customer
   const { data: sp } = await supabaseAdmin
@@ -117,6 +119,39 @@ export async function POST(request: NextRequest) {
         student_id: user.id,
         hours: String(SPOT_HOURS),
         price_per_hour: String(SPOT_RATE),
+      },
+      success_url: `${appUrl}/studente/ore?success=1`,
+      cancel_url: `${appUrl}/studente/ore`,
+      locale: 'it',
+    })
+    return NextResponse.json({ url: session.url })
+  }
+
+  if (type === 'trial') {
+    // Una sola lezione di prova per account
+    const { data: trialSp } = await supabaseAdmin
+      .from('student_profiles').select('trial_purchased').eq('id', user.id).single()
+    if (trialSp?.trial_purchased) {
+      return NextResponse.json({ error: 'Hai già acquistato la lezione di prova.' }, { status: 400 })
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      mode: 'payment',
+      payment_method_types: ['card'],
+      line_items: [{
+        quantity: 1,
+        price_data: {
+          currency: 'eur',
+          unit_amount: Math.round(TRIAL_PRICE * 100),
+          product_data: {
+            name: 'Lezione di prova (1h online, qualsiasi grado, senza abbonamento)',
+          },
+        },
+      }],
+      metadata: {
+        type: 'trial',
+        student_id: user.id,
       },
       success_url: `${appUrl}/studente/ore?success=1`,
       cancel_url: `${appUrl}/studente/ore`,

@@ -128,6 +128,29 @@ export async function POST(request: NextRequest) {
           else console.log('[webhook] Pacchetto spot aggiunto:', { student_id, hoursNum })
         }
 
+        // Lezione di prova (1h online, una sola per account)
+        if (session.mode === 'payment' && session.metadata?.type === 'trial') {
+          const { student_id } = session.metadata
+
+          const { data: sp } = await supabaseAdmin.from('student_profiles').select('hour_credits_trial, trial_purchased').eq('id', student_id).single()
+          if (sp && !(sp as any).trial_purchased) {
+            const { error } = await supabaseAdmin.from('student_profiles').update({
+              hour_credits_trial: ((sp as any).hour_credits_trial || 0) + 1,
+              trial_purchased: true,
+            }).eq('id', student_id)
+            if (error) console.error('[webhook] Errore update lezione di prova:', error)
+
+            const { error: insError } = await supabaseAdmin.from('hour_purchases').insert({
+              student_id, grade: null, hours: 1, price_per_hour: 15,
+              total_price: 15, is_trial: true,
+            })
+            if (insError) console.error('[webhook] Errore insert hour_purchases prova:', insError)
+            else console.log('[webhook] Lezione di prova aggiunta:', { student_id })
+          } else {
+            console.log('[webhook] Lezione di prova già acquistata, skip:', { student_id })
+          }
+        }
+
         // Abbonamento
         if (session.mode === 'subscription' && session.subscription) {
           const stripeSubId = session.subscription as string
