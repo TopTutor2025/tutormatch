@@ -132,21 +132,21 @@ export default function RegisterTutorPage() {
 
   return (
     <div className="w-full max-w-2xl">
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-soft p-6 sm:p-10">
+      <div className="bg-white/[0.04] rounded-3xl border border-white/10 shadow-2xl backdrop-blur-sm p-6 sm:p-10">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-black text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
             Per tutor
           </div>
-          <h1 className="text-2xl font-bold text-black mb-2">Diventa tutor su Proflive</h1>
-          <p className="text-gray-500 text-sm">Compila il profilo e inizia a ricevere prenotazioni</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Diventa tutor su proflive.app</h1>
+          <p className="text-gray-400 text-sm">Compila il profilo e inizia a ricevere prenotazioni</p>
         </div>
 
         {/* Steps indicator */}
         <div className="flex items-center gap-2 mb-8">
           {[1, 2, 3].map(s => (
             <div key={s} className="flex-1">
-              <div className={`h-1.5 rounded-full transition-all ${s <= step ? 'bg-black' : 'bg-gray-200'}`} />
-              <p className={`text-xs mt-1.5 font-medium ${s === step ? 'text-black' : 'text-gray-400'}`}>
+              <div className={`h-1.5 rounded-full transition-all ${s <= step ? 'bg-gradient-to-r from-emerald-400 to-teal-400' : 'bg-white/10'}`} />
+              <p className={`text-xs mt-1.5 font-medium ${s === step ? 'text-white' : 'text-gray-500'}`}>
                 {s === 1 ? 'Dati personali' : s === 2 ? 'Insegnamento' : 'Documenti'}
               </p>
             </div>
@@ -154,7 +154,7 @@ export default function RegisterTutorPage() {
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-2xl px-4 py-3 mb-6">{error}</div>
+          <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-2xl px-4 py-3 mb-6">{error}</div>
         )}
 
         <form onSubmit={handleSubmit}>
@@ -163,7 +163,7 @@ export default function RegisterTutorPage() {
             <div className="space-y-4">
               {/* Avatar */}
               <div className="flex items-center gap-4">
-                <div className={`w-20 h-20 rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center border-2 ${avatarPreview ? 'border-black' : 'border-dashed border-gray-300'}`}>
+                <div className={`w-20 h-20 rounded-2xl overflow-hidden bg-white/5 flex items-center justify-center border-2 ${avatarPreview ? 'border-emerald-400' : 'border-dashed border-white/20'}`}>
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
@@ -171,7 +171,7 @@ export default function RegisterTutorPage() {
                   )}
                 </div>
                 <div>
-                  <label className="cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl inline-block transition-colors">
+                  <label className="cursor-pointer bg-white/10 hover:bg-white/20 text-white text-sm font-medium px-4 py-2 rounded-xl inline-block transition-colors">
                     Carica foto *
                     <input type="file" accept="image/*" onChange={handleAvatar} className="hidden" />
                   </label>
@@ -207,10 +207,11 @@ export default function RegisterTutorPage() {
               </div>
               <Input label="Conferma password" type="password" placeholder="Ripeti la password" value={form.confirmPassword} onChange={set('confirmPassword')} required />
 
-              <Button type="button" className="w-full mt-2" size="lg" onClick={() => {
+              <Button type="button" size="lg" onClick={() => {
                 if (!form.firstName || !form.email || !form.password || !avatarFile) { setError('Compila tutti i campi obbligatori e carica la foto.'); return }
                 setError(''); setStep(2)
-              }}>
+              }}
+                className="w-full mt-2 !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)]">
                 Continua
               </Button>
             </div>
@@ -220,12 +221,12 @@ export default function RegisterTutorPage() {
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-3">Gradi scolastici *</p>
+                <p className="text-sm font-medium text-gray-300 mb-3">Gradi scolastici *</p>
                 <div className="flex gap-3 flex-wrap">
                   {GRADES.map(g => (
                     <button key={g.value} type="button"
                       onClick={() => toggleGrade(g.value)}
-                      className={`px-4 py-2.5 rounded-2xl text-sm font-medium border transition-all ${selectedGrades.includes(g.value) ? 'bg-black text-white border-black' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}>
+                      className={`px-4 py-2.5 rounded-2xl text-sm font-medium border transition-all ${selectedGrades.includes(g.value) ? 'bg-emerald-400 text-black border-emerald-400' : 'bg-white/5 text-gray-300 border-white/10 hover:border-white/30'}`}>
                       {g.label}
                     </button>
                   ))}
@@ -233,12 +234,12 @@ export default function RegisterTutorPage() {
               </div>
 
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-3">Materie che insegni *</p>
+                <p className="text-sm font-medium text-gray-300 mb-3">Materie che insegni *</p>
                 <div className="flex gap-2 flex-wrap max-h-48 overflow-y-auto">
                   {subjects.map(s => (
                     <button key={s.id} type="button"
                       onClick={() => toggleSubject(s.id)}
-                      className={`px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${selectedSubjects.includes(s.id) ? 'bg-pink-100 text-pink-800 border-pink-300' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}>
+                      className={`px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${selectedSubjects.includes(s.id) ? 'bg-emerald-400/20 text-emerald-200 border-emerald-400/40' : 'bg-white/5 text-gray-300 border-white/10 hover:border-white/30'}`}>
                       {s.name}
                     </button>
                   ))}
@@ -246,12 +247,12 @@ export default function RegisterTutorPage() {
               </div>
 
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-3">Modalità di insegnamento *</p>
+                <p className="text-sm font-medium text-gray-300 mb-3">Modalità di insegnamento *</p>
                 <div className="space-y-2">
                   {MODES.map(m => (
-                    <label key={m.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-2xl border border-gray-200 hover:border-gray-400 transition-all">
-                      <input type="radio" name="mode" value={m.value} checked={form.lessonMode === m.value} onChange={set('lessonMode')} className="accent-black" />
-                      <span className="text-sm font-medium text-gray-700">{m.label}</span>
+                    <label key={m.value} className="flex items-center gap-3 cursor-pointer p-3 rounded-2xl border border-white/10 hover:border-white/30 transition-all">
+                      <input type="radio" name="mode" value={m.value} checked={form.lessonMode === m.value} onChange={set('lessonMode')} className="accent-emerald-400" />
+                      <span className="text-sm font-medium text-gray-200">{m.label}</span>
                     </label>
                   ))}
                 </div>
@@ -265,11 +266,13 @@ export default function RegisterTutorPage() {
               )}
 
               <div className="flex gap-3">
-                <Button type="button" variant="outline" className="flex-1" size="lg" onClick={() => setStep(1)}>Indietro</Button>
-                <Button type="button" className="flex-1" size="lg" onClick={() => {
+                <Button type="button" variant="outline" size="lg" onClick={() => setStep(1)}
+                  className="flex-1 !border-white/20 !text-gray-200 hover:!bg-white/10">Indietro</Button>
+                <Button type="button" size="lg" onClick={() => {
                   if (selectedGrades.length === 0 || selectedSubjects.length === 0) { setError('Seleziona almeno un grado e una materia.'); return }
                   setError(''); setStep(3)
-                }}>Continua</Button>
+                }}
+                  className="flex-1 !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)]">Continua</Button>
               </div>
             </div>
           )}
@@ -280,31 +283,33 @@ export default function RegisterTutorPage() {
               <Input label="Codice Fiscale" placeholder="RSSMRC80A01H501T" value={form.fiscalCode} onChange={set('fiscalCode')} icon={<CreditCard className="w-4 h-4" />} required />
               <Input label="IBAN" placeholder="IT60X0542811101000000123456" value={form.iban} onChange={set('iban')} icon={<Building className="w-4 h-4" />} required />
 
-              <label className="flex items-start gap-3 cursor-pointer p-4 bg-gray-50 rounded-2xl border border-gray-200">
-                <input type="checkbox" checked={ibanConfirmed} onChange={e => setIbanConfirmed(e.target.checked)} className="mt-0.5 accent-black" required />
-                <span className="text-sm text-gray-600">
+              <label className="flex items-start gap-3 cursor-pointer p-4 bg-white/5 rounded-2xl border border-white/10">
+                <input type="checkbox" checked={ibanConfirmed} onChange={e => setIbanConfirmed(e.target.checked)} className="mt-0.5 accent-emerald-400" required />
+                <span className="text-sm text-gray-300">
                   Attesto di essere il titolare del conto bancario indicato e di essere responsabile dei dati inseriti *
                 </span>
               </label>
 
-              <label className="flex items-start gap-3 cursor-pointer p-4 bg-gray-50 rounded-2xl border border-gray-200">
-                <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-black" required />
-                <span className="text-sm text-gray-600">
-                  Accetto i <a href="#" className="text-black font-medium underline">Termini e Condizioni</a> di Proflive per i tutor *
+              <label className="flex items-start gap-3 cursor-pointer p-4 bg-white/5 rounded-2xl border border-white/10">
+                <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-emerald-400" required />
+                <span className="text-sm text-gray-300">
+                  Accetto i <Link href="/termini" target="_blank" className="text-emerald-400 font-medium hover:underline">Termini e Condizioni</Link> di proflive.app per i tutor *
                 </span>
               </label>
 
               <div className="flex gap-3 mt-2">
-                <Button type="button" variant="outline" className="flex-1" size="lg" onClick={() => setStep(2)}>Indietro</Button>
-                <Button type="submit" loading={loading} className="flex-1" size="lg">Completa registrazione</Button>
+                <Button type="button" variant="outline" size="lg" onClick={() => setStep(2)}
+                  className="flex-1 !border-white/20 !text-gray-200 hover:!bg-white/10">Indietro</Button>
+                <Button type="submit" loading={loading} size="lg"
+                  className="flex-1 !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)]">Completa registrazione</Button>
               </div>
             </div>
           )}
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-400 mt-6">
           Hai già un account?{' '}
-          <Link href="/login" className="text-black font-semibold hover:underline">Accedi</Link>
+          <Link href="/login" className="text-emerald-400 font-semibold hover:underline">Accedi</Link>
         </p>
       </div>
     </div>

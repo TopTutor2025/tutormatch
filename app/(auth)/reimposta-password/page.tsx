@@ -44,12 +44,12 @@ export default function ReimpostaPasswordPage() {
   if (done) {
     return (
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-3xl border border-gray-100 shadow-soft p-6 sm:p-10 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+        <div className="bg-white/[0.04] rounded-3xl border border-white/10 shadow-2xl backdrop-blur-sm p-6 sm:p-10 text-center">
+          <div className="w-16 h-16 bg-emerald-400/15 rounded-full flex items-center justify-center mx-auto mb-5">
+            <CheckCircle className="w-8 h-8 text-emerald-400" />
           </div>
-          <h1 className="text-2xl font-bold text-black mb-3">Password aggiornata!</h1>
-          <p className="text-gray-500 text-sm">Verrai reindirizzato al login tra pochi secondi...</p>
+          <h1 className="text-2xl font-bold text-white mb-3">Password aggiornata!</h1>
+          <p className="text-gray-400 text-sm">Verrai reindirizzato al login tra pochi secondi...</p>
         </div>
       </div>
     )
@@ -57,21 +57,21 @@ export default function ReimpostaPasswordPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-soft p-6 sm:p-10">
+      <div className="bg-white/[0.04] rounded-3xl border border-white/10 shadow-2xl backdrop-blur-sm p-6 sm:p-10">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-black mb-2">Nuova password</h1>
-          <p className="text-gray-500 text-sm">Scegli una nuova password per il tuo account.</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Nuova password</h1>
+          <p className="text-gray-400 text-sm">Scegli una nuova password per il tuo account.</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-2xl px-4 py-3 mb-6">
+          <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-2xl px-4 py-3 mb-6">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-gray-700">Nuova password</label>
+            <label className="text-sm font-medium text-gray-300">Nuova password</label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
@@ -89,7 +89,7 @@ export default function ReimpostaPasswordPage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-gray-700">Conferma password</label>
+            <label className="text-sm font-medium text-gray-300">Conferma password</label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
@@ -103,7 +103,8 @@ export default function ReimpostaPasswordPage() {
             </div>
           </div>
 
-          <Button type="submit" loading={loading} className="w-full mt-2" size="lg">
+          <Button type="submit" loading={loading} size="lg"
+            className="w-full mt-2 !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)]">
             Salva nuova password
           </Button>
         </form>

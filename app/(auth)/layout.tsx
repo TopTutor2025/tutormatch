@@ -1,20 +1,25 @@
 export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
-import { MapPin } from 'lucide-react'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <nav className="bg-white border-b border-gray-100 px-6 py-4">
-        <Link href="/" className="flex items-center gap-2 w-fit">
-          <div className="w-8 h-8 bg-black rounded-xl flex items-center justify-center">
-            <MapPin className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-xl font-bold tracking-tight">Proflive</span>
+    <div className="auth-dark min-h-screen bg-[#060a08] flex flex-col relative overflow-hidden">
+      {/* Bagliori */}
+      <div className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full bg-emerald-500/15 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[460px] h-[400px] rounded-full bg-teal-500/10 blur-[130px] pointer-events-none" />
+
+      <nav className="relative z-10 px-5 md:px-6 py-4">
+        <Link href="/" className="flex items-center w-fit">
+          <span className="text-2xl font-extrabold tracking-tight">
+            <span className="text-white">prof</span>
+            <span className="text-pink-500">live</span>
+            <span className="text-white">.app</span>
+          </span>
         </Link>
       </nav>
-      <div className="flex-1 flex items-center justify-center py-8 px-4 sm:py-12 sm:px-6">
+
+      <div className="relative z-10 flex-1 flex items-center justify-center py-8 px-4 sm:py-12 sm:px-6">
         {children}
       </div>
     </div>

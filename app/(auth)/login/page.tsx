@@ -36,14 +36,14 @@ export default function LoginPage() {
 
   return (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-soft p-6 sm:p-10">
+      <div className="bg-white/[0.04] rounded-3xl border border-white/10 shadow-2xl backdrop-blur-sm p-6 sm:p-10">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-black mb-2">Bentornato</h1>
-          <p className="text-gray-500 text-sm">Accedi al tuo account Proflive</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Bentornato</h1>
+          <p className="text-gray-400 text-sm">Accedi al tuo account proflive.app</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-2xl px-4 py-3 mb-6">
+          <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-2xl px-4 py-3 mb-6">
             {error}
           </div>
         )}
@@ -60,8 +60,8 @@ export default function LoginPage() {
           />
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-gray-700">Password</label>
-              <Link href="/password-dimenticata" className="text-xs text-gray-400 hover:text-black transition-colors">
+              <label className="text-sm font-medium text-gray-300">Password</label>
+              <Link href="/password-dimenticata" className="text-xs text-gray-400 hover:text-emerald-400 transition-colors">
                 Password dimenticata?
               </Link>
             </div>
@@ -81,18 +81,19 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <Button type="submit" loading={loading} className="w-full mt-2" size="lg">
+          <Button type="submit" loading={loading} size="lg"
+            className="w-full mt-2 !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)]">
             Accedi
           </Button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-gray-100 space-y-3 text-center text-sm text-gray-500">
+        <div className="mt-8 pt-6 border-t border-white/10 space-y-3 text-center text-sm text-gray-400">
           <p>Non hai un account?</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link href="/registrazione/studente" className="flex-1 border border-gray-200 text-gray-700 font-medium py-2.5 rounded-2xl hover:bg-gray-50 transition-colors text-center">
+            <Link href="/registrazione/studente" className="flex-1 border border-white/15 text-gray-200 font-medium py-2.5 rounded-2xl hover:bg-white/10 transition-colors text-center">
               Iscriviti come studente
             </Link>
-            <Link href="/registrazione/tutor" className="flex-1 border border-gray-200 text-gray-700 font-medium py-2.5 rounded-2xl hover:bg-gray-50 transition-colors text-center">
+            <Link href="/registrazione/tutor" className="flex-1 border border-white/15 text-gray-200 font-medium py-2.5 rounded-2xl hover:bg-white/10 transition-colors text-center">
               Iscriviti come tutor
             </Link>
           </div>

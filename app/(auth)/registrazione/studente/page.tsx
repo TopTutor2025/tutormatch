@@ -45,17 +45,17 @@ export default function RegisterStudentPage() {
 
   return (
     <div className="w-full max-w-lg">
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-soft p-6 sm:p-10">
+      <div className="bg-white/[0.04] rounded-3xl border border-white/10 shadow-2xl backdrop-blur-sm p-6 sm:p-10">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-pink-50 text-pink-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+          <div className="inline-flex items-center gap-2 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
             Per studenti
           </div>
-          <h1 className="text-2xl font-bold text-black mb-2">Crea il tuo account</h1>
-          <p className="text-gray-500 text-sm">Inizia a trovare il tuo tutor ideale</p>
+          <h1 className="text-2xl font-bold text-white mb-2">Crea il tuo account</h1>
+          <p className="text-gray-400 text-sm">Inizia a trovare il tuo tutor ideale</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-2xl px-4 py-3 mb-6">{error}</div>
+          <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-2xl px-4 py-3 mb-6">{error}</div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -67,7 +67,7 @@ export default function RegisterStudentPage() {
           <Input label="Telefono" type="tel" placeholder="+39 333 1234567" value={form.phone} onChange={set('phone')} icon={<Phone className="w-4 h-4" />} required />
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-gray-700">Password</label>
+            <label className="text-sm font-medium text-gray-300">Password</label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input type={showPassword ? 'text' : 'password'} value={form.password} onChange={set('password')} placeholder="Minimo 6 caratteri" required
@@ -82,27 +82,28 @@ export default function RegisterStudentPage() {
 
           <div className="space-y-3 pt-2">
             <label className="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-black" required />
-              <span className="text-sm text-gray-600">
-                Accetto i <a href="#" className="text-black font-medium underline">Termini e Condizioni</a> di Proflive *
+              <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} className="mt-0.5 accent-emerald-400" required />
+              <span className="text-sm text-gray-400">
+                Accetto i <Link href="/termini" target="_blank" className="text-emerald-400 font-medium hover:underline">Termini e Condizioni</Link> di proflive.app *
               </span>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" checked={privacy} onChange={e => setPrivacy(e.target.checked)} className="mt-0.5 accent-black" required />
-              <span className="text-sm text-gray-600">
-                Accetto la <a href="#" className="text-black font-medium underline">Privacy Policy</a> *
+              <input type="checkbox" checked={privacy} onChange={e => setPrivacy(e.target.checked)} className="mt-0.5 accent-emerald-400" required />
+              <span className="text-sm text-gray-400">
+                Accetto la <Link href="/privacy" target="_blank" className="text-emerald-400 font-medium hover:underline">Privacy Policy</Link> *
               </span>
             </label>
           </div>
 
-          <Button type="submit" loading={loading} className="w-full mt-2" size="lg">
+          <Button type="submit" loading={loading} size="lg"
+            className="w-full mt-2 !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:shadow-[0_0_35px_rgba(16,185,129,0.6)]">
             Crea account studente
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-400 mt-6">
           Hai già un account?{' '}
-          <Link href="/login" className="text-black font-semibold hover:underline">Accedi</Link>
+          <Link href="/login" className="text-emerald-400 font-semibold hover:underline">Accedi</Link>
         </p>
       </div>
     </div>

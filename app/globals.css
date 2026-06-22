@@ -28,6 +28,24 @@ body {
 ::-webkit-scrollbar-thumb { background: #f9c4d2; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #e8a0b8; }
 
+/* Pagine auth: input/label in tema scuro (scoped, non tocca la dashboard) */
+.auth-dark input:not([type=checkbox]):not([type=radio]),
+.auth-dark textarea,
+.auth-dark select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+.auth-dark input:not([type=checkbox]):not([type=radio])::placeholder,
+.auth-dark textarea::placeholder { color: rgba(255, 255, 255, 0.4) !important; }
+.auth-dark label { color: #d1d5db !important; }
+.auth-dark input:not([type=checkbox]):not([type=radio]):focus,
+.auth-dark textarea:focus,
+.auth-dark select:focus {
+  border-color: rgba(16, 185, 129, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15) !important;
+}
+
 @keyframes tickerScroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
