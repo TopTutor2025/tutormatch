@@ -183,39 +183,43 @@ export default function AdminMarketingPage() {
             )}
           </div>
 
-          {/* Inserimento dati giornalieri */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-5">
-            <div className="flex items-center justify-between mb-4">
-              <p className="font-semibold text-sm">Inserimento dati giornalieri</p>
-              <Button size="sm" loading={saving} disabled={!dirty} onClick={save}>
-                <Save className="w-4 h-4" /> Salva
-              </Button>
-            </div>
-            <div className="space-y-1.5 max-h-96 overflow-y-auto">
-              <div className="grid grid-cols-[1fr_90px_90px] gap-3 px-3 pb-2 text-xs font-semibold text-gray-400 uppercase tracking-wide sticky top-0 bg-white">
-                <span>Giorno</span>
-                <span className="text-center">Post</span>
-                <span className="text-center">Contatti</span>
-              </div>
-              {rows.map(r => {
-                const d = new Date(r.date + 'T00:00:00')
-                const label = d.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric' })
-                const filled = r.posts > 0 || r.contacts > 0
-                return (
-                  <div key={r.date} className={`grid grid-cols-[1fr_90px_90px] gap-3 items-center px-3 py-1.5 rounded-xl ${filled ? 'bg-gray-50' : ''}`}>
-                    <span className="text-sm text-gray-700 capitalize">{label}</span>
-                    <input type="number" min={0} value={r.posts || ''} placeholder="0"
-                      onChange={e => updateRow(r.date, 'posts', parseInt(e.target.value) || 0)}
-                      className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-center outline-none focus:border-gray-900 transition-all" />
-                    <input type="number" min={0} value={r.contacts || ''} placeholder="0"
-                      onChange={e => updateRow(r.date, 'contacts', parseInt(e.target.value) || 0)}
-                      className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-center outline-none focus:border-gray-900 transition-all" />
+          {/* Inserimento dati di oggi (solo mese corrente) */}
+          {isCurrentMonth ? (() => {
+            const todayStr = ymd(new Date())
+            const today = rows.find(r => r.date === todayStr)
+            if (!today) return null
+            const todayLabel = new Date(todayStr + 'T00:00:00').toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' })
+            return (
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <p className="font-semibold text-sm">Inserimento dati di oggi</p>
+                    <p className="text-xs text-gray-400 capitalize mt-0.5">{todayLabel}</p>
                   </div>
-                )
-              })}
-            </div>
-            {dirty && <p className="text-xs text-amber-600 mt-3">Hai modifiche non salvate. Clicca "Salva" per registrarle.</p>}
-          </div>
+                  <Button size="sm" loading={saving} disabled={!dirty} onClick={save}>
+                    <Save className="w-4 h-4" /> Salva
+                  </Button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5 block">Post fatti</label>
+                    <input type="number" min={0} value={today.posts || ''} placeholder="0"
+                      onChange={e => updateRow(todayStr, 'posts', parseInt(e.target.value) || 0)}
+                      className="w-full border border-gray-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-gray-900 transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5 block">Contatti ricevuti</label>
+                    <input type="number" min={0} value={today.contacts || ''} placeholder="0"
+                      onChange={e => updateRow(todayStr, 'contacts', parseInt(e.target.value) || 0)}
+                      className="w-full border border-gray-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-gray-900 transition-all" />
+                  </div>
+                </div>
+                {dirty && <p className="text-xs text-amber-600 mt-3">Hai modifiche non salvate. Clicca "Salva" per registrarle.</p>}
+              </div>
+            )
+          })() : (
+            <p className="text-sm text-gray-400 text-center py-4">L'inserimento dati è disponibile solo per la giornata corrente. Torna al mese attuale per inserire i dati di oggi.</p>
+          )}
         </>
       )}
     </div>
