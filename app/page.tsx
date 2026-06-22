@@ -22,7 +22,7 @@ export default function LandingPage() {
             <div className="flex-1 min-w-0 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6 md:mb-8 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 shadow-[0_0_25px_rgba(168,85,247,0.55)]">
                 <Sparkles className="w-3.5 h-3.5" />
-                Il marketplace dei tutor più completo d&apos;Italia
+                Online e in presenza, in tutta Italia
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 md:mb-8">
                 <span className="text-white">Trova il tutor</span>
