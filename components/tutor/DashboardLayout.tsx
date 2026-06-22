@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, MapPin, Calendar, BookOpen, CreditCard, MessageSquare, User, LogOut, Menu, ChevronRight } from 'lucide-react'
+import { GraduationCap, Calendar, BookOpen, CreditCard, MessageSquare, User, LogOut, Menu, ChevronRight } from 'lucide-react'
 import type { Profile } from '@/types/database'
 
 const navItems = [
@@ -76,11 +76,12 @@ export default function TutorDashboardLayout({ children }: { children: React.Rea
     <div className="min-h-screen bg-gray-50 flex">
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:flex`}>
         <div className="p-6 border-b border-gray-100">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-black rounded-xl flex items-center justify-center">
-              <MapPin className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-lg font-bold">Proflive</span>
+          <Link href="/" className="flex items-center">
+            <span className="text-xl font-extrabold tracking-tight">
+              <span className="text-gray-900">prof</span>
+              <span className="italic bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">live</span>
+              <span className="text-gray-900">.app</span>
+            </span>
           </Link>
           <span className="text-xs bg-black text-white px-2 py-0.5 rounded-full mt-2 inline-block">Tutor</span>
         </div>
@@ -136,7 +137,12 @@ export default function TutorDashboardLayout({ children }: { children: React.Rea
           <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
             <Menu className="w-5 h-5" />
           </button>
-          <span className="font-semibold">Proflive · Tutor</span>
+          <span className="text-lg font-extrabold tracking-tight">
+            <span className="text-gray-900">prof</span>
+            <span className="italic bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">live</span>
+            <span className="text-gray-900">.app</span>
+          </span>
+          <span className="text-xs bg-black text-white px-2 py-0.5 rounded-full">Tutor</span>
         </header>
         <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-6xl w-full mx-auto">{children}</main>
       </div>

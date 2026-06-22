@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, MapPin, Users, BookOpen, CreditCard, MessageSquare, Settings, Tag, LogOut, Menu, ChevronRight, Shield, Star, BarChart3 } from 'lucide-react'
+import { GraduationCap, Users, BookOpen, CreditCard, MessageSquare, Settings, Tag, LogOut, Menu, ChevronRight, Shield, Star, BarChart3 } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: GraduationCap, exact: true },
@@ -43,12 +43,13 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
     <div className="min-h-screen bg-gray-50 flex">
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-black/80 backdrop-blur-2xl border-r border-white/10 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:flex`}>
         <div className="p-6">
-          <Link href="/admin" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-white rounded-xl flex items-center justify-center">
-              <MapPin className="w-5 h-5 text-black" />
-            </div>
+          <Link href="/admin" className="flex items-center">
             <div>
-              <span className="text-lg font-bold text-white">Proflive</span>
+              <span className="text-xl font-extrabold tracking-tight">
+                <span className="text-white">prof</span>
+                <span className="italic bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">live</span>
+                <span className="text-white">.app</span>
+              </span>
               <div className="flex items-center gap-1 mt-0.5">
                 <Shield className="w-3 h-3 text-yellow-400" />
                 <span className="text-xs text-yellow-400 font-semibold">Admin Panel</span>
