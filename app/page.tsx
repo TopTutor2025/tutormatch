@@ -86,10 +86,10 @@ export default function LandingPage() {
               </div>
 
               {/* Trust row */}
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8 md:mt-10 text-sm text-gray-400 justify-center lg:justify-start">
-                <span className="inline-flex items-center gap-2"><Shield className="w-4 h-4 text-emerald-400" /> Tutor verificati</span>
-                <span className="inline-flex items-center gap-2"><Star className="w-4 h-4 text-emerald-400" /> Recensioni reali</span>
-                <span className="inline-flex items-center gap-2"><Clock className="w-4 h-4 text-emerald-400" /> Lezione di prova a 15€</span>
+              <div className="flex flex-nowrap items-center gap-x-2.5 sm:gap-x-6 mt-8 md:mt-10 text-[11px] sm:text-sm text-gray-400 justify-center lg:justify-start">
+                <span className="inline-flex items-center gap-1 sm:gap-2 whitespace-nowrap"><Shield className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" /> Tutor verificati</span>
+                <span className="inline-flex items-center gap-1 sm:gap-2 whitespace-nowrap"><Star className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" /> Recensioni reali</span>
+                <span className="inline-flex items-center gap-1 sm:gap-2 whitespace-nowrap"><Clock className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" /> Lezione di prova a 15€</span>
               </div>
             </div>
 
