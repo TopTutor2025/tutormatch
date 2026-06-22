@@ -247,7 +247,7 @@ export default function LandingPage() {
               <div className="relative p-6 space-y-4">
                 {/* Main tutor card */}
                 <div className="bg-white rounded-2xl shadow-lg p-5 flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-300 to-teal-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">G</div>
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Giulia Romano" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className="font-bold text-gray-900">Giulia Romano</p>
@@ -263,7 +263,7 @@ export default function LandingPage() {
 
                 {/* Second tutor card */}
                 <div className="bg-white rounded-2xl shadow-md p-5 flex items-center gap-4 ml-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">D</div>
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Davide Esposito" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className="font-bold text-gray-900">Davide Esposito</p>
