@@ -191,57 +191,62 @@ export default function LandingPage() {
       </section>
 
       {/* FEATURES */}
-      <section className="py-16 md:py-24 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6 bg-[#060a08]">
+        <div className="absolute bottom-0 right-0 w-[520px] h-[320px] bg-teal-500/10 blur-[130px] pointer-events-none" />
+        <div className="relative z-10 max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-6">
-                Tutto quello che ti serve,<br />in un unico posto
+              <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-6">
+                Tutto quello che ti serve,<br />
+                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">in un unico posto</span>
               </h2>
               <div className="space-y-6">
                 {[
                   { icon: Video, title: 'Lezioni online in videochiamata', desc: 'Ogni prenotazione genera automaticamente un link dedicato per la videochiamata.' },
                   { icon: MapPin, title: 'Tutor vicino a te', desc: 'Cerca tutor disponibili per lezioni in presenza nel raggio di 5km dalla tua posizione.' },
-                  { icon: Shield, title: 'Pagamenti sicuri', desc: 'Abbonamento mensile o annuale, più ore acquistabili singolarmente.' },
+                  { icon: Shield, title: 'Pagamenti sicuri', desc: 'Abbonamento mensile o annuale, lezione di prova e pacchetto spot senza abbonamento.' },
                   { icon: Clock, title: 'Flessibilità totale', desc: 'Prenota quando vuoi. I tutor gestiscono la loro disponibilità in autonomia.' },
                 ].map((f) => (
                   <div key={f.title} className="flex gap-4">
-                    <div className="w-10 h-10 bg-pink-50 rounded-2xl flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <f.icon className="w-5 h-5 text-pink-500" />
+                    <div className="w-10 h-10 bg-emerald-400/10 border border-emerald-400/20 rounded-2xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <f.icon className="w-5 h-5 text-emerald-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-black mb-1">{f.title}</h4>
-                      <p className="text-sm text-gray-500">{f.desc}</p>
+                      <h4 className="font-semibold text-white mb-1">{f.title}</h4>
+                      <p className="text-sm text-gray-400">{f.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-gradient-to-br from-pink-50 to-white rounded-3xl p-6 md:p-8 border border-pink-100">
-              <div className="space-y-4">
-                {/* Simulated tutor cards */}
-                {[
-                  { name: 'Marco R.', subject: 'Matematica', grade: 'Superiori', rating: 5, reviews: 34, mode: 'Online' },
-                  { name: 'Giulia T.', subject: 'Inglese', grade: 'Università', rating: 5, reviews: 67, mode: 'Online e Presenza' },
-                  { name: 'Andrea B.', subject: 'Fisica', grade: 'Superiori', rating: 4, reviews: 21, mode: 'Online' },
-                ].map((tutor) => (
-                  <div key={tutor.name} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-pink-200 to-pink-300 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                        {tutor.name[0]}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-transparent rounded-3xl blur-xl" />
+              <div className="relative rounded-3xl p-6 md:p-8 bg-white/[0.04] border border-white/10">
+                <div className="space-y-4">
+                  {/* Simulated tutor cards */}
+                  {[
+                    { name: 'Marco R.', subject: 'Matematica', grade: 'Superiori', rating: 5, reviews: 34, mode: 'Online' },
+                    { name: 'Giulia T.', subject: 'Inglese', grade: 'Università', rating: 5, reviews: 67, mode: 'Online e Presenza' },
+                    { name: 'Andrea B.', subject: 'Fisica', grade: 'Superiori', rating: 4, reviews: 21, mode: 'Online' },
+                  ].map((tutor) => (
+                    <div key={tutor.name} className="bg-white/[0.05] rounded-2xl p-5 border border-white/10">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-black font-bold text-sm">
+                          {tutor.name[0]}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-sm text-white">{tutor.name}</p>
+                          <p className="text-xs text-gray-400">{tutor.subject} · {tutor.grade}</p>
+                        </div>
+                        <div className="ml-auto flex items-center gap-1">
+                          <Star className="w-3.5 h-3.5 text-yellow-400 fill-current" />
+                          <span className="text-xs font-medium text-gray-300">{tutor.rating} ({tutor.reviews})</span>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-semibold text-sm text-black">{tutor.name}</p>
-                        <p className="text-xs text-gray-400">{tutor.subject} · {tutor.grade}</p>
-                      </div>
-                      <div className="ml-auto flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5 text-yellow-400 fill-current" />
-                        <span className="text-xs font-medium">{tutor.rating} ({tutor.reviews})</span>
-                      </div>
+                      <span className="text-xs bg-white/10 text-gray-300 px-2.5 py-1 rounded-full">{tutor.mode}</span>
                     </div>
-                    <span className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">{tutor.mode}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
