@@ -23,7 +23,7 @@ export default function LandingNavbar() {
         <Link href="/" className="flex items-center flex-shrink-0">
           <span className="text-2xl font-extrabold tracking-tight">
             <span className="text-white">prof</span>
-            <span className="text-pink-500">live</span>
+            <span className="italic bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">live</span>
             <span className="text-white">.app</span>
           </span>
         </Link>

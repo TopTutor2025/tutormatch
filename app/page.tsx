@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookOpen, Video, MapPin, Star, Shield, Clock, ChevronRight, Sparkles, Users } from 'lucide-react'
+import { BookOpen, Video, MapPin, Star, Shield, Clock, ChevronRight, Sparkles, Users, Wallet, CalendarCheck, TrendingUp } from 'lucide-react'
 import LandingReviews from '@/components/LandingReviews'
 import LandingNavbar from '@/components/LandingNavbar'
 import LandingSubjects from '@/components/LandingSubjects'
@@ -366,50 +366,109 @@ export default function LandingPage() {
       <LandingReviews />
 
       {/* DIVENTA TUTOR */}
-      <section id="tutor" className="py-16 md:py-24 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-gray-900 to-black rounded-3xl p-8 md:p-16 text-white relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-8 right-8 w-64 h-64 bg-pink-300 rounded-full blur-3xl" />
-              <div className="absolute bottom-8 left-8 w-48 h-48 bg-yellow-300 rounded-full blur-3xl" />
+      <section id="tutor" className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6 bg-[#060a08]">
+        <div className="absolute -bottom-20 left-1/4 w-[560px] h-[320px] bg-emerald-500/10 blur-[140px] pointer-events-none" />
+        <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          {/* Left: testo */}
+          <div>
+            <div className="inline-flex items-center gap-2 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-semibold px-4 py-2 rounded-full mb-6 md:mb-8">
+              <Sparkles className="w-3.5 h-3.5" />
+              Per i tutor
             </div>
-            <div className="relative z-10 max-w-2xl">
-              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs font-semibold px-4 py-2 rounded-full mb-6 md:mb-8">
-                <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-                Per i tutor
+            <h2 className="text-3xl md:text-5xl font-extrabold mb-4 md:mb-6 leading-tight text-white">
+              Guadagna insegnando<br />
+              <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">ciò che ami</span>
+            </h2>
+            <p className="text-gray-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+              Registrati come tutor, imposta la tua disponibilità e ricevi prenotazioni automaticamente.
+              Pagamento mensile garantito, zero commissioni nascoste.
+            </p>
+
+            {/* Mini vantaggi */}
+            <div className="grid sm:grid-cols-3 gap-3 mb-8">
+              {[
+                { icon: Wallet, label: 'Pagamento mensile' },
+                { icon: Shield, label: 'Zero commissioni' },
+                { icon: CalendarCheck, label: 'Orari liberi' },
+              ].map(v => (
+                <div key={v.label} className="flex items-center gap-2 bg-white/[0.04] border border-white/10 rounded-2xl px-4 py-3">
+                  <v.icon className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  <span className="text-sm text-gray-200">{v.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 md:gap-4">
+              <Link href="/registrazione/tutor" className="inline-flex items-center justify-center gap-2 text-black font-bold text-base px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:shadow-[0_0_45px_rgba(16,185,129,0.75)] hover:-translate-y-0.5 transition-all">
+                Inizia ora come tutor
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+              <Link href="/faq-tutor" className="inline-flex items-center justify-center gap-2 text-gray-300 hover:text-white font-semibold text-sm border border-white/20 hover:border-white/40 px-6 py-4 rounded-2xl transition-all">
+                Leggi le FAQ tutor
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: proiezione guadagni */}
+          <div className="rounded-3xl p-6 md:p-8 bg-white/[0.04] border border-white/10 shadow-2xl">
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-10 h-10 rounded-2xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-emerald-400" />
               </div>
-              <h2 className="text-3xl md:text-5xl font-extrabold mb-4 md:mb-6 leading-tight">
-                Guadagna insegnando<br />ciò che ami
-              </h2>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                Registrati come tutor, imposta la tua disponibilità e ricevi prenotazioni automaticamente.
-                Pagamento mensile garantito, zero commissioni nascoste.
-              </p>
-              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 md:gap-4">
-                <Link href="/registrazione/tutor" className="inline-flex items-center justify-center gap-2 bg-white text-black font-bold text-base px-8 py-4 rounded-2xl hover:bg-gray-100 transition-all hover:-translate-y-0.5">
-                  Inizia ora come tutor
-                  <ChevronRight className="w-5 h-5" />
-                </Link>
-                <Link href="/faq-tutor" className="inline-flex items-center justify-center gap-2 text-white/80 hover:text-white font-semibold text-sm border border-white/30 hover:border-white/60 px-6 py-4 rounded-2xl transition-all">
-                  Leggi le FAQ tutor
-                </Link>
+              <div>
+                <p className="font-bold text-white">Proiezione guadagni</p>
+                <p className="text-xs text-gray-400">Stima mensile in base alle ore svolte</p>
               </div>
             </div>
+
+            <div className="space-y-5 mt-6">
+              {[
+                { label: 'Part-time', hint: '~10 ore/sett', min: 500, max: 900 },
+                { label: 'Costante', hint: '~20 ore/sett', min: 1000, max: 1600 },
+                { label: 'Alta disponibilità', hint: '~30 ore/sett', min: 1800, max: 2400 },
+              ].map(t => {
+                const MAXE = 2400
+                const left = (t.min / MAXE) * 100
+                const width = ((t.max - t.min) / MAXE) * 100
+                return (
+                  <div key={t.label}>
+                    <div className="flex items-baseline justify-between mb-2">
+                      <span className="text-sm font-semibold text-white">{t.label} <span className="text-xs font-normal text-gray-500">· {t.hint}</span></span>
+                      <span className="text-sm font-bold text-emerald-400">€{t.min.toLocaleString('it-IT')}–{t.max.toLocaleString('it-IT')}</span>
+                    </div>
+                    <div className="relative h-3 rounded-full bg-white/5">
+                      <div className="absolute top-0 bottom-0 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400"
+                        style={{ left: `${left}%`, width: `${width}%` }} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Asse */}
+            <div className="flex justify-between text-[11px] text-gray-500 mt-3">
+              <span>€0</span>
+              <span>€1.200</span>
+              <span>€2.400</span>
+            </div>
+
+            <p className="text-xs text-gray-500 mt-5 leading-relaxed">
+              Stime indicative basate sulle ore di lezione effettivamente completate. I compensi reali dipendono dalla tua disponibilità e dalle prenotazioni ricevute.
+            </p>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-gray-900 text-white py-12 md:py-16 px-4 md:px-6">
+      <footer className="bg-black border-t border-white/10 text-white py-12 md:py-16 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-12">
             <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-white rounded-xl flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-black" />
-                </div>
-                <span className="text-xl font-bold">Proflive</span>
-              </div>
+              <span className="text-xl font-extrabold tracking-tight block mb-4">
+                <span className="text-white">prof</span>
+                <span className="italic bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">live</span>
+                <span className="text-white">.app</span>
+              </span>
               <p className="text-gray-400 text-sm leading-relaxed">La piattaforma che connette studenti e tutor per lezioni online e in presenza.</p>
             </div>
             <div>
@@ -436,8 +495,8 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-6 md:pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm">© 2025 Proflive. Tutti i diritti riservati.</p>
+          <div className="border-t border-white/10 pt-6 md:pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-gray-500 text-sm">© 2026 proflive.app · Tutti i diritti riservati.</p>
             <p className="text-gray-600 text-xs">Designed with ♥ in Italia</p>
           </div>
         </div>
