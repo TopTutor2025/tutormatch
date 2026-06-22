@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, MapPin, Users, BookOpen, CreditCard, MessageSquare, Settings, Tag, LogOut, Menu, ChevronRight, Shield, Star } from 'lucide-react'
+import { GraduationCap, MapPin, Users, BookOpen, CreditCard, MessageSquare, Settings, Tag, LogOut, Menu, ChevronRight, Shield, Star, BarChart3 } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: GraduationCap, exact: true },
@@ -15,6 +15,7 @@ const navItems = [
   { href: '/admin/prezzi', label: 'Prezzi', icon: Settings },
   { href: '/admin/recensioni', label: 'Recensioni homepage', icon: Star },
   { href: '/admin/recensioni-tutor', label: 'Recensioni tutor', icon: Star },
+  { href: '/admin/marketing', label: 'Tracciamento ADV', icon: BarChart3 },
   { href: '/admin/chat', label: 'Chat supporto', icon: MessageSquare },
 ]
 
