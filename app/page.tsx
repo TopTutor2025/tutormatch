@@ -246,33 +246,33 @@ export default function LandingPage() {
 
               <div className="relative p-6 space-y-4">
                 {/* Main tutor card */}
-                <div className="bg-white rounded-2xl shadow-lg p-5 flex items-center gap-4">
-                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Giulia Romano" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
+                <div className="bg-white rounded-2xl shadow-lg p-4 flex items-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Giulia Romano" className="w-12 h-12 rounded-xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="font-bold text-gray-900 truncate flex-1 min-w-0">Giulia Romano</p>
+                      <p className="font-bold text-gray-900 text-sm truncate flex-1 min-w-0">Giulia Romano</p>
                       <span className="text-xs bg-green-50 text-green-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Online</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-0.5 truncate">Inglese · Spagnolo · Francese</p>
-                    <div className="flex items-center gap-1 mt-1">
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">Inglese · Spagnolo · Francese</p>
+                    <div className="flex items-center gap-0.5 mt-1">
                       {[1,2,3,4,5].map(i => <span key={i} className="text-yellow-400 text-xs">★</span>)}
-                      <span className="text-xs text-gray-400 ml-1">4.9 (52 recensioni)</span>
+                      <span className="text-xs text-gray-400 ml-1">4.9 (52)</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Second tutor card */}
-                <div className="bg-white rounded-2xl shadow-md p-5 flex items-center gap-4 ml-4">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Davide Esposito" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" />
+                <div className="bg-white rounded-2xl shadow-md p-4 flex items-center gap-3 ml-4">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=faces&auto=format" alt="Davide Esposito" className="w-12 h-12 rounded-xl object-cover flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="font-bold text-gray-900 truncate flex-1 min-w-0">Davide Esposito</p>
+                      <p className="font-bold text-gray-900 text-sm truncate flex-1 min-w-0">Davide Esposito</p>
                       <span className="text-xs bg-purple-50 text-purple-700 font-semibold px-2 py-0.5 rounded-full flex-shrink-0">Presenza</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-0.5 truncate">Storia · Filosofia · Latino</p>
-                    <div className="flex items-center gap-1 mt-1">
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">Storia · Filosofia · Latino</p>
+                    <div className="flex items-center gap-0.5 mt-1">
                       {[1,2,3,4,5].map(i => <span key={i} className={`text-xs ${i <= 4 ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>)}
-                      <span className="text-xs text-gray-400 ml-1">4.7 (28 recensioni)</span>
+                      <span className="text-xs text-gray-400 ml-1">4.7 (28)</span>
                     </div>
                   </div>
                 </div>
