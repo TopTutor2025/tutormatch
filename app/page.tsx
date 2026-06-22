@@ -163,29 +163,50 @@ export default function LandingPage() {
       </section>
 
       {/* COME FUNZIONA */}
-      <section id="come-funziona" className="py-16 md:py-24 px-4 md:px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-4">Come funziona</h2>
-            <p className="text-base md:text-lg text-gray-500">Tre semplici passi per iniziare</p>
+      <section id="come-funziona" className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6 bg-[#060a08]">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[640px] h-[320px] bg-emerald-500/10 blur-[130px] pointer-events-none" />
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="text-center mb-12 md:mb-16">
+            <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wide bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 px-4 py-2 rounded-full mb-5">
+              <Sparkles className="w-3.5 h-3.5" /> Semplice e veloce
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
+              Inizia in <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">3 semplici passi</span>
+            </h2>
+            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">Dalla registrazione alla tua prima lezione in pochi minuti. Nessuna complicazione.</p>
           </div>
+
           <div className="grid md:grid-cols-3 gap-5 md:gap-8">
             {[
-              { icon: Users, step: '01', title: 'Registrati', desc: 'Crea il tuo account in 2 minuti. Scegli materia, grado scolastico e modalità di lezione.' },
-              { icon: Star, step: '02', title: 'Scegli il tuo tutor', desc: 'Esplora i profili, leggi le recensioni e controlla la disponibilità nel calendario del tutor.' },
-              { icon: BookOpen, step: '03', title: 'Prenota e studia', desc: 'Prenota lo slot che preferisci, ricevi il link videochiamata per le lezioni online e inizia a studiare.' },
+              { icon: Users, step: '01', title: 'Registrati gratis', desc: 'Crea il tuo account in 2 minuti. Scegli materia, grado scolastico e modalità di lezione.' },
+              { icon: Star, step: '02', title: 'Scegli il tuo tutor', desc: 'Esplora i profili, leggi le recensioni reali e controlla la disponibilità nel calendario.' },
+              { icon: BookOpen, step: '03', title: 'Prenota e studia', desc: 'Scegli lo slot che preferisci, ricevi subito il link per la videochiamata e inizia a studiare.' },
             ].map((item) => (
-              <div key={item.step} className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm">
-                <div className="flex items-center gap-4 mb-5 md:mb-6">
-                  <span className="text-5xl font-black text-pink-300">{item.step}</span>
-                  <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center">
-                    <item.icon className="w-6 h-6 text-white" />
-                  </div>
+              <div key={item.step}
+                className="group relative bg-white/[0.04] rounded-3xl p-7 md:p-8 border border-white/10 hover:border-emerald-400/30 hover:bg-white/[0.06] hover:-translate-y-1 transition-all duration-300">
+                <span className="absolute top-5 right-6 text-6xl font-black text-white/[0.06] group-hover:text-emerald-400/15 transition-colors select-none">{item.step}</span>
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mb-6 shadow-[0_0_22px_rgba(16,185,129,0.35)]">
+                  <item.icon className="w-6 h-6 text-black" />
                 </div>
-                <h3 className="text-xl font-bold text-black mb-3">{item.title}</h3>
-                <p className="text-sm md:text-base text-gray-500 leading-relaxed">{item.desc}</p>
+                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                <p className="text-sm md:text-base text-gray-400 leading-relaxed">{item.desc}</p>
               </div>
             ))}
+          </div>
+
+          {/* CTA conversione */}
+          <div className="mt-12 md:mt-16 relative rounded-3xl overflow-hidden border border-emerald-400/25 bg-gradient-to-br from-emerald-500/10 to-transparent p-8 md:p-10 text-center">
+            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Prova senza pensieri: la prima lezione a soli 15€</h3>
+            <p className="text-gray-400 max-w-2xl mx-auto mb-7">Una lezione di prova online, valida per ogni grado e <strong className="text-white">senza abbonamento</strong>. Se ti trovi bene, continui con il piano che preferisci.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
+              <Link href="/registrazione/studente" className="inline-flex items-center justify-center gap-2 text-black font-bold text-base px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:shadow-[0_0_45px_rgba(16,185,129,0.75)] hover:-translate-y-0.5 transition-all">
+                Inizia ora
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+              <span className="inline-flex items-center gap-2 text-sm text-gray-400">
+                <Shield className="w-4 h-4 text-emerald-400" /> Nessun vincolo · disdici quando vuoi
+              </span>
+            </div>
           </div>
         </div>
       </section>
