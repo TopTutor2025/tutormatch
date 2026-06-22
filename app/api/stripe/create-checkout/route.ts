@@ -17,6 +17,10 @@ export async function POST(request: NextRequest) {
   const { type, subType, grade, hours } = await request.json()
   const appUrl = process.env.NEXT_PUBLIC_APP_URL!
 
+  // Pacchetto spot: valori fissi (15 ore a 20€/h = 300€)
+  const SPOT_HOURS = 15
+  const SPOT_RATE = 20
+
   // Get or create Stripe customer
   const { data: sp } = await supabaseAdmin
     .from('student_profiles').select('stripe_customer_id').eq('id', user.id).single()
@@ -82,6 +86,37 @@ export async function POST(request: NextRequest) {
         grade,
         hours: String(hours),
         price_per_hour: String(rate),
+      },
+      success_url: `${appUrl}/studente/ore?success=1`,
+      cancel_url: `${appUrl}/studente/ore`,
+      locale: 'it',
+    })
+    return NextResponse.json({ url: session.url })
+  }
+
+  if (type === 'spot') {
+    // Pacchetto spot: nessun controllo abbonamento, quantità e prezzo fissi
+    const totalCents = Math.round(SPOT_RATE * SPOT_HOURS * 100)
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      mode: 'payment',
+      payment_method_types: ['card'],
+      line_items: [{
+        quantity: 1,
+        price_data: {
+          currency: 'eur',
+          unit_amount: totalCents,
+          product_data: {
+            name: `Pacchetto Spot - ${SPOT_HOURS}h lezione (qualsiasi grado, senza abbonamento)`,
+          },
+        },
+      }],
+      metadata: {
+        type: 'spot',
+        student_id: user.id,
+        hours: String(SPOT_HOURS),
+        price_per_hour: String(SPOT_RATE),
       },
       success_url: `${appUrl}/studente/ore?success=1`,
       cancel_url: `${appUrl}/studente/ore`,

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     const {
       tutor_id, slot_id, second_slot_id, subject_id,
-      grade, mode, topic, address, meet_link, hours_used,
+      grade, mode, topic, address, meet_link, hours_used, used_spot,
     } = await request.json()
 
     // Usa service role per ottenere sempre l'ID (bypassa RLS SELECT)
@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
         student_id: user.id,
         tutor_id, slot_id, second_slot_id, subject_id,
         grade, mode, topic, address, meet_link, hours_used,
+        used_spot: used_spot ?? false,
       })
       .select('id')
       .single()

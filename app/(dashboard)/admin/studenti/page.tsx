@@ -95,20 +95,22 @@ export default function AdminStudentiPage() {
 
   async function updateHours() {
     if (!hoursModal) return
-    const field = hoursForm.grade === 'medie' ? 'hour_credits_medie' : hoursForm.grade === 'superiori' ? 'hour_credits_superiori' : 'hour_credits_universita'
+    const isSpot = hoursForm.grade === 'spot'
+    const field = isSpot ? 'hour_credits_spot' : hoursForm.grade === 'medie' ? 'hour_credits_medie' : hoursForm.grade === 'superiori' ? 'hour_credits_superiori' : 'hour_credits_universita'
     const sp = hoursModal.student_profile
     const current = sp?.[field] || 0
     const newVal = hoursForm.action === 'add' ? current + hoursForm.hours : Math.max(0, current - hoursForm.hours)
     await supabase.from('student_profiles').update({ [field]: newVal }).eq('id', hoursModal.id)
     // Registra l'acquisto manuale admin nello storico
     if (hoursForm.action === 'add' && pricing) {
-      const pricePerHour = hoursForm.grade === 'medie' ? pricing.hour_rate_medie : hoursForm.grade === 'superiori' ? pricing.hour_rate_superiori : pricing.hour_rate_universita
+      const pricePerHour = isSpot ? 20 : hoursForm.grade === 'medie' ? pricing.hour_rate_medie : hoursForm.grade === 'superiori' ? pricing.hour_rate_superiori : pricing.hour_rate_universita
       await supabase.from('hour_purchases').insert({
         student_id: hoursModal.id,
-        grade: hoursForm.grade,
+        grade: isSpot ? null : hoursForm.grade,
         hours: hoursForm.hours,
         price_per_hour: pricePerHour,
         total_price: pricePerHour * hoursForm.hours,
+        is_spot: isSpot,
       })
     }
     const studentId = hoursModal.id
@@ -230,7 +232,7 @@ export default function AdminStudentiPage() {
                         Gestisci ore
                       </Button>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                       {[
                         { label: 'Medie', field: 'hour_credits_medie' },
                         { label: 'Superiori', field: 'hour_credits_superiori' },
@@ -241,6 +243,10 @@ export default function AdminStudentiPage() {
                           <p className="text-xs text-gray-500">{item.label}</p>
                         </div>
                       ))}
+                      <div className="bg-pink-50 rounded-xl p-3 text-center border border-pink-200">
+                        <p className="text-xl font-bold text-pink-600">{sp?.hour_credits_spot || 0}h</p>
+                        <p className="text-xs text-pink-500">Spot</p>
+                      </div>
                     </div>
 
                     {/* Storico acquisti ore */}
@@ -256,10 +262,12 @@ export default function AdminStudentiPage() {
                           <p className="text-xs font-semibold text-gray-500 mb-2">Storico acquisti ({purchases.length})</p>
                           <div className="space-y-1.5 max-h-48 overflow-y-auto">
                             {purchases.map((p: any) => (
-                              <div key={p.id} className="flex items-center justify-between bg-white rounded-xl px-3 py-2 border border-gray-200 text-xs">
+                              <div key={p.id} className={`flex items-center justify-between rounded-xl px-3 py-2 border text-xs ${p.is_spot ? 'bg-pink-50 border-pink-200' : 'bg-white border-gray-200'}`}>
                                 <div className="flex items-center gap-2">
                                   <span className="font-semibold text-gray-800">{p.hours}h</span>
-                                  <span className="text-gray-500">{GRADE_IT[p.grade] || p.grade}</span>
+                                  {p.is_spot
+                                    ? <span className="text-pink-600 font-semibold">Spot</span>
+                                    : <span className="text-gray-500">{GRADE_IT[p.grade] || p.grade}</span>}
                                 </div>
                                 <div className="flex items-center gap-3 text-gray-400">
                                   <span>{formatCurrency(p.total_price)}</span>
@@ -419,6 +427,7 @@ export default function AdminStudentiPage() {
                   <option value="medie">Scuola Media</option>
                   <option value="superiori">Scuola Superiore</option>
                   <option value="universita">Università</option>
+                  <option value="spot">Ore Spot (ogni grado)</option>
                 </select>
               </div>
               <div>

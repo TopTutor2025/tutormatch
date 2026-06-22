@@ -242,9 +242,6 @@ export default function CercaTutorPage() {
 
   async function handleBook() {
     if (!selectedSlot || !activeTutor) return
-    if (!subscription || new Date(subscription.expires_at) < new Date()) {
-      setBookingError('Il tuo abbonamento è scaduto. Rinnova per prenotare.'); return
-    }
     if (isSlotTooSoon(selectedSlot.date, selectedSlot.start_time)) {
       setBookingError('Questo slot non è più prenotabile: è richiesto almeno 12 ore di preavviso.'); return
     }
@@ -255,8 +252,26 @@ export default function CercaTutorPage() {
     const hoursField = grade === 'medie' ? 'hour_credits_medie' : grade === 'superiori' ? 'hour_credits_superiori' : 'hour_credits_universita'
     const hoursNeeded = bookingMode === 'presenza' ? 2 : 1
 
-    if (!studentProfile || (studentProfile[hoursField as keyof StudentProfile] as number) < hoursNeeded) {
-      setBookingError(`Ore insufficienti per "${grade}". Hai bisogno di ${hoursNeeded}h per questa lezione.`); return
+    if (!studentProfile) { setBookingError('Profilo non disponibile. Riprova.'); return }
+
+    const spotAvailable = (studentProfile.hour_credits_spot || 0) >= hoursNeeded
+    const subActive = !!subscription && new Date(subscription.expires_at) >= new Date()
+    const gradeAvailable = (studentProfile[hoursField as keyof StudentProfile] as number) >= hoursNeeded
+
+    // Priorità: usa prima le ore del pacchetto spot (bypassano l'abbonamento)
+    let useSpot = false
+    if (spotAvailable) {
+      useSpot = true
+    } else if (subActive && gradeAvailable) {
+      useSpot = false
+    } else {
+      if (!subActive && !spotAvailable) {
+        setBookingError('Per prenotare ti serve un abbonamento attivo con ore del grado, oppure ore del pacchetto spot.'); return
+      }
+      if (subActive && !gradeAvailable) {
+        setBookingError(`Ore insufficienti per "${GRADE_LABELS[grade]}". Servono ${hoursNeeded}h: acquista ore o usa il pacchetto spot.`); return
+      }
+      setBookingError(`Ore insufficienti. Servono ${hoursNeeded}h per questa lezione.`); return
     }
 
     setBooking(true); setBookingError('')
@@ -277,6 +292,7 @@ export default function CercaTutorPage() {
         address: bookingMode === 'presenza' ? bookingForm.address || null : null,
         meet_link: meetLink,
         hours_used: hoursNeeded,
+        used_spot: useSpot,
       }),
     })
 

@@ -214,6 +214,14 @@ export default function StudentDashboardPage() {
               color: 'bg-orange-50 text-orange-700',
               href: '/studente/ore',
             },
+            {
+              label: 'Ore spot',
+              value: `${studentProfile?.hour_credits_spot || 0}h`,
+              sub: 'Ogni grado · senza abbonamento',
+              icon: Clock,
+              color: 'bg-pink-50 text-pink-700',
+              href: '/studente/ore',
+            },
           ].map(card => (
             <Link key={card.label} href={card.href}
               className="bg-white rounded-2xl p-5 border border-gray-100 shadow-soft hover:-translate-y-0.5 hover:shadow-card transition-all">

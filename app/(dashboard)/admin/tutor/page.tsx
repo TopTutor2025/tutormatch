@@ -158,7 +158,9 @@ export default function AdminTutorPage() {
     if (booking.second_slot_id) slotUpdates.push(supabase.from('calendar_slots').update({ status: 'disponibile' }).eq('id', booking.second_slot_id))
     await Promise.all(slotUpdates)
     if (refund) {
-      const field = booking.grade === 'medie' ? 'hour_credits_medie' : booking.grade === 'superiori' ? 'hour_credits_superiori' : 'hour_credits_universita'
+      const field = booking.used_spot
+        ? 'hour_credits_spot'
+        : booking.grade === 'medie' ? 'hour_credits_medie' : booking.grade === 'superiori' ? 'hour_credits_superiori' : 'hour_credits_universita'
       const { data: sp } = await supabase.from('student_profiles').select(field).eq('id', booking.student_id).single()
       if (sp) await supabase.from('student_profiles').update({ [field]: (sp as any)[field] + booking.hours_used }).eq('id', booking.student_id)
     }

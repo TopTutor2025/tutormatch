@@ -59,6 +59,18 @@ export default function OrePage() {
     window.location.href = url
   }
 
+  async function buySpot() {
+    setRedirecting(true)
+    const res = await fetch('/api/stripe/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'spot' }),
+    })
+    const { url, error } = await res.json()
+    if (error) { alert(error); setRedirecting(false); return }
+    window.location.href = url
+  }
+
   if (loading) return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" /></div>
 
   return (
@@ -100,6 +112,18 @@ export default function OrePage() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Contatore ore spot */}
+      <div className="rounded-2xl border border-pink-200 bg-pink-50 p-5 sm:p-6 flex items-center gap-4">
+        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0">
+          <Clock className="w-6 h-6 text-pink-500" />
+        </div>
+        <div className="flex-1">
+          <p className="text-3xl font-extrabold text-pink-600">{studentProfile?.hour_credits_spot || 0}<span className="text-lg font-normal">h</span></p>
+          <p className="text-sm font-medium text-gray-800">Ore Spot</p>
+          <p className="text-xs text-gray-500 mt-0.5">Valide per ogni grado · utilizzabili senza abbonamento</p>
+        </div>
       </div>
 
       {/* Acquisto ore */}
@@ -159,6 +183,28 @@ export default function OrePage() {
         </div>
       </div>
 
+      {/* Pacchetto Spot */}
+      <div className="bg-gradient-to-br from-pink-50 to-white rounded-2xl border-2 border-pink-200 p-6">
+        <div className="flex flex-col md:flex-row md:items-center gap-6 justify-between">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xs font-bold uppercase tracking-wide bg-pink-500 text-white px-2 py-0.5 rounded-full">Pacchetto Spot</span>
+            </div>
+            <h2 className="text-lg font-bold text-gray-900">15 ore a 20€/ora — senza abbonamento</h2>
+            <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+              Le ore Spot sono valide per <strong>qualsiasi grado</strong> (medie, superiori, università) e ti permettono di prenotare lezioni <strong>anche senza un abbonamento attivo</strong>. Pacchetto unico da 15 ore.
+            </p>
+          </div>
+          <div className="bg-white rounded-2xl border border-pink-200 p-5 text-center md:w-56 flex-shrink-0">
+            <p className="text-3xl font-extrabold text-pink-600">{formatCurrency(300)}</p>
+            <p className="text-xs text-gray-500 mt-0.5">15h · 20€/ora</p>
+            <Button className="w-full mt-4" size="lg" loading={redirecting} onClick={buySpot}>
+              <Plus className="w-4 h-4" /> Acquista pacchetto
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Storico acquisti */}
       {purchases.length > 0 && (
         <div>
@@ -174,9 +220,13 @@ export default function OrePage() {
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   {purchases.map(p => (
-                    <tr key={p.id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={p.id} className={`transition-colors ${p.is_spot ? 'bg-pink-50 hover:bg-pink-100' : 'hover:bg-gray-50'}`}>
                       <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{formatDate(p.created_at)}</td>
-                      <td className="px-4 py-3 font-medium whitespace-nowrap">{GRADE_LABELS[p.grade]}</td>
+                      <td className="px-4 py-3 font-medium whitespace-nowrap">
+                        {p.is_spot
+                          ? <span className="inline-flex items-center gap-1 text-pink-600 font-semibold">Spot</span>
+                          : (p.grade ? GRADE_LABELS[p.grade] : '—')}
+                      </td>
                       <td className="px-4 py-3">{p.hours}h</td>
                       <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{formatCurrency(p.price_per_hour)}/h</td>
                       <td className="px-4 py-3 font-bold">{formatCurrency(p.total_price)}</td>

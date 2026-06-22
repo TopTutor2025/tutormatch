@@ -107,6 +107,27 @@ export async function POST(request: NextRequest) {
           else console.log('[webhook] Ore aggiunte:', { student_id, grade, hoursNum })
         }
 
+        // Acquisto pacchetto spot (ore valide per ogni grado, senza abbonamento)
+        if (session.mode === 'payment' && session.metadata?.type === 'spot') {
+          const { student_id, hours, price_per_hour } = session.metadata
+          const hoursNum = parseInt(hours)
+          const pricePerHour = parseFloat(price_per_hour)
+
+          const { data: sp } = await supabaseAdmin.from('student_profiles').select('hour_credits_spot').eq('id', student_id).single()
+          if (sp) {
+            const { error } = await supabaseAdmin.from('student_profiles').update({
+              hour_credits_spot: ((sp as any).hour_credits_spot || 0) + hoursNum
+            }).eq('id', student_id)
+            if (error) console.error('[webhook] Errore update ore spot:', error)
+          }
+          const { error: insError } = await supabaseAdmin.from('hour_purchases').insert({
+            student_id, grade: null, hours: hoursNum, price_per_hour: pricePerHour,
+            total_price: pricePerHour * hoursNum, is_spot: true,
+          })
+          if (insError) console.error('[webhook] Errore insert hour_purchases spot:', insError)
+          else console.log('[webhook] Pacchetto spot aggiunto:', { student_id, hoursNum })
+        }
+
         // Abbonamento
         if (session.mode === 'subscription' && session.subscription) {
           const stripeSubId = session.subscription as string
