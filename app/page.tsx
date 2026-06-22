@@ -259,60 +259,85 @@ export default function LandingPage() {
       <LandingSubjects />
 
       {/* PREZZI */}
-      <section id="prezzi" className="py-16 md:py-24 px-4 md:px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-4">Prezzi trasparenti</h2>
-            <p className="text-base md:text-lg text-gray-500">Nessuna sorpresa. Paghi solo quello che usi.</p>
+      <section id="prezzi" className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6 bg-[#060a08]">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[640px] h-[320px] bg-emerald-500/10 blur-[130px] pointer-events-none" />
+        <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
+              Prezzi <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">trasparenti</span>
+            </h2>
+            <p className="text-base md:text-lg text-gray-400">Nessuna sorpresa. Paghi solo quello che usi.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto">
-            {/* Abbonamento Mensile */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
-              <h3 className="text-lg font-bold text-black mb-2">Mensile</h3>
-              <div className="text-4xl font-extrabold text-black mb-1">€14,99<span className="text-lg font-normal text-gray-400">/mese</span></div>
-              <p className="text-sm text-gray-500 mb-6">Accesso alla piattaforma per un mese</p>
-              <ul className="space-y-3 text-sm text-gray-600">
+
+          {/* Abbonamenti */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+            {/* Mensile */}
+            <div className="rounded-3xl p-8 bg-white/[0.04] border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-2">Mensile</h3>
+              <div className="text-4xl font-extrabold text-white mb-1">€14,99<span className="text-lg font-normal text-gray-500">/mese</span></div>
+              <p className="text-sm text-gray-400 mb-6">Accesso alla piattaforma per un mese</p>
+              <ul className="space-y-3 text-sm text-gray-300">
                 {['Accesso completo ai tutor', 'Chat con i tutor', 'Ricerca avanzata', 'Storico lezioni'].map(f => (
-                  <li key={f} className="flex items-center gap-2"><span className="text-green-500">✓</span>{f}</li>
+                  <li key={f} className="flex items-center gap-2"><span className="text-emerald-400">✓</span>{f}</li>
                 ))}
               </ul>
             </div>
-            {/* Abbonamento Annuale */}
-            <div className="bg-black rounded-3xl p-8 border border-black shadow-lg relative overflow-hidden">
-              <div className="absolute top-4 right-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">Risparmia 44%</div>
+            {/* Annuale — evidenziato */}
+            <div className="relative rounded-3xl p-8 bg-white/[0.06] border border-emerald-400/40 shadow-[0_0_45px_rgba(16,185,129,0.18)] overflow-hidden">
+              <div className="absolute top-4 right-4 bg-gradient-to-r from-emerald-400 to-teal-400 text-black text-xs font-bold px-3 py-1 rounded-full">Risparmia 44%</div>
               <h3 className="text-lg font-bold text-white mb-2">Annuale</h3>
-              <div className="text-4xl font-extrabold text-white mb-1">
-                €8,33<span className="text-lg font-normal text-gray-400">/mese</span>
-              </div>
+              <div className="text-4xl font-extrabold text-white mb-1">€8,33<span className="text-lg font-normal text-gray-500">/mese</span></div>
               <p className="text-gray-400 text-sm mb-1">€99,99 fatturati una volta all'anno</p>
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-gray-500 line-through text-sm">€14,99/mese</span>
-                <span className="bg-yellow-400 text-black text-xs font-bold px-2 py-0.5 rounded-full">risparmi €79,89</span>
+                <span className="bg-emerald-400/15 text-emerald-300 text-xs font-bold px-2 py-0.5 rounded-full">risparmi €79,89</span>
               </div>
               <ul className="space-y-3 text-sm text-gray-300">
                 {['Tutto del mensile', 'Valutazioni DSA', 'Supporto dedicato', 'Rimborso ore annullate'].map(f => (
-                  <li key={f} className="flex items-center gap-2"><span className="text-pink-400">✓</span>{f}</li>
+                  <li key={f} className="flex items-center gap-2"><span className="text-emerald-400">✓</span>{f}</li>
                 ))}
               </ul>
             </div>
+          </div>
+
+          {/* Prova, ore, pacchetto spot */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-6 md:mt-8">
+            {/* Lezione di prova */}
+            <div className="rounded-3xl p-8 bg-white/[0.04] border border-emerald-400/25">
+              <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-emerald-400/15 text-emerald-300 px-3 py-1 rounded-full">Lezione di prova</span>
+              <div className="text-4xl font-extrabold text-white mt-4 mb-1">€15</div>
+              <p className="text-sm text-gray-400 mb-4">una tantum · una per account</p>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                1 lezione <strong className="text-white">online da 1 ora</strong>, valida per ogni grado e prenotabile <strong className="text-white">senza abbonamento</strong>. Per provare il servizio.
+              </p>
+            </div>
             {/* Ore lezione */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
-              <h3 className="text-lg font-bold text-black mb-2">Ore lezione</h3>
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between items-center bg-gray-50 rounded-2xl px-4 py-3">
-                  <span className="text-sm font-medium">Medie</span>
-                  <span className="font-bold">€12,50/h</span>
+            <div className="rounded-3xl p-8 bg-white/[0.04] border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-4">Ore lezione</h3>
+              <div className="space-y-3 mb-4">
+                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
+                  <span className="text-sm font-medium text-gray-300">Medie</span>
+                  <span className="font-bold text-white">€12,50/h</span>
                 </div>
-                <div className="flex justify-between items-center bg-gray-50 rounded-2xl px-4 py-3">
-                  <span className="text-sm font-medium">Superiori</span>
-                  <span className="font-bold">€12,50/h</span>
+                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
+                  <span className="text-sm font-medium text-gray-300">Superiori</span>
+                  <span className="font-bold text-white">€12,50/h</span>
                 </div>
-                <div className="flex justify-between items-center bg-pink-50 rounded-2xl px-4 py-3 border border-pink-100">
-                  <span className="text-sm font-medium">Università</span>
-                  <span className="font-bold text-pink-700">€15,00/h</span>
+                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
+                  <span className="text-sm font-medium text-gray-300">Università</span>
+                  <span className="font-bold text-white">€15,00/h</span>
                 </div>
               </div>
-              <p className="text-xs text-gray-400">Acquistabili singolarmente, valide con abbonamento attivo</p>
+              <p className="text-xs text-gray-500">Acquistabili con abbonamento attivo</p>
+            </div>
+            {/* Pacchetto Spot */}
+            <div className="rounded-3xl p-8 bg-white/[0.04] border border-pink-400/30">
+              <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-pink-500/15 text-pink-300 px-3 py-1 rounded-full">Senza abbonamento</span>
+              <div className="text-4xl font-extrabold text-white mt-4 mb-1">€300</div>
+              <p className="text-sm text-gray-400 mb-4">15 ore · 20€/ora</p>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                Pacchetto unico da 15 ore valide per <strong className="text-white">ogni grado</strong> e utilizzabili <strong className="text-white">senza abbonamento attivo</strong>.
+              </p>
             </div>
           </div>
         </div>
