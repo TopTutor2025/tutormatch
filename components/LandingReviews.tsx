@@ -88,7 +88,7 @@ export default function LandingReviews() {
         {/* Carosello */}
         <div ref={containerRef} className="relative">
           <div
-            className="flex items-stretch"
+            className="flex items-start"
             style={{
               gap: `${GAP}px`,
               transform: `translateX(${translate}px)`,
@@ -130,7 +130,7 @@ export default function LandingReviews() {
                   </div>
 
                   {/* Testo */}
-                  <p className="text-gray-300 text-sm leading-relaxed flex-1">
+                  <p className="text-gray-300 text-sm leading-relaxed">
                     "{review.comment}"
                   </p>
 
