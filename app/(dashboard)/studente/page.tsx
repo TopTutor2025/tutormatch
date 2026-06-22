@@ -331,11 +331,23 @@ export default function StudentDashboardPage() {
               },
               {
                 q: 'Qual è la differenza tra abbonamento e ore lezione?',
-                a: "L'abbonamento (mensile o annuale) è il tuo \"accesso\" alla piattaforma: senza di esso non puoi prenotare. Le ore lezione sono il credito effettivo da utilizzare per le prenotazioni e si acquistano separatamente. Le ore non scadono, l'abbonamento sì.",
+                a: "L'abbonamento (mensile o annuale) è il tuo \"accesso\" alla piattaforma: con l'abbonamento attivo usi le ore lezione del grado per prenotare. Le ore lezione sono il credito effettivo e si acquistano separatamente. Le ore non scadono, l'abbonamento sì. In alternativa puoi prenotare anche senza abbonamento usando la lezione di prova o le ore del pacchetto spot (vedi sotto).",
+              },
+              {
+                q: 'Come funziona la lezione di prova?',
+                a: 'La lezione di prova ti permette di provare il servizio: è una singola lezione online da 1 ora, valida per qualsiasi grado e prenotabile senza abbonamento attivo, al prezzo dedicato di 15€. La puoi acquistare una sola volta per account dalla sezione "Ore lezione". Quando prenoti, se hai la prova disponibile viene usata automaticamente per prima.',
+              },
+              {
+                q: 'Cosa sono le ore spot e quando convengono?',
+                a: 'Le ore spot sono un pacchetto di ore valide per qualsiasi grado e utilizzabili anche senza abbonamento attivo: sono perfette se vuoi prenotare lezioni senza sottoscrivere un abbonamento. Costano un po\' di più delle ore normali proprio perché non richiedono l\'abbonamento. Le acquisti dalla sezione "Ore lezione" e non scadono.',
+              },
+              {
+                q: 'In che ordine vengono usate le ore quando prenoto?',
+                a: 'La piattaforma scala il credito con questa priorità: prima la lezione di prova (se disponibile e per lezioni online), poi le ore spot, infine le ore del grado scolastico (queste ultime richiedono un abbonamento attivo).',
               },
               {
                 q: 'Perché le ore sono divise per grado scolastico?',
-                a: 'I prezzi per ora variano in base al livello di istruzione (Medie, Superiori, Università). Per questo il credito è separato: le ore acquistate per "Superiori" si usano solo per prenotare tutor con quel grado, e così via.',
+                a: 'I prezzi per ora variano in base al livello di istruzione (Medie, Superiori, Università). Per questo il credito è separato: le ore acquistate per "Superiori" si usano solo per prenotare tutor con quel grado, e così via. Le ore spot e la lezione di prova, invece, valgono per qualsiasi grado.',
               },
               {
                 q: 'Come funziona la lezione online?',
