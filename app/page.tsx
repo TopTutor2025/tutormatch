@@ -35,7 +35,7 @@ export default function LandingPage() {
               </p>
 
               {/* Visual — mobile only, shown inline after description */}
-              <div className="block lg:hidden mb-8 relative">
+              <div className="block lg:hidden mb-8 relative text-left">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-transparent rounded-3xl -rotate-1 scale-105 blur-xl" />
                 <div className="relative p-4 space-y-3">
                   {/* Card 1 */}
@@ -151,9 +151,9 @@ export default function LandingPage() {
                 </div>
 
                 {/* Floating badge */}
-                <div className="absolute -top-3 -right-3 bg-white border border-gray-100 shadow-lg rounded-2xl px-4 py-2.5 flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-green-500" />
-                  <span className="text-xs font-bold text-gray-800">Tutor verificati</span>
+                <div className="absolute -top-3 right-0 sm:-right-3 bg-white border border-gray-100 shadow-lg rounded-2xl px-4 py-2.5 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <span className="text-xs font-bold text-gray-800 whitespace-nowrap">Tutor verificati</span>
                 </div>
               </div>
             </div>
@@ -203,8 +203,8 @@ export default function LandingPage() {
                 Inizia ora
                 <ChevronRight className="w-5 h-5" />
               </Link>
-              <span className="inline-flex items-center gap-2 text-sm text-gray-400">
-                <Shield className="w-4 h-4 text-emerald-400" /> Nessun vincolo · disdici quando vuoi
+              <span className="inline-flex items-center gap-2 text-xs sm:text-sm text-gray-400 whitespace-nowrap">
+                <Shield className="w-4 h-4 text-emerald-400 flex-shrink-0" /> Nessun vincolo · disdici quando vuoi
               </span>
             </div>
           </div>
@@ -290,9 +290,9 @@ export default function LandingPage() {
                 </div>
 
                 {/* Floating badge */}
-                <div className="absolute -top-3 -right-3 bg-white border border-gray-100 shadow-lg rounded-2xl px-4 py-2.5 flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-green-500" />
-                  <span className="text-xs font-bold text-gray-800">Tutor verificati</span>
+                <div className="absolute -top-3 right-0 sm:-right-3 bg-white border border-gray-100 shadow-lg rounded-2xl px-4 py-2.5 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <span className="text-xs font-bold text-gray-800 whitespace-nowrap">Tutor verificati</span>
                 </div>
               </div>
             </div>
