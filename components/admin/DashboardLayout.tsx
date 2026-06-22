@@ -41,8 +41,8 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-gray-900 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:flex`}>
-        <div className="p-6 border-b border-gray-800">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-black/80 backdrop-blur-2xl border-r border-white/10 flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:flex`}>
+        <div className="p-6">
           <Link href="/admin" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-white rounded-xl flex items-center justify-center">
               <MapPin className="w-5 h-5 text-black" />
@@ -62,7 +62,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
             const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href)
             return (
               <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all ${isActive ? 'bg-white text-black' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}>
+                className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all ${isActive ? 'bg-white text-black' : 'text-gray-400 hover:bg-white/10 hover:text-white'}`}>
                 <item.icon className="w-4 h-4 flex-shrink-0" />
                 {item.label}
                 {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
@@ -71,7 +71,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4">
           <button onClick={logout} className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium text-gray-400 hover:bg-red-900/30 hover:text-red-400 transition-all w-full">
             <LogOut className="w-4 h-4" /> Esci
           </button>
@@ -81,8 +81,8 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
       {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
       <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
-        <header className="lg:hidden bg-gray-900 px-4 py-4 flex items-center gap-4 sticky top-0 z-30">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-xl hover:bg-gray-800 transition-colors">
+        <header className="lg:hidden bg-black/80 backdrop-blur-2xl px-4 py-4 flex items-center gap-4 sticky top-0 z-30">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-xl hover:bg-white/10 transition-colors">
             <Menu className="w-5 h-5 text-white" />
           </button>
           <span className="font-semibold text-white">Admin Panel</span>
