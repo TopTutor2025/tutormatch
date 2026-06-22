@@ -55,13 +55,13 @@ export default function SubjectsTicker({ subjects }: { subjects: Subject[] }) {
       {subjects.map((s, i) => (
         <div
           key={s.id}
-          className="flex-shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm p-3 flex items-center gap-2 select-none"
-          style={{ width: '140px' }}
+          className="flex-shrink-0 bg-white/[0.05] rounded-2xl border border-white/10 p-3 flex items-center gap-2 select-none hover:border-emerald-400/40 hover:bg-white/[0.08] transition-colors"
+          style={{ width: '150px' }}
         >
-          <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${COLORS[i % COLORS.length]} flex items-center justify-center flex-shrink-0`}>
+          <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${COLORS[i % COLORS.length]} flex items-center justify-center flex-shrink-0 shadow-lg`}>
             <BookOpen className="w-4 h-4 text-white" />
           </div>
-          <span className="text-xs font-semibold text-gray-800 leading-tight">{s.name}</span>
+          <span className="text-xs font-semibold text-gray-100 leading-tight">{s.name}</span>
         </div>
       ))}
     </div>
