@@ -314,8 +314,40 @@ export default function LandingPage() {
             <p className="text-base md:text-lg text-gray-400">Nessuna sorpresa. Paghi solo quello che usi.</p>
           </div>
 
-          {/* Abbonamenti */}
+          {/* Riga 1: Lezione di prova + Ore lezione */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+            {/* Lezione di prova */}
+            <div className="rounded-3xl p-8 bg-white/[0.04] border border-emerald-400/25">
+              <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-emerald-400/15 text-emerald-300 px-3 py-1 rounded-full">Lezione di prova</span>
+              <div className="text-4xl font-extrabold text-white mt-4 mb-1">€15</div>
+              <p className="text-sm text-gray-400 mb-4">una tantum · una per account</p>
+              <p className="text-sm text-gray-300 leading-relaxed">
+                1 lezione <strong className="text-white">online da 1 ora</strong>, valida per ogni grado e prenotabile <strong className="text-white">senza abbonamento</strong>. Per provare il servizio.
+              </p>
+            </div>
+            {/* Ore lezione */}
+            <div className="rounded-3xl p-8 bg-white/[0.04] border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-4">Ore lezione</h3>
+              <div className="space-y-3 mb-4">
+                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
+                  <span className="text-sm font-medium text-gray-300">Medie</span>
+                  <span className="font-bold text-white">€12,50/h</span>
+                </div>
+                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
+                  <span className="text-sm font-medium text-gray-300">Superiori</span>
+                  <span className="font-bold text-white">€12,50/h</span>
+                </div>
+                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
+                  <span className="text-sm font-medium text-gray-300">Università</span>
+                  <span className="font-bold text-white">€15,00/h</span>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500">Acquistabili con abbonamento attivo</p>
+            </div>
+          </div>
+
+          {/* Riga 2: Abbonamenti */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto mt-6 md:mt-8">
             {/* Mensile */}
             <div className="rounded-3xl p-8 bg-white/[0.04] border border-white/10">
               <h3 className="text-lg font-bold text-white mb-2">Mensile</h3>
@@ -345,44 +377,20 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Prova, ore, pacchetto spot */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-6 md:mt-8">
-            {/* Lezione di prova */}
-            <div className="rounded-3xl p-8 bg-white/[0.04] border border-emerald-400/25">
-              <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-emerald-400/15 text-emerald-300 px-3 py-1 rounded-full">Lezione di prova</span>
-              <div className="text-4xl font-extrabold text-white mt-4 mb-1">€15</div>
-              <p className="text-sm text-gray-400 mb-4">una tantum · una per account</p>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                1 lezione <strong className="text-white">online da 1 ora</strong>, valida per ogni grado e prenotabile <strong className="text-white">senza abbonamento</strong>. Per provare il servizio.
-              </p>
-            </div>
-            {/* Ore lezione */}
-            <div className="rounded-3xl p-8 bg-white/[0.04] border border-white/10">
-              <h3 className="text-lg font-bold text-white mb-4">Ore lezione</h3>
-              <div className="space-y-3 mb-4">
-                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
-                  <span className="text-sm font-medium text-gray-300">Medie</span>
-                  <span className="font-bold text-white">€12,50/h</span>
-                </div>
-                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
-                  <span className="text-sm font-medium text-gray-300">Superiori</span>
-                  <span className="font-bold text-white">€12,50/h</span>
-                </div>
-                <div className="flex justify-between items-center bg-white/5 rounded-2xl px-4 py-3">
-                  <span className="text-sm font-medium text-gray-300">Università</span>
-                  <span className="font-bold text-white">€15,00/h</span>
-                </div>
+          {/* Riga 3: Pacchetto Spot (card lunga) */}
+          <div className="max-w-3xl mx-auto mt-6 md:mt-8">
+            <div className="rounded-3xl p-8 bg-white/[0.04] border border-pink-400/30 flex flex-col sm:flex-row sm:items-center gap-6 justify-between">
+              <div className="flex-1">
+                <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-pink-500/15 text-pink-300 px-3 py-1 rounded-full">Senza abbonamento</span>
+                <h3 className="text-lg font-bold text-white mt-3 mb-1">Pacchetto Spot</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Pacchetto unico da 15 ore valide per <strong className="text-white">ogni grado</strong> e utilizzabili <strong className="text-white">senza abbonamento attivo</strong>.
+                </p>
               </div>
-              <p className="text-xs text-gray-500">Acquistabili con abbonamento attivo</p>
-            </div>
-            {/* Pacchetto Spot */}
-            <div className="rounded-3xl p-8 bg-white/[0.04] border border-pink-400/30">
-              <span className="inline-flex items-center text-xs font-bold uppercase tracking-wide bg-pink-500/15 text-pink-300 px-3 py-1 rounded-full">Senza abbonamento</span>
-              <div className="text-4xl font-extrabold text-white mt-4 mb-1">€300</div>
-              <p className="text-sm text-gray-400 mb-4">15 ore · 20€/ora</p>
-              <p className="text-sm text-gray-300 leading-relaxed">
-                Pacchetto unico da 15 ore valide per <strong className="text-white">ogni grado</strong> e utilizzabili <strong className="text-white">senza abbonamento attivo</strong>.
-              </p>
+              <div className="text-center sm:text-right flex-shrink-0 sm:pl-6 sm:border-l border-white/10">
+                <div className="text-4xl font-extrabold text-white">€300</div>
+                <p className="text-sm text-gray-400 mt-0.5">15 ore · 20€/ora</p>
+              </div>
             </div>
           </div>
         </div>
