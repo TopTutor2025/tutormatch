@@ -1,12 +1,13 @@
 'use client'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ArrowLeft, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
 import { formatCurrency } from '@/lib/utils'
-import type { PricingConfig } from '@/types/database'
 
-const FAQ_ITEMS = (pricing: PricingConfig | null) => [
+// Compensi tutor fissi (non legati al prezzo studente): medie/superiori 10€, università 12,50€
+const TUTOR_RATES = { medie: 10, superiori: 10, universita: 12.5 }
+
+const FAQ_ITEMS = [
   {
     category: 'Registrazione e profilo',
     items: [
@@ -58,9 +59,7 @@ const FAQ_ITEMS = (pricing: PricingConfig | null) => [
     items: [
       {
         q: 'Quanto vengo pagato per ogni lezione?',
-        a: pricing
-          ? `La tariffa oraria dipende dal grado scolastico dell\'alunno:\n• Scuola Media: ${formatCurrency(pricing.hour_rate_medie)}/ora\n• Scuola Superiore: ${formatCurrency(pricing.hour_rate_superiori)}/ora\n• Università: ${formatCurrency(pricing.hour_rate_universita)}/ora\n\nPer le lezioni in presenza (2 ore) il compenso è il doppio della tariffa oraria corrispondente.`
-          : 'La tariffa oraria è stabilita dall\'amministratore per grado scolastico (Medie, Superiori, Università) e visibile nella sezione Prezzi della piattaforma. Per le lezioni in presenza (2 ore) il compenso è il doppio della tariffa oraria.',
+        a: `Il compenso orario dipende dal grado scolastico dell\'alunno:\n• Scuola Media: ${formatCurrency(TUTOR_RATES.medie)}/ora\n• Scuola Superiore: ${formatCurrency(TUTOR_RATES.superiori)}/ora\n• Università: ${formatCurrency(TUTOR_RATES.universita)}/ora\n\nPer le lezioni in presenza (2 ore) il compenso è il doppio della tariffa oraria corrispondente. I compensi sono fissi e non variano in base al prezzo pagato dallo studente.`,
       },
       {
         q: 'Quando ricevo il pagamento?',
@@ -104,21 +103,13 @@ const FAQ_ITEMS = (pricing: PricingConfig | null) => [
 ]
 
 export default function FaqTutorPage() {
-  const supabase = createClient()
-  const [pricing, setPricing] = useState<PricingConfig | null>(null)
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({})
-
-  useEffect(() => {
-    supabase.from('pricing_config').select('*').single().then(({ data }) => {
-      if (data) setPricing(data)
-    })
-  }, [])
 
   function toggle(key: string) {
     setOpenItems(prev => ({ ...prev, [key]: !prev[key] }))
   }
 
-  const faqs = FAQ_ITEMS(pricing)
+  const faqs = FAQ_ITEMS
 
   return (
     <div className="min-h-screen bg-[#060a08] relative overflow-hidden">
@@ -159,27 +150,25 @@ export default function FaqTutorPage() {
           </p>
 
           {/* Riepilogo tariffe */}
-          {pricing && (
-            <div className="mt-8 bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-white">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Tariffe attuali per i tutor</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                {[
-                  { label: 'Medie', value: pricing.hour_rate_medie },
-                  { label: 'Superiori', value: pricing.hour_rate_superiori },
-                  { label: 'Università', value: pricing.hour_rate_universita },
-                ].map(item => (
-                  <div key={item.label} className="bg-white/10 rounded-xl p-3 sm:p-4 flex sm:flex-col items-center sm:items-center justify-between sm:justify-center gap-2 sm:gap-0 text-center">
-                    <p className="text-xs text-gray-400 sm:mb-1">{item.label}</p>
-                    <p className="text-xl font-bold">{formatCurrency(item.value)}</p>
-                    <p className="text-xs text-gray-400 sm:mt-0.5">/ ora</p>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-gray-400 mt-4 text-center">
-                Pagamento mensile entro il 15 del mese successivo · Nessuna commissione
-              </p>
+          <div className="mt-8 bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-white">
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Compensi per i tutor</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+              {[
+                { label: 'Medie', value: TUTOR_RATES.medie },
+                { label: 'Superiori', value: TUTOR_RATES.superiori },
+                { label: 'Università', value: TUTOR_RATES.universita },
+              ].map(item => (
+                <div key={item.label} className="bg-white/10 rounded-xl p-3 sm:p-4 flex sm:flex-col items-center sm:items-center justify-between sm:justify-center gap-2 sm:gap-0 text-center">
+                  <p className="text-xs text-gray-400 sm:mb-1">{item.label}</p>
+                  <p className="text-xl font-bold">{formatCurrency(item.value)}</p>
+                  <p className="text-xs text-gray-400 sm:mt-0.5">/ ora</p>
+                </div>
+              ))}
             </div>
-          )}
+            <p className="text-xs text-gray-400 mt-4 text-center">
+              Pagamento mensile entro il 15 del mese successivo · Nessuna commissione
+            </p>
+          </div>
 
           {/* FAQ accordion */}
           <div className="mt-10 space-y-10">
