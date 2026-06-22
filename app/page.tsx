@@ -215,7 +215,7 @@ export default function LandingPage() {
       <section className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6 bg-[#060a08]">
         <div className="absolute bottom-0 right-0 w-[520px] h-[320px] bg-teal-500/10 blur-[130px] pointer-events-none" />
         <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-6">
                 Tutto quello che ti serve,<br />
@@ -404,7 +404,7 @@ export default function LandingPage() {
       {/* DIVENTA TUTOR */}
       <section id="tutor" className="relative overflow-hidden py-16 md:py-24 px-4 md:px-6 bg-[#060a08]">
         <div className="absolute -bottom-20 left-1/4 w-[560px] h-[320px] bg-emerald-500/10 blur-[140px] pointer-events-none" />
-        <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left: testo */}
           <div>
             <div className="inline-flex items-center gap-2 bg-emerald-400/10 border border-emerald-400/20 text-emerald-300 text-xs font-semibold px-4 py-2 rounded-full mb-6 md:mb-8">
