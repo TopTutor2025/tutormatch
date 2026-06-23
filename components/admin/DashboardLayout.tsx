@@ -47,7 +47,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
             <div>
               <span className="text-xl font-extrabold tracking-tight">
                 <span className="text-white">prof</span>
-                <span className="italic bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">live</span>
+                <span className="italic pr-[0.12em] bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">live</span>
                 <span className="text-white">.app</span>
               </span>
               <div className="flex items-center gap-1 mt-0.5">

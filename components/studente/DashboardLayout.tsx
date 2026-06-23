@@ -103,7 +103,7 @@ export default function StudentDashboardLayout({ children }: Props) {
           <Link href="/" className="flex items-center">
             <span className="text-xl font-extrabold tracking-tight">
               <span className="text-gray-900">prof</span>
-              <span className="italic bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">live</span>
+              <span className="italic pr-[0.12em] bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">live</span>
               <span className="text-gray-900">.app</span>
             </span>
           </Link>
@@ -167,7 +167,7 @@ export default function StudentDashboardLayout({ children }: Props) {
           </button>
           <span className="text-lg font-extrabold tracking-tight">
             <span className="text-gray-900">prof</span>
-            <span className="italic bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">live</span>
+            <span className="italic pr-[0.12em] bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">live</span>
             <span className="text-gray-900">.app</span>
           </span>
           {sidebarOpen && (

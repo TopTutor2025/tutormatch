@@ -477,7 +477,7 @@ export default function LandingPage() {
             <div className="col-span-2 md:col-span-1">
               <span className="text-xl font-extrabold tracking-tight block mb-4">
                 <span className="text-white">prof</span>
-                <span className="italic bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">live</span>
+                <span className="italic pr-[0.12em] bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">live</span>
                 <span className="text-white">.app</span>
               </span>
               <p className="text-gray-400 text-sm leading-relaxed">La piattaforma che connette studenti e tutor per lezioni online e in presenza.</p>
