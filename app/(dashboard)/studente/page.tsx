@@ -34,8 +34,7 @@ export default function StudentDashboardPage() {
           .select('*')
           .eq('student_id', user.id)
           .eq('status', 'confermato')
-          .order('created_at', { ascending: true })
-          .limit(3),
+          .order('created_at', { ascending: true }),
       ])
       setProfile(p)
       setStudentProfile(sp)
