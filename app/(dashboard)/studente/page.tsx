@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Search, Clock, CreditCard, Calendar, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, X, HelpCircle, MapPin, Video, ImagePlus } from 'lucide-react'
 import { formatDate, formatTime, GRADE_LABELS, MODE_LABELS } from '@/lib/utils'
+import TrialSpotPromo from '@/components/studente/TrialSpotPromo'
 import type { Profile, StudentProfile, Subscription, Booking } from '@/types/database'
 
 export default function StudentDashboardPage() {
@@ -178,6 +179,9 @@ export default function StudentDashboardPage() {
             <span className="hidden sm:inline">Guida</span>
           </button>
         </div>
+
+        {/* Lezione di prova + Pacchetto Spot */}
+        <TrialSpotPromo studentProfile={studentProfile} />
 
         {/* Stats cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
