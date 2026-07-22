@@ -78,59 +78,61 @@ export default function StudentDashboardPage() {
 
   return (
       <div className="space-y-8">
-        {/* Header */}
-        <div>
-          <h1 className="text-2xl font-bold text-black">Ciao, {profile?.first_name}! 👋</h1>
-          <p className="text-gray-500 mt-1">Ecco il riepilogo della tua area personale</p>
-        </div>
-
-        {/* Prossime lezioni (scroll orizzontale) */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-black">Prossime lezioni</h2>
-            <Link href="/studente/lezioni" className="text-sm text-gray-500 hover:text-black font-medium flex items-center gap-1">
-              Vedi tutte <ChevronRight className="w-4 h-4" />
-            </Link>
+        {/* Header + prossime lezioni accanto */}
+        <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-6">
+          {/* Saluto */}
+          <div className="lg:w-56 flex-shrink-0">
+            <h1 className="text-2xl font-bold text-black">Ciao, {profile?.first_name}! 👋</h1>
+            <p className="text-gray-500 mt-1">Ecco il riepilogo della tua area personale</p>
           </div>
 
-          {futureBookings.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
-              <BookOpen className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <p className="font-medium text-gray-600">Nessuna lezione programmata</p>
-              <p className="text-sm text-gray-400 mt-1">Cerca un tutor per prenotare la tua prima lezione</p>
-              <Link href="/studente/cerca" className="inline-flex items-center gap-2 bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-2xl hover:bg-gray-800 transition-colors mt-4">
-                <Search className="w-4 h-4" /> Cerca tutor
+          {/* Prossime lezioni (scroll orizzontale) */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-bold text-black">Prossime lezioni</h2>
+              <Link href="/studente/lezioni" className="text-sm text-gray-500 hover:text-black font-medium flex items-center gap-1">
+                Vedi tutte <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-          ) : (
-            <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
-              {futureBookings.map((booking: any) => (
-                <div key={booking.id} className="bg-white rounded-2xl border border-gray-100 p-4 shadow-soft flex-shrink-0 w-[280px] sm:w-[320px] snap-start flex flex-col">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-pink-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                      {booking.mode === 'online' ? <Star className="w-5 h-5 text-pink-500" /> : <CheckCircle className="w-5 h-5 text-green-500" />}
+
+            {futureBookings.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center">
+                <BookOpen className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                <p className="font-medium text-gray-600 text-sm">Nessuna lezione programmata</p>
+                <Link href="/studente/cerca" className="inline-flex items-center gap-2 bg-black text-white text-xs font-semibold px-4 py-2 rounded-xl hover:bg-gray-800 transition-colors mt-3">
+                  <Search className="w-4 h-4" /> Cerca tutor
+                </Link>
+              </div>
+            ) : (
+              <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
+                {futureBookings.map((booking: any) => (
+                  <div key={booking.id} className="bg-white rounded-2xl border border-gray-100 p-4 shadow-soft flex-shrink-0 w-[280px] sm:w-[300px] snap-start flex flex-col">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-pink-50 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        {booking.mode === 'online' ? <Star className="w-5 h-5 text-pink-500" /> : <CheckCircle className="w-5 h-5 text-green-500" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-sm text-black truncate">{booking.subject?.name} · {GRADE_LABELS[booking.grade]}</p>
+                        <p className="text-xs text-gray-500 mt-0.5 truncate">
+                          {booking.tutor_profile?.profile?.first_name} · {booking.slot ? formatDate(booking.slot.date) : ''} · {booking.slot ? `${formatTime(booking.slot.start_time)} – ${formatTime(booking.second_slot?.end_time ?? booking.slot.end_time)}` : ''}
+                        </p>
+                      </div>
+                      <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${booking.mode === 'online' ? 'bg-blue-50 text-blue-700' : 'bg-green-50 text-green-700'}`}>
+                        {MODE_LABELS[booking.mode]}
+                      </span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm text-black truncate">{booking.subject?.name} · {GRADE_LABELS[booking.grade]}</p>
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">
-                        {booking.tutor_profile?.profile?.first_name} · {booking.slot ? formatDate(booking.slot.date) : ''} · {booking.slot ? `${formatTime(booking.slot.start_time)} – ${formatTime(booking.second_slot?.end_time ?? booking.slot.end_time)}` : ''}
-                      </p>
-                    </div>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${booking.mode === 'online' ? 'bg-blue-50 text-blue-700' : 'bg-green-50 text-green-700'}`}>
-                      {MODE_LABELS[booking.mode]}
-                    </span>
+                    <p className="text-xs text-gray-400 mt-2 truncate">{booking.topic}</p>
+                    {booking.mode === 'online' && booking.meet_link && (
+                      <a href={booking.meet_link} target="_blank" rel="noopener noreferrer"
+                        className="mt-3 flex items-center justify-center gap-1.5 text-xs bg-black text-white px-3 py-2 rounded-xl hover:bg-gray-800 transition-colors">
+                        Entra in videochiamata
+                      </a>
+                    )}
                   </div>
-                  <p className="text-xs text-gray-400 mt-2 truncate">{booking.topic}</p>
-                  {booking.mode === 'online' && booking.meet_link && (
-                    <a href={booking.meet_link} target="_blank" rel="noopener noreferrer"
-                      className="mt-3 flex items-center justify-center gap-1.5 text-xs bg-black text-white px-3 py-2 rounded-xl hover:bg-gray-800 transition-colors">
-                      Entra in videochiamata
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Lezione di prova + Pacchetto Spot */}
