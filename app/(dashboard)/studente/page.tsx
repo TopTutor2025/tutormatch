@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Search, Clock, CreditCard, Calendar, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, HelpCircle } from 'lucide-react'
+import { Search, CreditCard, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, HelpCircle } from 'lucide-react'
 import { formatDate, formatTime, GRADE_LABELS, MODE_LABELS } from '@/lib/utils'
 import TrialSpotPromo from '@/components/studente/TrialSpotPromo'
 import type { Profile, StudentProfile, Subscription, Booking } from '@/types/database'
@@ -178,22 +178,6 @@ export default function StudentDashboardPage() {
               </Link>
             </div>
           )}
-        </div>
-
-        {/* Azioni rapide */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { label: 'Cerca tutor', href: '/studente/cerca', icon: Search, color: 'bg-black text-white' },
-            { label: 'Le mie lezioni', href: '/studente/lezioni', icon: Calendar, color: 'bg-pink-50 text-pink-700 border border-pink-200' },
-            { label: 'Acquista ore', href: '/studente/ore', icon: Clock, color: 'bg-gray-50 text-gray-700 border border-gray-200' },
-            { label: 'Chat', href: '/studente/chat', icon: Star, color: 'bg-gray-50 text-gray-700 border border-gray-200' },
-          ].map(action => (
-            <Link key={action.label} href={action.href}
-              className={`${action.color} rounded-2xl p-4 flex flex-col gap-2 hover:opacity-90 transition-all hover:-translate-y-0.5`}>
-              <action.icon className="w-5 h-5" />
-              <span className="text-sm font-semibold">{action.label}</span>
-            </Link>
-          ))}
         </div>
 
         {/* FAQ */}
