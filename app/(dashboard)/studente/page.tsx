@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Search, CreditCard, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, HelpCircle, MessageSquare } from 'lucide-react'
+import { Search, CreditCard, ChevronRight, ChevronDown, ChevronUp, BookOpen, HelpCircle, MessageSquare } from 'lucide-react'
 import { formatDate, formatTime, GRADE_LABELS, MODE_LABELS } from '@/lib/utils'
 import TrialSpotPromo from '@/components/studente/TrialSpotPromo'
 import ChatInterface from '@/components/chat/ChatInterface'
@@ -103,9 +103,6 @@ export default function StudentDashboardPage() {
                 {futureBookings.map((booking: any) => (
                   <div key={booking.id} className="bg-white rounded-2xl border border-gray-100 p-4 shadow-soft flex-shrink-0 w-[280px] sm:w-[300px] snap-start flex flex-col">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-pink-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                        {booking.mode === 'online' ? <Star className="w-5 h-5 text-pink-500" /> : <CheckCircle className="w-5 h-5 text-green-500" />}
-                      </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-sm text-black truncate">{booking.subject?.name} · {GRADE_LABELS[booking.grade]}</p>
                         <p className="text-xs text-gray-500 mt-0.5 truncate">
