@@ -43,11 +43,13 @@ export default function PrefertiPage() {
   }
 
   async function startChat(tutorId: string) {
-    const { data: existing } = await supabase.from('conversations').select('id').eq('student_id', userId).eq('tutor_id', tutorId).single()
-    if (!existing) {
-      await supabase.from('conversations').insert({ student_id: userId, tutor_id: tutorId })
+    const { data: existing } = await supabase.from('conversations').select('id').eq('student_id', userId).eq('tutor_id', tutorId).maybeSingle()
+    let convId = existing?.id
+    if (!convId) {
+      const { data: newConv } = await supabase.from('conversations').insert({ student_id: userId, tutor_id: tutorId }).select('id').single()
+      convId = newConv?.id
     }
-    router.push('/studente/chat')
+    router.push(convId ? `/studente?conv=${convId}` : '/studente')
   }
 
   if (loading) return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" /></div>

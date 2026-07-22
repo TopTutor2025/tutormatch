@@ -191,12 +191,12 @@ export default function CercaTutorPage() {
     const { data: existing } = await supabase.from('conversations')
       .select('id').eq('student_id', userId).eq('tutor_id', tutor.id).maybeSingle()
     if (existing) {
-      router.push(`/studente/chat?conv=${existing.id}`)
+      router.push(`/studente?conv=${existing.id}`)
       return
     }
     const { data: newConv } = await supabase.from('conversations')
       .insert({ student_id: userId, tutor_id: tutor.id }).select('id').single()
-    if (newConv) router.push(`/studente/chat?conv=${newConv.id}`)
+    if (newConv) router.push(`/studente?conv=${newConv.id}`)
   }
 
   async function openReviews(tutor: TutorCard) {

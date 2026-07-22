@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, Search, Heart, Calendar, CreditCard, Clock, MessageSquare, User, LogOut, Menu, X, ChevronRight } from 'lucide-react'
+import { GraduationCap, Search, Heart, Calendar, CreditCard, Clock, User, LogOut, Menu, X, ChevronRight } from 'lucide-react'
 import type { Profile, StudentProfile } from '@/types/database'
 
 const navItems = [
@@ -13,7 +13,6 @@ const navItems = [
   { href: '/studente/lezioni', label: 'Le mie lezioni', icon: Calendar },
   { href: '/studente/abbonamento', label: 'Abbonamento', icon: CreditCard },
   { href: '/studente/ore', label: 'Ore lezione', icon: Clock },
-  { href: '/studente/chat', label: 'Chat', icon: MessageSquare },
   { href: '/studente/profilo', label: 'Profilo', icon: User },
 ]
 
@@ -133,7 +132,7 @@ export default function StudentDashboardLayout({ children }: Props) {
                 className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all ${isActive ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}>
                 <item.icon className="w-4 h-4 flex-shrink-0" />
                 {item.label}
-                {item.href === '/studente/chat' && unreadCount > 0 && (
+                {item.href === '/studente' && unreadCount > 0 && (
                   <span className="ml-auto bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>

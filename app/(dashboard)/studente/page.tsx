@@ -1,15 +1,19 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Search, CreditCard, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, HelpCircle } from 'lucide-react'
+import { Search, CreditCard, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, HelpCircle, MessageSquare } from 'lucide-react'
 import { formatDate, formatTime, GRADE_LABELS, MODE_LABELS } from '@/lib/utils'
 import TrialSpotPromo from '@/components/studente/TrialSpotPromo'
+import ChatInterface from '@/components/chat/ChatInterface'
 import type { Profile, StudentProfile, Subscription, Booking } from '@/types/database'
 
 export default function StudentDashboardPage() {
   const supabase = createClient()
+  const searchParams = useSearchParams()
+  const convParam = searchParams.get('conv') || undefined
+  const [userId, setUserId] = useState('')
   const [profile, setProfile] = useState<Profile | null>(null)
   const [studentProfile, setStudentProfile] = useState<StudentProfile | null>(null)
   const [subscription, setSubscription] = useState<Subscription | null>(null)
@@ -21,6 +25,7 @@ export default function StudentDashboardPage() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+      setUserId(user.id)
       const [{ data: p }, { data: sp }, { data: sub }, { data: bks }] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', user.id).single(),
         supabase.from('student_profiles').select('*').eq('id', user.id).single(),
@@ -178,6 +183,15 @@ export default function StudentDashboardPage() {
               </Link>
             </div>
           )}
+        </div>
+
+        {/* Chat con i tutor */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <MessageSquare className="w-5 h-5 text-gray-400" />
+            <h2 className="text-lg font-bold text-black">Chat con i tuoi tutor</h2>
+          </div>
+          {userId && <ChatInterface userId={userId} userRole="studente" initialConvId={convParam} />}
         </div>
 
         {/* FAQ */}

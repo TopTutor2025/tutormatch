@@ -1,30 +1,21 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import ChatInterface from '@/components/chat/ChatInterface'
+import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function StudentChatPage() {
-  const supabase = createClient()
+// La chat è stata spostata nella dashboard: reindirizziamo eventuali
+// link/bookmark verso /studente (mantenendo il parametro conv).
+export default function StudentChatRedirect() {
+  const router = useRouter()
   const searchParams = useSearchParams()
-  const [userId, setUserId] = useState('')
-  const initialConvId = searchParams.get('conv') || undefined
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) setUserId(user.id)
-    })
+    const conv = searchParams.get('conv')
+    router.replace(conv ? `/studente?conv=${conv}` : '/studente')
   }, [])
 
-  if (!userId) return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" /></div>
-
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-black">Chat</h1>
-        <p className="text-gray-500 mt-1">Messaggi con i tuoi tutor</p>
-      </div>
-      <ChatInterface userId={userId} userRole="studente" initialConvId={initialConvId} />
+    <div className="flex items-center justify-center h-64">
+      <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" />
     </div>
   )
 }
