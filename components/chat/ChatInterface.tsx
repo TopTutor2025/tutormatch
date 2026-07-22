@@ -106,12 +106,21 @@ export default function ChatInterface({ userId, userRole, initialConvId, compact
       image_url = publicUrl
     }
 
-    await supabase.from('messages').insert({
+    const { data: inserted } = await supabase.from('messages').insert({
       conversation_id: activeConv,
       sender_id: userId,
       content: hasText ? newMessage.trim() : null,
       image_url,
-    })
+    }).select('id').single()
+
+    // Notifica email "smart" al destinatario (non blocca l'invio)
+    if (inserted?.id) {
+      fetch('/api/chat/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messageId: inserted.id }),
+      }).catch(() => {})
+    }
 
     setNewMessage('')
     removeImage()

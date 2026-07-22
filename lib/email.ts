@@ -231,3 +231,32 @@ export function bookingCancelTutorHtml(data: {
     </p>`
   return baseTemplate(content)
 }
+
+// ─── NUOVO MESSAGGIO IN CHAT ────────────────────────────────────────────────
+
+export function newMessageHtml(data: {
+  recipientName: string
+  senderName: string
+  preview: string
+  chatUrl: string
+}): string {
+  const content = `
+    <div style="margin-bottom:24px;">
+      <div style="display:inline-block;background:#dcfce7;color:#16a34a;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:16px;">💬 Nuovo messaggio</div>
+      <h1 style="margin:0 0 8px;font-size:22px;font-weight:800;color:#111827;">Ciao ${data.recipientName}!</h1>
+      <p style="margin:0;color:#6b7280;font-size:15px;line-height:1.5;">Hai ricevuto un nuovo messaggio da <strong>${data.senderName}</strong>.</p>
+    </div>
+
+    <div style="background:#f9fafb;border-left:3px solid #111827;border-radius:8px;padding:14px 18px;margin-bottom:24px;">
+      <p style="margin:0;color:#374151;font-size:14px;line-height:1.6;">${data.preview}</p>
+    </div>
+
+    <a href="${data.chatUrl}" style="display:inline-block;background:#000;color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:12px 24px;border-radius:10px;">
+      Rispondi ora →
+    </a>
+
+    <p style="color:#9ca3af;font-size:12px;margin:20px 0 0;line-height:1.6;">
+      Riceverai una sola email per questa conversazione finché non la apri, così non intasiamo la tua casella.
+    </p>`
+  return baseTemplate(content)
+}

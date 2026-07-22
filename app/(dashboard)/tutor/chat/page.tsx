@@ -1,11 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import ChatInterface from '@/components/chat/ChatInterface'
 
 export default function TutorChatPage() {
   const supabase = createClient()
+  const searchParams = useSearchParams()
   const [userId, setUserId] = useState('')
+  const initialConvId = searchParams.get('conv') || undefined
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => { if (user) setUserId(user.id) })
@@ -19,7 +22,7 @@ export default function TutorChatPage() {
         <h1 className="text-2xl font-bold text-black">Chat</h1>
         <p className="text-gray-500 mt-1">Messaggi con i tuoi studenti</p>
       </div>
-      <ChatInterface userId={userId} userRole="tutor" />
+      <ChatInterface userId={userId} userRole="tutor" initialConvId={initialConvId} />
     </div>
   )
 }
