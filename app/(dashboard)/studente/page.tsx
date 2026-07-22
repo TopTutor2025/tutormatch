@@ -78,17 +78,9 @@ export default function StudentDashboardPage() {
 
   return (
       <div className="space-y-8">
-        {/* Header + prossime lezioni accanto */}
-        <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-6">
-          {/* Saluto */}
-          <div className="lg:w-56 flex-shrink-0">
-            <h1 className="text-2xl font-bold text-black">Ciao, {profile?.first_name}! 👋</h1>
-            <p className="text-gray-500 mt-1">Ecco il riepilogo della tua area personale</p>
-          </div>
-
-          {/* Prossime lezioni (scroll orizzontale) */}
-          <div className="flex-1 min-w-0">
-            <h2 className="text-lg font-bold text-black mb-3">Prossime lezioni</h2>
+        {/* Prossime lezioni (scroll orizzontale) */}
+        <div>
+          <h2 className="text-lg font-bold text-black mb-3">Prossime lezioni</h2>
 
             {futureBookings.length === 0 ? (
               <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center">
@@ -124,7 +116,6 @@ export default function StudentDashboardPage() {
                 ))}
               </div>
             )}
-          </div>
         </div>
 
         {/* Lezione di prova + Pacchetto Spot */}
