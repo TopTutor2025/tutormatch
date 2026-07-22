@@ -32,29 +32,27 @@ export default function TrialSpotPromo({ studentProfile }: { studentProfile: Stu
               1 lezione <strong className="text-gray-700">online da 1 ora</strong>, valida per ogni grado e <strong className="text-gray-700">senza abbonamento</strong> · una per account.
             </p>
           </div>
-          <div className="flex items-center gap-4 sm:w-48 flex-shrink-0 sm:border-l sm:border-emerald-200 sm:pl-5">
+          <div className="flex flex-col items-center gap-2.5 w-full sm:w-44 flex-shrink-0 sm:border-l sm:border-emerald-200 sm:pl-5">
             {studentProfile?.trial_purchased ? (
-              <div className="flex-1 text-center">
-                {(studentProfile?.hour_credits_trial || 0) > 0 ? (
-                  <>
-                    <p className="text-sm font-bold text-emerald-600">Prova disponibile</p>
-                    <p className="text-[11px] text-gray-500 mt-0.5">Prenotala da “Cerca tutor”</p>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-sm font-bold text-gray-400">Già utilizzata</p>
-                    <p className="text-[11px] text-gray-400 mt-0.5">Hai già usato la prova</p>
-                  </>
-                )}
-              </div>
+              (studentProfile?.hour_credits_trial || 0) > 0 ? (
+                <div className="text-center">
+                  <p className="text-sm font-bold text-emerald-600">Prova disponibile</p>
+                  <p className="text-[11px] text-gray-500 mt-0.5">Prenotala da “Cerca tutor”</p>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <p className="text-sm font-bold text-gray-400">Già utilizzata</p>
+                  <p className="text-[11px] text-gray-400 mt-0.5">Hai già usato la prova</p>
+                </div>
+              )
             ) : (
               <>
-                <div className="text-center flex-shrink-0">
+                <div className="text-center">
                   <p className="text-2xl font-extrabold text-emerald-600 leading-none">{formatCurrency(15)}</p>
-                  <p className="text-[10px] text-gray-500 mt-1">1 lezione</p>
+                  <p className="text-[10px] text-gray-500 mt-1">1 lezione online</p>
                 </div>
                 <Button size="sm" loading={redirecting} onClick={() => buy('trial')}
-                  className="flex-1 rounded-xl !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_4px_14px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.5)]">
+                  className="w-full rounded-xl !bg-gradient-to-r from-emerald-400 to-teal-400 !text-black shadow-[0_4px_14px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_18px_rgba(16,185,129,0.5)]">
                   <Plus className="w-3.5 h-3.5" /> Prova ora
                 </Button>
               </>
@@ -73,13 +71,13 @@ export default function TrialSpotPromo({ studentProfile }: { studentProfile: Stu
               Ore valide per <strong className="text-gray-700">ogni grado</strong> e utilizzabili <strong className="text-gray-700">senza abbonamento attivo</strong> · pacchetto unico da 15 ore.
             </p>
           </div>
-          <div className="flex items-center gap-4 sm:w-48 flex-shrink-0 sm:border-l sm:border-pink-200 sm:pl-5">
-            <div className="text-center flex-shrink-0">
+          <div className="flex flex-col items-center gap-2.5 w-full sm:w-44 flex-shrink-0 sm:border-l sm:border-pink-200 sm:pl-5">
+            <div className="text-center">
               <p className="text-2xl font-extrabold text-pink-600 leading-none">{formatCurrency(300)}</p>
-              <p className="text-[10px] text-gray-500 mt-1">15h · 20€/h</p>
+              <p className="text-[10px] text-gray-500 mt-1">15h · 20€/ora</p>
             </div>
             <Button size="sm" loading={redirecting} onClick={() => buy('spot')}
-              className="flex-1 rounded-xl !bg-gradient-to-r from-pink-400 to-rose-400 !text-black shadow-[0_4px_14px_rgba(236,72,153,0.35)] hover:shadow-[0_6px_18px_rgba(236,72,153,0.5)]">
+              className="w-full rounded-xl !bg-gradient-to-r from-pink-400 to-rose-400 !text-black shadow-[0_4px_14px_rgba(236,72,153,0.35)] hover:shadow-[0_6px_18px_rgba(236,72,153,0.5)]">
               <Plus className="w-3.5 h-3.5" /> Acquista
             </Button>
           </div>
