@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Search, Clock, CreditCard, Calendar, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, X, HelpCircle, MapPin, Video, ImagePlus } from 'lucide-react'
+import { Search, Clock, CreditCard, Calendar, ChevronRight, ChevronDown, ChevronUp, Star, BookOpen, CheckCircle, HelpCircle } from 'lucide-react'
 import { formatDate, formatTime, GRADE_LABELS, MODE_LABELS } from '@/lib/utils'
 import TrialSpotPromo from '@/components/studente/TrialSpotPromo'
 import type { Profile, StudentProfile, Subscription, Booking } from '@/types/database'
@@ -15,7 +15,6 @@ export default function StudentDashboardPage() {
   const [subscription, setSubscription] = useState<Subscription | null>(null)
   const [futureBookings, setFutureBookings] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
-  const [showTutorial, setShowTutorial] = useState(false)
   const [openFaq, setOpenFaq] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
@@ -61,9 +60,6 @@ export default function StudentDashboardPage() {
       } else {
         setFutureBookings([])
       }
-      // Mostra tutorial se primo accesso
-      const tutorialDone = localStorage.getItem('student_tutorial_done')
-      if (!tutorialDone) setShowTutorial(true)
       setLoading(false)
     }
     load()
@@ -75,109 +71,61 @@ export default function StudentDashboardPage() {
     </div>
   )
 
-  const totalHours = studentProfile
-    ? studentProfile.hour_credits_medie + studentProfile.hour_credits_superiori + studentProfile.hour_credits_universita
-    : 0
-
   return (
-    <>
-      {/* Tutorial overlay */}
-      {showTutorial && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl animate-slide-up flex flex-col max-h-[90vh]">
-            {/* Header fisso */}
-            <div className="flex items-center justify-between px-5 sm:px-8 pt-6 sm:pt-8 pb-4 flex-shrink-0">
-              <div>
-                <h2 className="text-xl font-bold text-black">Come funziona Proflive 📚</h2>
-                <p className="text-sm text-gray-400 mt-0.5">Guida rapida alla piattaforma</p>
-              </div>
-              <button onClick={() => { setShowTutorial(false); localStorage.setItem('student_tutorial_done', '1') }}
-                className="p-2 rounded-xl hover:bg-gray-100 transition-colors flex-shrink-0">
-                <X className="w-5 h-5 text-gray-400" />
-              </button>
-            </div>
+      <div className="space-y-8">
+        {/* Header */}
+        <div>
+          <h1 className="text-2xl font-bold text-black">Ciao, {profile?.first_name}! 👋</h1>
+          <p className="text-gray-500 mt-1">Ecco il riepilogo della tua area personale</p>
+        </div>
 
-            {/* Passi scrollabili */}
-            <div className="overflow-y-auto flex-1 px-5 sm:px-8">
-            <div className="space-y-1 pb-4">
-              {[
-                {
-                  icon: CreditCard, color: 'bg-green-50 text-green-600', step: '1',
-                  title: 'Attiva l\'abbonamento',
-                  desc: 'Vai in "Abbonamento" e scegli il piano mensile o annuale. Senza abbonamento attivo non puoi prenotare lezioni. Puoi disattivare il rinnovo automatico in qualsiasi momento.',
-                },
-                {
-                  icon: Clock, color: 'bg-blue-50 text-blue-600', step: '2',
-                  title: 'Acquista le ore lezione',
-                  desc: 'Le ore sono distinte per grado scolastico: Medie, Superiori, Università. Ogni lezione online scala 1 ora, ogni lezione in presenza scala 2 ore (durata 2h). Acquistale dalla sezione "Ore lezione".',
-                },
-                {
-                  icon: Search, color: 'bg-purple-50 text-purple-600', step: '3',
-                  title: 'Cerca il tutor giusto',
-                  desc: 'Filtra per materia, grado scolastico e modalità. Con il filtro "Online" vedi tutti i tutor disponibili a distanza. Con "In presenza" inserisci il tuo indirizzo e vediamo i tutor entro 5km.',
-                },
-                {
-                  icon: Video, color: 'bg-pink-50 text-pink-600', step: '4',
-                  title: 'Prenota uno slot online',
-                  desc: 'Espandi un tutor, seleziona uno slot disponibile (rosa), scegli materia e argomento, e conferma. Ricevi automaticamente un link per la videochiamata.',
-                },
-                {
-                  icon: MapPin, color: 'bg-orange-50 text-orange-600', step: '5',
-                  title: 'Prenota in presenza (2 ore)',
-                  desc: 'Per le lezioni in presenza devi selezionare uno slot che abbia l\'ora successiva libera: la piattaforma prenota automaticamente 2 ore consecutive. Inserisci l\'indirizzo dell\'appuntamento.',
-                },
-                {
-                  icon: Star, color: 'bg-yellow-50 text-yellow-600', step: '6',
-                  title: 'Lascia una recensione',
-                  desc: 'Dopo ogni lezione completata puoi lasciare una valutazione al tutor (1–5 stelle + commento). Le recensioni aiutano gli altri studenti a scegliere.',
-                },
-                {
-                  icon: ImagePlus, color: 'bg-teal-50 text-teal-600', step: '7',
-                  title: 'Condividi materiale in chat',
-                  desc: 'Nella chat con il tutor puoi inviare foto di pagine del libro, quaderno, appunti, esercizi o slide: clicca l\'icona 📎 accanto al campo testo, scegli la foto (max 8MB) e inviala. Il tutor la vedrà e potrà scaricarla. Le foto vengono eliminate automaticamente dopo 7 giorni, i messaggi testuali restano sempre.',
-                },
-              ].map((step, i) => (
-                <div key={step.title} className={`flex gap-4 p-3 rounded-2xl ${i % 2 === 0 ? 'bg-gray-50' : ''}`}>
-                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 ${step.color}`}>
-                    <step.icon className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Passo {step.step}</span>
+        {/* Prossime lezioni (scroll orizzontale) */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold text-black">Prossime lezioni</h2>
+            <Link href="/studente/lezioni" className="text-sm text-gray-500 hover:text-black font-medium flex items-center gap-1">
+              Vedi tutte <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          {futureBookings.length === 0 ? (
+            <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
+              <BookOpen className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+              <p className="font-medium text-gray-600">Nessuna lezione programmata</p>
+              <p className="text-sm text-gray-400 mt-1">Cerca un tutor per prenotare la tua prima lezione</p>
+              <Link href="/studente/cerca" className="inline-flex items-center gap-2 bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-2xl hover:bg-gray-800 transition-colors mt-4">
+                <Search className="w-4 h-4" /> Cerca tutor
+              </Link>
+            </div>
+          ) : (
+            <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
+              {futureBookings.map((booking: any) => (
+                <div key={booking.id} className="bg-white rounded-2xl border border-gray-100 p-4 shadow-soft flex-shrink-0 w-[280px] sm:w-[320px] snap-start flex flex-col">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-pink-50 rounded-2xl flex items-center justify-center flex-shrink-0">
+                      {booking.mode === 'online' ? <Star className="w-5 h-5 text-pink-500" /> : <CheckCircle className="w-5 h-5 text-green-500" />}
                     </div>
-                    <p className="font-semibold text-sm text-black mt-0.5">{step.title}</p>
-                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">{step.desc}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm text-black truncate">{booking.subject?.name} · {GRADE_LABELS[booking.grade]}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 truncate">
+                        {booking.tutor_profile?.profile?.first_name} · {booking.slot ? formatDate(booking.slot.date) : ''} · {booking.slot ? `${formatTime(booking.slot.start_time)} – ${formatTime(booking.second_slot?.end_time ?? booking.slot.end_time)}` : ''}
+                      </p>
+                    </div>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${booking.mode === 'online' ? 'bg-blue-50 text-blue-700' : 'bg-green-50 text-green-700'}`}>
+                      {MODE_LABELS[booking.mode]}
+                    </span>
                   </div>
+                  <p className="text-xs text-gray-400 mt-2 truncate">{booking.topic}</p>
+                  {booking.mode === 'online' && booking.meet_link && (
+                    <a href={booking.meet_link} target="_blank" rel="noopener noreferrer"
+                      className="mt-3 flex items-center justify-center gap-1.5 text-xs bg-black text-white px-3 py-2 rounded-xl hover:bg-gray-800 transition-colors">
+                      Entra in videochiamata
+                    </a>
+                  )}
                 </div>
               ))}
             </div>
-            </div>
-
-            {/* Bottone fisso in fondo */}
-            <div className="px-5 sm:px-8 pb-6 sm:pb-8 pt-4 flex-shrink-0">
-              <button onClick={() => { setShowTutorial(false); localStorage.setItem('student_tutorial_done', '1') }}
-                className="w-full bg-black text-white font-semibold py-3.5 rounded-2xl hover:bg-gray-800 transition-colors">
-                Ho capito, inizia! 🚀
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-black">Ciao, {profile?.first_name}! 👋</h1>
-            <p className="text-gray-500 mt-1">Ecco il riepilogo della tua area personale</p>
-          </div>
-          <button
-            onClick={() => setShowTutorial(true)}
-            title="Mostra guida"
-            className="flex items-center gap-2 text-sm text-gray-500 hover:text-black bg-white border border-gray-200 hover:border-gray-400 px-3 py-2 rounded-2xl transition-all shadow-soft">
-            <HelpCircle className="w-4 h-4" />
-            <span className="hidden sm:inline">Guida</span>
-          </button>
+          )}
         </div>
 
         {/* Lezione di prova + Pacchetto Spot */}
@@ -228,59 +176,6 @@ export default function StudentDashboardPage() {
               <Link href="/studente/abbonamento" className="flex items-center justify-center gap-2 bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-2xl hover:bg-gray-800 transition-colors sm:flex-shrink-0">
                 Abbonati <ChevronRight className="w-4 h-4" />
               </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Prossime lezioni */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-black">Prossime lezioni</h2>
-            <Link href="/studente/lezioni" className="text-sm text-gray-500 hover:text-black font-medium flex items-center gap-1">
-              Vedi tutte <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {futureBookings.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-100 p-10 text-center">
-              <BookOpen className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <p className="font-medium text-gray-600">Nessuna lezione programmata</p>
-              <p className="text-sm text-gray-400 mt-1">Cerca un tutor per prenotare la tua prima lezione</p>
-              <Link href="/studente/cerca" className="inline-flex items-center gap-2 bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-2xl hover:bg-gray-800 transition-colors mt-4">
-                <Search className="w-4 h-4" /> Cerca tutor
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {futureBookings.map((booking: any) => (
-                <div key={booking.id} className="bg-white rounded-2xl border border-gray-100 p-4 md:p-5 shadow-soft">
-                  <div className="flex items-center gap-3 md:gap-4">
-                    <div className="w-10 h-10 md:w-12 md:h-12 bg-pink-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                      {booking.mode === 'online' ? <Star className="w-5 h-5 text-pink-500" /> : <CheckCircle className="w-5 h-5 text-green-500" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm text-black truncate">
-                        {booking.subject?.name} · {GRADE_LABELS[booking.grade]}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-0.5">
-                        {booking.tutor_profile?.profile?.first_name} ·
-                        {' '}{booking.slot ? formatDate(booking.slot.date) : ''} ·
-                        {' '}{booking.slot ? `${formatTime(booking.slot.start_time)} – ${formatTime(booking.second_slot?.end_time ?? booking.slot.end_time)}` : ''}
-                      </p>
-                      <p className="text-xs text-gray-400 mt-0.5 truncate">{booking.topic}</p>
-                    </div>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${booking.mode === 'online' ? 'bg-blue-50 text-blue-700' : 'bg-green-50 text-green-700'}`}>
-                      {MODE_LABELS[booking.mode]}
-                    </span>
-                  </div>
-                  {booking.mode === 'online' && booking.meet_link && (
-                    <a href={booking.meet_link} target="_blank" rel="noopener noreferrer"
-                      className="mt-3 flex items-center justify-center gap-1.5 text-xs bg-black text-white px-3 py-2 rounded-xl hover:bg-gray-800 transition-colors w-full sm:w-auto sm:inline-flex">
-                      Entra in videochiamata
-                    </a>
-                  )}
-                </div>
-              ))}
             </div>
           )}
         </div>
@@ -386,6 +281,5 @@ export default function StudentDashboardPage() {
         </div>
 
       </div>
-    </>
   )
 }
