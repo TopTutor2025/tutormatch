@@ -183,60 +183,40 @@ export default function StudentDashboardPage() {
         {/* Lezione di prova + Pacchetto Spot */}
         <TrialSpotPromo studentProfile={studentProfile} />
 
-        {/* Stats cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            {
-              label: 'Abbonamento',
-              value: subscription ? (subscription.type === 'mensile' ? 'Mensile' : 'Annuale') : 'Non attivo',
-              sub: subscription ? `Scade il ${formatDate(subscription.expires_at)}` : 'Attiva un abbonamento',
-              icon: CreditCard,
-              color: subscription ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700',
-              href: '/studente/abbonamento',
-            },
-            {
-              label: 'Ore disponibili (medie)',
-              value: `${studentProfile?.hour_credits_medie || 0}h`,
-              sub: 'Scuola media',
-              icon: Clock,
-              color: 'bg-blue-50 text-blue-700',
-              href: '/studente/ore',
-            },
-            {
-              label: 'Ore disponibili (superiori)',
-              value: `${studentProfile?.hour_credits_superiori || 0}h`,
-              sub: 'Scuola superiore',
-              icon: Clock,
-              color: 'bg-purple-50 text-purple-700',
-              href: '/studente/ore',
-            },
-            {
-              label: 'Ore disponibili (università)',
-              value: `${studentProfile?.hour_credits_universita || 0}h`,
-              sub: 'Università',
-              icon: Clock,
-              color: 'bg-orange-50 text-orange-700',
-              href: '/studente/ore',
-            },
-            {
-              label: 'Ore spot',
-              value: `${studentProfile?.hour_credits_spot || 0}h`,
-              sub: 'Ogni grado · senza abbonamento',
-              icon: Clock,
-              color: 'bg-pink-50 text-pink-700',
-              href: '/studente/ore',
-            },
-          ].map(card => (
-            <Link key={card.label} href={card.href}
-              className="bg-white rounded-2xl p-5 border border-gray-100 shadow-soft hover:-translate-y-0.5 hover:shadow-card transition-all">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${card.color}`}>
-                <card.icon className="w-5 h-5" />
+        {/* Riepilogo abbonamento + ore (card unica) */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-soft p-3 sm:p-4">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5">
+            {/* Abbonamento */}
+            <Link href="/studente/abbonamento"
+              className="flex items-center gap-3 lg:w-56 flex-shrink-0 rounded-xl p-2 hover:bg-gray-50 transition-colors">
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${subscription ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                <CreditCard className="w-5 h-5" />
               </div>
-              <p className="text-xl font-bold text-black">{card.value}</p>
-              <p className="text-xs text-gray-500 mt-1">{card.label}</p>
-              <p className="text-xs text-gray-400 mt-0.5">{card.sub}</p>
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Abbonamento</p>
+                <p className="text-base font-bold text-black leading-tight">{subscription ? (subscription.type === 'mensile' ? 'Mensile' : 'Annuale') : 'Non attivo'}</p>
+                <p className="text-[11px] text-gray-400 mt-0.5 truncate">{subscription ? `Scade il ${formatDate(subscription.expires_at)}` : 'Attiva un abbonamento'}</p>
+              </div>
             </Link>
-          ))}
+
+            {/* Divisore */}
+            <div className="hidden lg:block self-stretch w-px bg-gray-100 my-1" />
+
+            {/* Contatori ore */}
+            <Link href="/studente/ore" className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-2.5 rounded-xl p-1 hover:bg-gray-50 transition-colors">
+              {[
+                { label: 'Medie', value: studentProfile?.hour_credits_medie || 0, color: 'text-blue-600', bg: 'bg-blue-50' },
+                { label: 'Superiori', value: studentProfile?.hour_credits_superiori || 0, color: 'text-purple-600', bg: 'bg-purple-50' },
+                { label: 'Università', value: studentProfile?.hour_credits_universita || 0, color: 'text-orange-600', bg: 'bg-orange-50' },
+                { label: 'Spot', value: studentProfile?.hour_credits_spot || 0, color: 'text-pink-600', bg: 'bg-pink-50' },
+              ].map(c => (
+                <div key={c.label} className={`rounded-xl ${c.bg} px-2 py-2.5 text-center`}>
+                  <p className={`text-xl font-extrabold ${c.color} leading-none`}>{c.value}<span className="text-sm font-bold">h</span></p>
+                  <p className="text-[11px] font-medium text-gray-500 mt-1">{c.label}</p>
+                </div>
+              ))}
+            </Link>
+          </div>
         </div>
 
         {/* Quick actions */}
