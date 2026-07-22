@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Search, MapPin, Star, Heart, X, ChevronDown, ChevronUp, MessageSquare } from 'lucide-react'
 import { getDistanceKm, GRADE_LABELS, formatTime, formatDate, generateMeetLink, isSlotPast, isSlotTooSoon } from '@/lib/utils'
@@ -63,6 +63,7 @@ export default function CercaTutorPage() {
   const [reviewsModal, setReviewsModal] = useState<TutorCard | null>(null)
   const [reviewsList, setReviewsList] = useState<any[]>([])
   const [reviewsLoading, setReviewsLoading] = useState(false)
+  const bookingRef = useRef(false)
 
   useEffect(() => {
     async function load() {
@@ -241,6 +242,7 @@ export default function CercaTutorPage() {
   }
 
   async function handleBook() {
+    if (bookingRef.current) return // evita doppio invio (doppio click / retry)
     if (!selectedSlot || !activeTutor) return
     if (isSlotTooSoon(selectedSlot.date, selectedSlot.start_time)) {
       setBookingError('Questo slot non è più prenotabile: è richiesto almeno 12 ore di preavviso.'); return
@@ -279,6 +281,7 @@ export default function CercaTutorPage() {
       setBookingError(`Ore insufficienti. Servono ${hoursNeeded}h per questa lezione.`); return
     }
 
+    bookingRef.current = true
     setBooking(true); setBookingError('')
     const meetLink = bookingMode !== 'presenza' ? generateMeetLink() : null
 
@@ -302,7 +305,11 @@ export default function CercaTutorPage() {
       }),
     })
 
-    if (!bookingRes.ok) { setBookingError('Errore durante la prenotazione. Riprova.'); setBooking(false); return }
+    if (!bookingRes.ok) {
+      const { error } = await bookingRes.json().catch(() => ({ error: '' }))
+      setBookingError(error || 'Errore durante la prenotazione. Riprova.')
+      setBooking(false); bookingRef.current = false; return
+    }
 
     const { data: updatedSp } = await supabase.from('student_profiles').select('*').eq('id', userId).single()
     if (updatedSp) setStudentProfile(updatedSp)
@@ -314,6 +321,7 @@ export default function CercaTutorPage() {
     ))
     setBookingModal(false)
     setBooking(false)
+    bookingRef.current = false
     setSelectedSlot(null)
     setSecondSlot(null)
     setBookingForm({ topic: '', address: '' })

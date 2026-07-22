@@ -54,13 +54,28 @@ export default function StudentDashboardPage() {
         const profMap = Object.fromEntries((profs || []).map((p: any) => [p.id, p]))
         const slotMap = Object.fromEntries((slots || []).map((s: any) => [s.id, s]))
         const subMap = Object.fromEntries((subs || []).map((s: any) => [s.id, s]))
-        setFutureBookings(bks.map((b: any) => ({
+        const mapped = bks.map((b: any) => ({
           ...b,
           slot: slotMap[b.slot_id] || null,
           second_slot: b.second_slot_id ? (slotMap[b.second_slot_id] || null) : null,
           subject: subMap[b.subject_id] || null,
           tutor_profile: tpMap[b.tutor_id] ? { ...tpMap[b.tutor_id], profile: profMap[b.tutor_id] || null } : null,
-        })))
+        }))
+        // Solo lezioni non ancora concluse (data/ora di fine nel futuro)
+        const now = Date.now()
+        setFutureBookings(
+          mapped
+            .filter((b: any) => {
+              if (!b.slot) return true
+              const endTime = (b.second_slot?.end_time ?? b.slot.end_time) || '23:59'
+              return new Date(`${b.slot.date}T${endTime}`).getTime() >= now
+            })
+            .sort((a: any, b: any) => {
+              const da = a.slot ? new Date(`${a.slot.date}T${a.slot.start_time}`).getTime() : 0
+              const db = b.slot ? new Date(`${b.slot.date}T${b.slot.start_time}`).getTime() : 0
+              return da - db
+            })
+        )
       } else {
         setFutureBookings([])
       }

@@ -32,7 +32,7 @@ export default function TutorDashboardPage() {
         supabase.from('bookings').select('id').eq('tutor_id', user.id).eq('status', 'completato'),
         supabase.from('reviews').select('*, student:profiles!reviews_student_id_fkey(first_name)').eq('tutor_id', user.id).order('created_at', { ascending: false }),
         supabase.from('bookings').select('*').eq('tutor_id', user.id).eq('status', 'confermato')
-          .order('created_at', { ascending: true }).limit(5),
+          .order('created_at', { ascending: true }),
         supabase.from('tutor_payments').select('id').eq('tutor_id', user.id).eq('status', 'in_elaborazione'),
       ])
 
@@ -57,13 +57,28 @@ export default function TutorDashboardPage() {
         const profMap = Object.fromEntries((profs || []).map((p: any) => [p.id, p]))
         const slotMap = Object.fromEntries((slots || []).map((s: any) => [s.id, s]))
         const subMap = Object.fromEntries((subs || []).map((s: any) => [s.id, s]))
-        setFutureBookings(futureBks.map((b: any) => ({
+        const mapped = futureBks.map((b: any) => ({
           ...b,
           slot: slotMap[b.slot_id] || null,
           second_slot: b.second_slot_id ? (slotMap[b.second_slot_id] || null) : null,
           subject: subMap[b.subject_id] || null,
           student_profile: profMap[b.student_id] || null,
-        })))
+        }))
+        // Solo lezioni non ancora concluse (la data/ora di fine è nel futuro)
+        const now = Date.now()
+        const upcoming = mapped
+          .filter((b: any) => {
+            if (!b.slot) return true
+            const endTime = (b.second_slot?.end_time ?? b.slot.end_time) || '23:59'
+            return new Date(`${b.slot.date}T${endTime}`).getTime() >= now
+          })
+          .sort((a: any, b: any) => {
+            const da = a.slot ? new Date(`${a.slot.date}T${a.slot.start_time}`).getTime() : 0
+            const db = b.slot ? new Date(`${b.slot.date}T${b.slot.start_time}`).getTime() : 0
+            return da - db
+          })
+        setFutureBookings(upcoming.slice(0, 5))
+        setStats(prev => ({ ...prev, futureCount: upcoming.length }))
       } else {
         setFutureBookings([])
       }

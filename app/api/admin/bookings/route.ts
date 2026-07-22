@@ -21,6 +21,13 @@ export async function POST(request: NextRequest) {
 
     const { student_id, tutor_id, slot_id, subject_id, grade, mode, topic, address, hours_used } = await request.json()
 
+    // Verifica che lo slot sia ancora disponibile (evita doppie prenotazioni)
+    const { data: slotRow } = await supabaseAdmin
+      .from('calendar_slots').select('status').eq('id', slot_id).single()
+    if (!slotRow || slotRow.status !== 'disponibile') {
+      return NextResponse.json({ error: 'Slot non più disponibile (già prenotato). Aggiorna e riprova.' }, { status: 409 })
+    }
+
     const meet_link = mode === 'online' ? generateMeetLink() : null
     const hoursNeeded = hours_used ?? 1
 

@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Search, Trash2, RotateCcw, Plus, X } from 'lucide-react'
 import { formatDate, formatTime, GRADE_LABELS } from '@/lib/utils'
@@ -23,6 +23,7 @@ export default function AdminPrenotazioniPage() {
     grade: 'medie', mode: 'online', topic: '', address: '',
   })
   const [creating, setCreating] = useState(false)
+  const creatingRef = useRef(false)
 
   useEffect(() => { loadBookings() }, [])
 
@@ -85,25 +86,31 @@ export default function AdminPrenotazioniPage() {
   }
 
   async function createBooking() {
+    if (creatingRef.current) return // evita doppio invio (doppio click)
     const { student_id, tutor_id, slot_id, subject_id, grade, mode, topic, address } = createForm
     if (!student_id || !tutor_id || !slot_id || !subject_id || !topic.trim()) {
       alert('Compila tutti i campi obbligatori')
       return
     }
+    creatingRef.current = true
     setCreating(true)
-    const res = await fetch('/api/admin/bookings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ student_id, tutor_id, slot_id, subject_id, grade, mode, topic, address, hours_used: 1 }),
-    })
-    if (!res.ok) {
-      const { error } = await res.json()
-      alert(`Errore: ${error}`)
-    } else {
-      setCreateModal(false)
-      loadBookings()
+    try {
+      const res = await fetch('/api/admin/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student_id, tutor_id, slot_id, subject_id, grade, mode, topic, address, hours_used: 1 }),
+      })
+      if (!res.ok) {
+        const { error } = await res.json()
+        alert(`Errore: ${error}`)
+      } else {
+        setCreateModal(false)
+        loadBookings()
+      }
+    } finally {
+      creatingRef.current = false
+      setCreating(false)
     }
-    setCreating(false)
   }
 
   async function deleteBooking(booking: any) {

@@ -20,6 +20,14 @@ export async function POST(request: NextRequest) {
       grade, mode, topic, address, meet_link, hours_used, used_spot, used_trial,
     } = await request.json()
 
+    // Verifica che gli slot siano ancora disponibili (evita doppie prenotazioni)
+    const slotIdsToCheck = [slot_id, ...(second_slot_id ? [second_slot_id] : [])]
+    const { data: slotRows } = await supabaseAdmin
+      .from('calendar_slots').select('id, status').in('id', slotIdsToCheck)
+    if (!slotRows || slotRows.length !== slotIdsToCheck.length || slotRows.some(s => s.status !== 'disponibile')) {
+      return NextResponse.json({ error: 'Slot non più disponibile. Aggiorna la pagina e riprova.' }, { status: 409 })
+    }
+
     // Usa service role per ottenere sempre l'ID (bypassa RLS SELECT)
     const { data: booking, error } = await supabaseAdmin
       .from('bookings')
