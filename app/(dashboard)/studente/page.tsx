@@ -217,20 +217,20 @@ export default function StudentDashboardPage() {
               ))}
             </Link>
           </div>
-        </div>
 
-        {/* Quick actions */}
-        {!subscription && (
-          <div className="bg-gradient-to-r from-pink-50 to-white border border-pink-200 rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-            <div>
-              <p className="font-semibold text-gray-900">Attiva il tuo abbonamento</p>
-              <p className="text-sm text-gray-500 mt-0.5">Hai bisogno di un abbonamento attivo per prenotare i tutor</p>
+          {/* CTA attivazione abbonamento (solo se non attivo) */}
+          {!subscription && (
+            <div className="mt-3 pt-3 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-gray-900">Attiva il tuo abbonamento</p>
+                <p className="text-xs text-gray-500 mt-0.5">Hai bisogno di un abbonamento attivo per prenotare i tutor</p>
+              </div>
+              <Link href="/studente/abbonamento" className="flex items-center justify-center gap-2 bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-2xl hover:bg-gray-800 transition-colors sm:flex-shrink-0">
+                Abbonati <ChevronRight className="w-4 h-4" />
+              </Link>
             </div>
-            <Link href="/studente/abbonamento" className="flex items-center justify-center gap-2 bg-black text-white text-sm font-semibold px-5 py-2.5 rounded-2xl hover:bg-gray-800 transition-colors sm:flex-shrink-0">
-              Abbonati <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Prossime lezioni */}
         <div>
