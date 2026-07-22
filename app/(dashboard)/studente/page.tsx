@@ -191,7 +191,7 @@ export default function StudentDashboardPage() {
             <MessageSquare className="w-5 h-5 text-gray-400" />
             <h2 className="text-lg font-bold text-black">Chat con i tuoi tutor</h2>
           </div>
-          {userId && <ChatInterface userId={userId} userRole="studente" initialConvId={convParam} />}
+          {userId && <ChatInterface userId={userId} userRole="studente" initialConvId={convParam} compact />}
         </div>
 
         {/* FAQ */}

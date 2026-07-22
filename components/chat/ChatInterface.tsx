@@ -8,9 +8,10 @@ interface Props {
   userId: string
   userRole: 'studente' | 'tutor' | 'admin'
   initialConvId?: string
+  compact?: boolean
 }
 
-export default function ChatInterface({ userId, userRole, initialConvId }: Props) {
+export default function ChatInterface({ userId, userRole, initialConvId, compact = false }: Props) {
   const supabase = createClient()
   const [conversations, setConversations] = useState<any[]>([])
   const [activeConv, setActiveConv] = useState<string | null>(null)
@@ -147,14 +148,16 @@ export default function ChatInterface({ userId, userRole, initialConvId }: Props
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-soft overflow-hidden" style={{ height: 'calc(100vh - 200px)', minHeight: '500px' }}>
+    <div className={`bg-white rounded-3xl border border-gray-100 shadow-soft overflow-hidden ${compact ? 'h-[440px] md:h-[480px]' : ''}`}
+      style={compact ? undefined : { height: 'calc(100vh - 200px)', minHeight: '500px' }}>
       <div className="flex h-full">
 
         {/* Sidebar conversazioni */}
         <div className={`border-r border-gray-100 flex-col flex-shrink-0 w-full md:w-72
           ${mobileView === 'chat' ? 'hidden md:flex' : 'flex'}`}>
-          <div className="p-4 border-b border-gray-100">
-            <h3 className="font-semibold text-gray-900">Messaggi</h3>
+          <div className="p-4 border-b border-gray-100 flex items-center gap-2">
+            <MessageSquare className="w-4 h-4 text-pink-500" />
+            <h3 className="font-semibold text-gray-900 text-sm">Messaggi</h3>
           </div>
           <div className="flex-1 overflow-y-auto">
             {conversations.length === 0 ? (
@@ -312,7 +315,7 @@ export default function ChatInterface({ userId, userRole, initialConvId }: Props
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={sending}
-                    className="w-10 h-10 flex items-center justify-center rounded-2xl border border-gray-200 text-gray-400 hover:text-gray-700 hover:border-gray-400 transition-colors flex-shrink-0 disabled:opacity-40"
+                    className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 text-gray-400 hover:text-gray-700 hover:border-gray-400 transition-colors flex-shrink-0 disabled:opacity-40"
                     title="Allega immagine"
                   >
                     {uploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImagePlus className="w-4 h-4" />}
@@ -331,10 +334,10 @@ export default function ChatInterface({ userId, userRole, initialConvId }: Props
                     onChange={e => setNewMessage(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
                     placeholder="Scrivi un messaggio..."
-                    className="flex-1 border border-gray-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-gray-900 transition-all"
+                    className="flex-1 border border-gray-200 rounded-full px-4 py-3 text-sm outline-none focus:border-gray-900 transition-all"
                   />
                   <button onClick={sendMessage} disabled={(!newMessage.trim() && !imageFile) || sending}
-                    className="w-10 h-10 bg-black text-white rounded-2xl flex items-center justify-center hover:bg-gray-800 transition-colors disabled:opacity-40 flex-shrink-0">
+                    className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors disabled:opacity-40 flex-shrink-0">
                     {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                   </button>
                 </div>
