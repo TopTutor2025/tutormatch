@@ -88,12 +88,7 @@ export default function StudentDashboardPage() {
 
           {/* Prossime lezioni (scroll orizzontale) */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-black">Prossime lezioni</h2>
-              <Link href="/studente/lezioni" className="text-sm text-gray-500 hover:text-black font-medium flex items-center gap-1">
-                Vedi tutte <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
+            <h2 className="text-lg font-bold text-black mb-3">Prossime lezioni</h2>
 
             {futureBookings.length === 0 ? (
               <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center">

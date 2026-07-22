@@ -23,6 +23,7 @@ export default function ChatInterface({ userId, userRole, initialConvId, compact
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [uploadingImage, setUploadingImage] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messagesContainerRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { loadConversations() }, [])
@@ -39,7 +40,11 @@ export default function ChatInterface({ userId, userRole, initialConvId, compact
     return () => { supabase.removeChannel(channel) }
   }, [activeConv])
 
-  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
+  // Scorre solo il contenitore dei messaggi (non l'intera pagina)
+  useEffect(() => {
+    const c = messagesContainerRef.current
+    if (c) c.scrollTop = c.scrollHeight
+  }, [messages])
 
   async function loadConversations() {
     let query = supabase.from('conversations').select(`*, student:profiles!conversations_student_id_fkey(*), tutor:profiles!conversations_tutor_id_fkey(*)`)
@@ -235,7 +240,7 @@ export default function ChatInterface({ userId, userRole, initialConvId, compact
               })()}
 
               {/* Messaggi */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.map((msg: any) => {
                   const isOwn = msg.sender_id === userId
                   const isExpired = msg.image_url === null && !msg.content
